@@ -54,5 +54,5 @@ function createNotification(message) {
 }
 
 window.onload = () => {
-    createNotification('go play tiny fishing - Removed Crazy Cattle 3D due to bugs.')
+    createNotification('hi bree')
 };
