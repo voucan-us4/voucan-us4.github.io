@@ -406,12 +406,9 @@
             const urlHash = iframe.src.split('#')[1];
             let favicon = '/storage/images/logo.png';
             try {
-              const decodedUrl = __uv$config.decodeUrl(urlHash || '');
-              const urlObj = new URL(decodedUrl);
-              favicon = urlObj.hostname;
-		console.log(favicon);
+            let url = new URL(__uv$config.decodeUrl(frame.contentWindow.location.pathname.replace('/static/load/',''))).hostname;
             } catch (e) {}
-            const iconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${favicon}/&size=64`;
+            const iconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url}/&size=64`;
             tab.innerHTML = `
 											<img src="${iconUrl}" style="width:16px;height:16px;margin-right:5px;border-radius:3px"> ${title} 
 												<span class="close-button" onclick="closeTab(event)">×</span>`;
