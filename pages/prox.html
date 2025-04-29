@@ -409,6 +409,7 @@
               const decodedUrl = __uv$config.decodeUrl(urlHash || '');
               const urlObj = new URL(decodedUrl);
               favicon = urlObj.hostname;
+		console.log(favicon);
             } catch (e) {}
             const iconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${favicon}/&size=64`;
             tab.innerHTML = `
