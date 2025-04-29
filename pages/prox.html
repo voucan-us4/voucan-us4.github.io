@@ -296,6 +296,7 @@
 											
 											
 											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -323,6 +324,7 @@
           if (tab) {
             tab.innerHTML = `${iframe.contentWindow.document.title || 'New Tab'} 
                                             
+											
 											
 											
 											
@@ -400,17 +402,22 @@
         setTimeout(() => {
           const tabIndex = Array.from(document.querySelectorAll('.tab-iframe')).indexOf(iframe);
           const tab = document.querySelectorAll('.tab')[tabIndex];
-          if (tab) {
+          if (tab && iframe.contentWindow) {
             const rawTitle = iframe.contentWindow.document.title || 'New Tab';
             const title = rawTitle.length > 25 ? rawTitle.substring(0, 25) + '...' : rawTitle;
-            const urlHash = iframe.src.split('#')[1];
             let favicon = '/storage/images/logo.png';
+            let url;
             try {
-            let url = new URL(__uv$config.decodeUrl(frame.contentWindow.location.pathname.replace('/static/load/',''))).hostname;
-            } catch (e) {}
-            const iconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url}/&size=64`;
+              const decodedUrl = __uv$config.decodeUrl(iframe.contentWindow.location.pathname.replace('/static/load/', ''));
+              url = new URL(decodedUrl).hostname;
+            } catch (e) {
+              url = null;
+            }
+            const iconUrl = url ? `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url}/&size=64` : favicon;
             tab.innerHTML = `
+        
 											<img src="${iconUrl}" style="width:16px;height:16px;margin-right:5px;border-radius:3px"> ${title} 
+        
 												<span class="close-button" onclick="closeTab(event)">×</span>`;
           }
         }, 500);
