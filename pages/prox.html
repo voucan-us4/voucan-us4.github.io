@@ -297,6 +297,8 @@
 											
 											
 											
+											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -324,6 +326,8 @@
           if (tab) {
             tab.innerHTML = `${iframe.contentWindow.document.title || 'New Tab'} 
                                             
+											
+											
 											
 											
 											
@@ -405,18 +409,21 @@
           if (tab && iframe.contentWindow) {
             const rawTitle = iframe.contentWindow.document.title || 'New Tab';
             const title = rawTitle.length > 25 ? rawTitle.substring(0, 25) + '...' : rawTitle;
-            let favicon = '/storage/images/logo.png';
             let url;
             try {
-              const decodedUrl = __uv$config.decodeUrl(iframe.contentWindow.location.pathname.replace('/static/load/', ''));
-              url = new URL(decodedUrl).hostname;
-            } catch (e) {
+              const hash = iframe.contentWindow.location.hash;
+              if (hash.startsWith("#")) {
+                const encodedUrl = hash.substring(1);
+                url = decodeURIComponent(__uv$config.decodeUrl(encodedUrl));
+              }
+            } catch (err) {
               url = null;
             }
-            const iconUrl = url ? `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url}/&size=64` : favicon;
+            const iconUrl = url ? `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url}/&size=64` : '/storage/images/logo.png';
             tab.innerHTML = `
         
-											<img src="${iconUrl}" style="width:16px;height:16px;margin-right:5px;border-radius:3px"> ${title} 
+											<img src="${iconUrl}" style="width:16px;height:16px;margin-right:5px;border-radius:3px">
+        ${title}
         
 												<span class="close-button" onclick="closeTab(event)">×</span>`;
           }
