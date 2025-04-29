@@ -295,6 +295,7 @@
 											
 											
 											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -322,6 +323,7 @@
           if (tab) {
             tab.innerHTML = `${iframe.contentWindow.document.title || 'New Tab'} 
                                             
+											
 											
 											
 											
@@ -399,12 +401,19 @@
           const tabIndex = Array.from(document.querySelectorAll('.tab-iframe')).indexOf(iframe);
           const tab = document.querySelectorAll('.tab')[tabIndex];
           if (tab) {
-            const title = iframe.contentWindow.document.title || 'New Tab';
-            tab.innerHTML = `${truncateText(title)} 
-											
-											
-											
-											<span class="close-button" onclick="closeTab(event)">×</span>`;
+            const rawTitle = iframe.contentWindow.document.title || 'New Tab';
+            const title = rawTitle.length > 25 ? rawTitle.substring(0, 25) + '...' : rawTitle;
+            const urlHash = iframe.src.split('#')[1];
+            let favicon = '/storage/images/logo.png';
+            try {
+              const decodedUrl = __uv$config.decodeUrl(urlHash || '');
+              const urlObj = new URL(decodedUrl);
+              favicon = urlObj.hostname;
+            } catch (e) {}
+            const iconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${favicon}/&size=64`;
+            tab.innerHTML = `
+											<img src="${iconUrl}" style="width:16px;height:16px;margin-right:5px;border-radius:3px"> ${title} 
+												<span class="close-button" onclick="closeTab(event)">×</span>`;
           }
         }, 500);
       }
