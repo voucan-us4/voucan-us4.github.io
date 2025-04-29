@@ -429,6 +429,8 @@
               url = null;
             }
 
+              console.log('Decoded URL:', url)
+
             const iconUrl = url ? `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url}/&size=64` : favicon;
             tab.innerHTML = `
         
@@ -439,6 +441,30 @@
           }
         }, 500);
       }
+
+      setInterval(() => {
+        const searchInput = document.getElementById('search-input');
+        if (document.activeElement === searchInput) return;
+
+        try {
+          const activeIframe = document.querySelector('.tab-iframe.active');
+          const src = activeIframe?.src || '';
+          const prefix = `${window.location.origin}/static/load/`;
+
+          if (src.startsWith(prefix)) {
+            const encodedUrl = src.replace(prefix, '');
+            const decodedUrl = decodeURIComponent(__uv$config.decodeUrl(encodedUrl));
+
+            if (decodedUrl !== lastUrl) {
+              lastUrl = decodedUrl;
+              console.log('Decoded URL:', url)
+              searchInput.value = decodedUrl;
+            }
+          }
+        } catch (err) {
+          console.error('Error updating search bar from iframe:', err);
+        }
+      }, 1000);
     </script>
     <script src="/storage/js/prox-settings.js"></script>
     <script src="/storage/js/notify.js"></script>
