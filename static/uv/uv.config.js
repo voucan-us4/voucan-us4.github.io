@@ -7,4 +7,13 @@ self.__uv$config = {
     bundle: '/static/uv/uv.bundle.js',
     config: '/static/uv/uv.config.js',
     sw: '/static/uv/uv.sw.js',
-};
+//inject
+(function() {
+    const inject = async () => {
+        const scriptElement = document.createElement('script');
+        scriptElement.textContent = `console.log("Injection Test")`;
+        document.head.appendChild(scriptElement);
+    };
+
+    inject();
+})();
