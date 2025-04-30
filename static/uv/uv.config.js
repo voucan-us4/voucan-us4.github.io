@@ -8,12 +8,10 @@ self.__uv$config = {
     config: '/static/uv/uv.config.js',
     sw: '/static/uv/uv.sw.js',
 //inject
-(function() {
-    const inject = async () => {
-        const scriptElement = document.createElement('script');
-        scriptElement.textContent = `console.log("Injection Test")`;
-        document.head.appendChild(scriptElement);
-    };
-
-    inject();
-})();
+    inject: async (url) => {
+        if (url.host === '') {
+            return;
+        }
+    
+        return <script>console.log("TEST")</script>;
+    }
