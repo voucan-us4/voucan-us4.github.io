@@ -7,14 +7,4 @@ self.__uv$config = {
     bundle: '/static/uv/uv.bundle.js',
     config: '/static/uv/uv.config.js',
     sw: '/static/uv/uv.sw.js',
-            //inject
-    inject: async (url) => {
-        if (url.host === '') {
-            return;
-        }
-    
-        const script = document.createElement('script');
-        script.innerHTML = 'console.log("TEST");';
-        document.head.appendChild(script);
-    }
-};
+}
