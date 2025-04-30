@@ -1,13 +1,11 @@
 importScripts('/static/uv/uv.bundle.js');
 importScripts('/static/uv/uv.config.js');
 
-class UVServiceWorker extends EventEmitter {
+class UVServiceWorker extends EventEmitter {     
     constructor(config = __uv$config) {
         super();
-        if (!config.bare) {
-            config.bare = localStorage.getItem("bare") || "https://nauka.politechnika-nova.edu.pl/";
-        }
-        this.addresses = typeof config.bare === 'string' ? [new URL(config.bare, location)] : config.bare.map(str => new URL(str, location));
+        if (!config.bare) config.bare = '/bare/';
+        this.addresses = typeof config.bare === 'string' ? [ new URL(config.bare, location) ] : config.bare.map(str => new URL(str, location));
         this.headers = {
             csp: [
                 'cross-origin-embedder-policy',
