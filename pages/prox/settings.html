@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K8CCSDNPV3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-K8CCSDNPV3');
+    </script>
+    <meta property="og:title" content="US4 | Settings">
+    <meta property="og:description" content="Edit your website settings here!">
+    <meta property="og:image" content="/storage/images/logo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="icon" href="../storage/images/googleclassroom.png" type="image/png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="/storage/css/settings.css" rel="stylesheet">
+    <link href="/storage/css/style.css" rel="stylesheet">
+  </head>
+  <body>
+    <script src="/particles.js"></script>
+    <script src="/app.js"></script>
+    <div id="particles-js"></div>
+    <div class="settings-container">
+      <h1>Settings - Prօxy</h1>
+      <label for="backgroundColorPicker">Select Background Color:</label>
+      <input type="color" id="backgroundColorPicker">
+      <div class="checkbox-container">
+        <div>
+          <label for="beforeUnloadToggle">Anti-Close</label>
+          <input type="checkbox" id="beforeUnloadToggle" />
+        </div>
+        <div>
+          <label for="autocloakToggle">Auto-about:blank</label>
+          <input type="checkbox" id="autocloakToggle" />
+        </div>
+      </div>
+      <hr>
+      <label for="bareUrl">Set Bare Server URL:</label>
+      <input type="text" id="bareUrl" placeholder="e.g., https://bare.benrogo.net/" />
+      <button id="saveBareSetting">Save Bare Setting</button>
+      <hr>
+      <label for="siteTitle">Set Site Title:</label>
+      <input type="text" id="siteTitle" placeholder="Enter site title" />
+      <label for="siteLogo">Set Site Favicon:</label>
+      <input type="file" id="siteLogo" accept="image/*" />
+      <button id="saveSettings">Save Title & Favicon</button>
+      <hr>
+      <label for="panicKey">Set Panic Button Key:</label>
+      <input type="text" id="panicKey" placeholder="Enter key (e.g., F1)" />
+      <label for="panicUrl">Set Panic Button URL:</label>
+      <input type="text" id="panicUrl" placeholder="Enter URL to redirect to" />
+      <button id="savePanicButtonSettings">Save Panic Button Settings</button>
+      <hr>
+      <button id="resetSettings" class="reset-button">Reset Tab Name and Icon</button>
+      <button id="resetPanicButtonSettings" class="reset-button">Reset Panic Button Settings</button>
+    </div>
+    <script>
+      const beforeUnloadToggle = document.getElementById('beforeUnloadToggle');
+      const autocloakToggle = document.getElementById('autocloakToggle');
+      const siteTitleInput = document.getElementById('siteTitle');
+      const siteLogoInput = document.getElementById('siteLogo');
+      const panicKeyInput = document.getElementById('panicKey');
+      const panicUrlInput = document.getElementById('panicUrl');
+      const saveSettingsButton = document.getElementById('saveSettings');
+      const savePanicButtonSettingsButton = document.getElementById('savePanicButtonSettings');
+      const resetSettingsButton = document.getElementById('resetSettings');
+      const resetPanicButtonSettingsButton = document.getElementById('resetPanicButtonSettings');
+      beforeUnloadToggle.checked = localStorage.getItem('beforeUnloadEnabled') === 'true';
+      autocloakToggle.checked = localStorage.getItem('autocloakEnabled') === 'true';
+      siteTitleInput.value = localStorage.getItem('siteTitle') || '';
+      panicKeyInput.value = localStorage.getItem('panicKey') || '';
+      panicUrlInput.value = localStorage.getItem('panicUrl') || '';
+      const savedLogo = localStorage.getItem('siteLogo');
+      if (savedLogo) {
+        const faviconLink = document.createElement('link');
+        faviconLink.rel = 'icon';
+        faviconLink.href = savedLogo;
+        document.head.appendChild(faviconLink);
+      }
+      saveSettingsButton.addEventListener('click', function() {
+        const siteTitle = siteTitleInput.value;
+        const siteLogoFile = siteLogoInput.files[0];
+        if (siteTitle) {
+          localStorage.setItem('siteTitle', siteTitle);
+        }
+        if (siteLogoFile) {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            const logoUrl = event.target.result;
+            localStorage.setItem('siteLogo', logoUrl);
+            const faviconLink = document.createElement('link');
+            faviconLink.rel = 'icon';
+            faviconLink.href = logoUrl;
+            document.head.appendChild(faviconLink);
+          };
+          reader.readAsDataURL(siteLogoFile);
+        }
+      });
+      savePanicButtonSettingsButton.addEventListener('click', function() {
+        const panicKey = panicKeyInput.value;
+        const panicUrl = panicUrlInput.value;
+        if (panicKey) {
+          localStorage.setItem('panicKey', panicKey);
+        }
+        if (panicUrl) {
+          localStorage.setItem('panicUrl', panicUrl);
+        }
+      });
+      resetSettingsButton.addEventListener('click', function() {
+        localStorage.removeItem('siteTitle');
+        localStorage.removeItem('siteLogo');
+        document.title = 'Home';
+        const defaultFaviconLink = document.querySelector('link[rel="icon"]');
+        if (defaultFaviconLink) {
+          defaultFaviconLink.href = 'https://raw.githubusercontent.com/voucan/voucan.github.io/refs/heads/main/googleclassroom.png';
+        }
+      });
+      resetPanicButtonSettingsButton.addEventListener('click', function() {
+        localStorage.removeItem('panicKey');
+        localStorage.removeItem('panicUrl');
+      });
+      beforeUnloadToggle.addEventListener('change', function() {
+        localStorage.setItem('beforeUnloadEnabled', beforeUnloadToggle.checked);
+        if (beforeUnloadToggle.checked) {
+          window.addEventListener('beforeunload', function(e) {
+            e.preventDefault();
+            e.returnValue = '';
+          });
+        } else {
+          window.removeEventListener('beforeunload', function(e) {
+            e.preventDefault();
+            e.returnValue = '';
+          });
+        }
+      });
+      autocloakToggle.addEventListener('change', function() {
+        localStorage.setItem('autocloakEnabled', autocloakToggle.checked);
+        if (autocloakToggle.checked) {
+          const newTab = window.open('about:blank', '_blank');
+          if (newTab) {
+            const iframe = document.createElement('iframe');
+            iframe.src = '/';
+            iframe.style.width = '100vw';
+            iframe.style.height = '100vh';
+            iframe.style.border = 'none';
+            newTab.document.body.style.margin = '0';
+            newTab.document.body.appendChild(iframe);
+          }
+          const panicUrl = localStorage.getItem('panicUrl') || "https://classroom.google.com";
+          window.location.href = panicUrl;
+        }
+      });
+      if (beforeUnloadToggle.checked) {
+        window.addEventListener('beforeunload', function(e) {
+          e.preventDefault();
+          e.returnValue = '';
+        });
+      }
+      window.addEventListener('keydown', function(event) {
+        const panicKey = localStorage.getItem('panicKey');
+        const panicUrl = localStorage.getItem('panicUrl');
+        if (event.key === panicKey && panicUrl) {
+          window.location.href = panicUrl;
+        }
+      });
+    </script>
+    <script>
+      var storedColor = localStorage.getItem('backgroundColor') || 'black';
+      document.body.style.backgroundColor = storedColor;
+      var colorPicker = document.getElementById('backgroundColorPicker');
+      colorPicker.value = storedColor;
+      colorPicker.addEventListener('input', function() {
+        document.body.style.backgroundColor = colorPicker.value;
+        localStorage.setItem('backgroundColor', colorPicker.value);
+      });
+    </script>
+    <script>
+      const bareUrlInput = document.getElementById('bareUrl');
+      const saveBareSettingButton = document.getElementById('saveBareSetting');
+      bareUrlInput.value = localStorage.getItem('bare') || '';
+      async function regsw() {
+        await navigator.serviceWorker.register("/static/uv-sw.js", {
+          scope: "/static/",
+        });
+      }
+      saveBareSettingButton.addEventListener('click', async () => {
+        const bareUrl = bareUrlInput.value.trim();
+        if (bareUrl) {
+          localStorage.setItem('bare', bareUrl);
+          if (navigator.serviceWorker) {
+            const registration = await navigator.serviceWorker.getRegistration("/static/");
+            if (registration) {
+              await registration.unregister();
+            }
+            await regsw();
+            alert('Bare URL saved and service worker re-registered.');
+          }
+        } else {
+          alert('Please enter a valid Bare URL.');
+        }
+      });
+    </script>
+    <script type="text/javascript" src="/storage/js/notify.js"></script>
+    <script type="text/javascript" src="/storage/js/background.js"></script>
+    <script type="text/javascript" src="/storage/js/cheese-algorithm.js"></script>
+  </body>
+</html>
