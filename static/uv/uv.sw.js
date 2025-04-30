@@ -1,27 +1,13 @@
 importScripts('/static/uv/uv.bundle.js');
 importScripts('/static/uv/uv.config.js');
 
-let customBare = null;
-
-self.addEventListener("message", (event) => {
-    if (event.data?.type === "SET_BARE") {
-        customBare = event.data.value;
-    }
-});
-
 class UVServiceWorker extends EventEmitter {
     constructor(config = __uv$config) {
         super();
-
-        if (customBare) {
-            config.bare = customBare;
+        if (!config.bare) {
+            config.bare = localStorage.getItem("bare") || "https://nauka.politechnika-nova.edu.pl/";
         }
-
-        if (!config.bare) config.bare = '/bare/';
-        this.addresses = typeof config.bare === 'string'
-            ? [new URL(config.bare, location)]
-            : config.bare.map(str => new URL(str, location));
-        
+        this.addresses = typeof config.bare === 'string' ? [new URL(config.bare, location)] : config.bare.map(str => new URL(str, location));
         this.headers = {
             csp: [
                 'cross-origin-embedder-policy',
