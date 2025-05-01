@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -271,94 +272,105 @@
     <div class="content-wrapper" id="content-wrapper">
       <iframe class="tab-iframe active" src="/static/index.html" onload="updateTabName(this)"></iframe>
     </div>
-    <script>
-      let tabCount = 1;
+<script>
+  let tabCount = 1;
 
-      function selectTab(tab) {
-        document.querySelectorAll('.tab, .tab-iframe').forEach(el => el.classList.remove('active'));
-        tab.classList.add('active');
-        document.querySelectorAll('.tab-iframe')[Array.from(tab.parentNode.children).indexOf(tab)].classList.add('active');
-      }
+  function selectTab(tab) {
+    document.querySelectorAll('.tab, .tab-iframe').forEach(el => el.classList.remove('active'));
+    tab.classList.add('active');
+    const tabIndex = Array.from(tab.parentNode.children).indexOf(tab);
+    document.querySelectorAll('.tab-iframe')[tabIndex].classList.add('active');
+  }
 
-      function addTab() {
-        tabCount++;
-        const tabsContainer = document.getElementById('tabs');
-        const newTab = document.createElement('div');
-        newTab.classList.add('tab');
-        newTab.innerHTML = `New Tab 
-											<span class="close-button" onclick="closeTab(event)">×</span>`;
-        newTab.addEventListener("click", () => selectTab(newTab));
-        tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
-        const iframe = document.createElement('iframe');
-        iframe.classList.add('tab-iframe');
-        iframe.src = '/static/index.html';
-        iframe.onload = function() {
-          updateTabName(iframe);
-        };
-        document.getElementById('content-wrapper').appendChild(iframe);
-      }
+  function addTab() {
+    tabCount++;
+    const tabsContainer = document.getElementById('tabs');
+    const newTab = document.createElement('div');
+    newTab.classList.add('tab');
+    newTab.innerHTML = `New Tab 
+                        <span class="close-button" onclick="closeTab(event)">×</span>`;
+    newTab.addEventListener("click", () => selectTab(newTab));
+    tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
+    const iframe = document.createElement('iframe');
+    iframe.classList.add('tab-iframe');
+    iframe.src = '/static/index.html';
+    iframe.onload = function() {
+      updateTabName(iframe);
+    };
+    document.getElementById('content-wrapper').appendChild(iframe);
+    selectTab(newTab);
+  }
 
-      function closeTab(event) {
-        event.stopPropagation();
-        const tab = event.target.closest('.tab');
-        const iframe = document.querySelectorAll('.tab-iframe')[Array.from(tab.parentNode.children).indexOf(tab)];
-        tab.remove();
-        iframe.remove();
-      }
+  function closeTab(event) {
+    event.stopPropagation();
+    const tab = event.target.closest('.tab');
+    const iframe = document.querySelectorAll('.tab-iframe')[Array.from(tab.parentNode.children).indexOf(tab)];
+    
+    let previousTab = tab.previousElementSibling || tab.nextElementSibling;
+    tab.remove();
+    iframe.remove();
 
-      function updateTabName(iframe) {
-        setTimeout(() => {
-          const tabIndex = Array.from(document.querySelectorAll('.tab-iframe')).indexOf(iframe);
-          const tab = document.querySelectorAll('.tab')[tabIndex];
-          if (tab) {
-            tab.innerHTML = `${iframe.contentWindow.document.title || 'New Tab'} 
-											<span class="close-button" onclick="closeTab(event)">×</span>`;
-          }
-        }, 500);
-      }
+    if (document.querySelectorAll('.tab').length === 0) {
+      addTab();
+    } else {
+      selectTab(previousTab);
+    }
+  }
 
-      function search() {
-        const input = document.getElementById('search-input').value.trim();
-        const iframe = document.querySelector('.tab-iframe.active');
-        if (input) {
-          let url = input.startsWith('http') ? input : `https://${input}`;
-          iframe.src = url;
-        }
+  function updateTabName(iframe) {
+    setTimeout(() => {
+      const tabIndex = Array.from(document.querySelectorAll('.tab-iframe')).indexOf(iframe);
+      const tab = document.querySelectorAll('.tab')[tabIndex];
+      if (tab) {
+        tab.innerHTML = `${iframe.contentWindow.document.title || 'New Tab'} 
+                         <span class="close-button" onclick="closeTab(event)">×</span>`;
       }
+    }, 500);
+  }
 
-      function home() {
-        const iframe = document.querySelector('.tab-iframe.active');
-        iframe.src = '/static/';
-      }
+  function search() {
+    const input = document.getElementById('search-input').value.trim();
+    const iframe = document.querySelector('.tab-iframe.active');
+    if (input) {
+      let url = input.startsWith('http') ? input : `https://${input}`;
+      iframe.src = url;
+    }
+  }
 
-      function settings() {
-        const iframe = document.querySelector('.tab-iframe.active');
-        iframe.src = '/pages/prox/settings';
-      }
+  function home() {
+    const iframe = document.querySelector('.tab-iframe.active');
+    iframe.src = '/static/';
+  }
 
-      function toggleFullscreen() {
-        const iframe = document.querySelector('.tab-iframe.active');
-        if (iframe.requestFullscreen) {
-          iframe.requestFullscreen();
-        } else if (iframe.mozRequestFullScreen) {
-          iframe.mozRequestFullScreen();
-        } else if (iframe.webkitRequestFullscreen) {
-          iframe.webkitRequestFullscreen();
-        } else if (iframe.msRequestFullscreen) {
-          iframe.msRequestFullscreen();
-        }
-      }
+  function settings() {
+    const iframe = document.querySelector('.tab-iframe.active');
+    iframe.src = '/pages/prox/settings';
+  }
 
-      function inspect() {
-        window.location.href = "javascript: (function() { fetch('/storage/js/eruda.js') .then(response => { if (!response.ok) throw new Error('Network response was not ok'); return response.text(); }) .then(scriptText => eval(scriptText)) .catch(error => console.error('Error fetching or executing the script:', error)); })();"
-      }
-      document.addEventListener("DOMContentLoaded", () => {
-        document.querySelector(".add-tab-button").addEventListener("click", addTab);
-        document.getElementById("search-input").addEventListener("keydown", (e) => {
-          if (e.key === "Enter") search();
-        });
-      });
-    </script>
+  function toggleFullscreen() {
+    const iframe = document.querySelector('.tab-iframe.active');
+    if (iframe.requestFullscreen) {
+      iframe.requestFullscreen();
+    } else if (iframe.mozRequestFullScreen) {
+      iframe.mozRequestFullScreen();
+    } else if (iframe.webkitRequestFullscreen) {
+      iframe.webkitRequestFullscreen();
+    } else if (iframe.msRequestFullscreen) {
+      iframe.msRequestFullscreen();
+    }
+  }
+
+  function inspect() {
+    window.location.href = "javascript: (function() { fetch('/storage/js/eruda.js') .then(response => { if (!response.ok) throw new Error('Network response was not ok'); return response.text(); }) .then(scriptText => eval(scriptText)) .catch(error => console.error('Error fetching or executing the script:', error)); })();"
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelector(".add-tab-button").addEventListener("click", addTab);
+    document.getElementById("search-input").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") search();
+    });
+  });
+</script>
     <script src="/storage/js/prox-settings.js"></script>
     <script src="/storage/js/notify.js"></script>
     <script type="text/javascript" src="/storage/js/cheese-algorithm.js"></script>
