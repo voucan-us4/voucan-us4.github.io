@@ -388,34 +388,34 @@
   });
 </script>
 <script>
-  setInterval(() => {
-    const searchInput = document.getElementById('search-input');
-    if (document.activeElement === searchInput) return;
+setInterval(() => {
+  const searchInput = document.getElementById('search-input');
+  if (document.activeElement === searchInput) return;
 
-    const iframe = document.querySelector('.tab-iframe.active');
-    if (!iframe || !iframe.contentWindow || !iframe.contentWindow.location) return;
+  const iframe = document.querySelector('.tab-iframe.active');
+  if (!iframe || !iframe.contentWindow) return;
 
-    try {
-      const path = iframe.contentWindow.location.pathname;
-      const prefix = '/static/load/';
+  try {
+    const path = iframe.contentWindow.location.pathname;
+    const prefix = '/static/load/';
 
-      if (path.startsWith(prefix)) {
-      let decodedUrl = new URL(__uv$config.decodeUrl(iframe.contentWindow.location.pathname.replace('/static/load/',''))).hostname
-        searchInput.value = hostname;
-        
-        const expectedSrc = window.location.origin + prefix + encodedUrl;
-        if (iframe.src !== expectedSrc) {
-          iframe.src = expectedSrc;
-        }
-      } else {
-        const relativePath = iframe.src.replace(window.location.origin, '');
-        searchInput.value = `US4://${relativePath.startsWith('/') ? relativePath.slice(1) : relativePath}`;
+    if (path.startsWith(prefix)) {
+      const remainingPath = path.replace(window.location.hostname + prefix, '');
+      searchInput.value = `uv://${remainingPath.startsWith('/') ? remainingPath.slice(1) : remainingPath}`;
+
+      const expectedSrc = window.location.origin + prefix + remainingPath;
+      if (iframe.src !== expectedSrc) {
+        iframe.src = expectedSrc;
       }
-    } catch (err) {
-      console.error('Error decoding or updating search input:', err);
-      searchInput.value = '';
+    } else {
+      const relativePath = iframe.src.replace(window.location.origin, '');
+      searchInput.value = `US4://${relativePath.startsWith('/') ? relativePath.slice(1) : relativePath}`;
     }
-  }, 1000);
+  } catch (err) {
+    console.error('Error updating search input:', err);
+    searchInput.value = '';
+  }
+}, 1000);
 </script>
     <script src="/storage/js/prox-settings.js"></script>
     <script src="/storage/js/notify.js"></script>
