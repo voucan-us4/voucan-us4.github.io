@@ -371,8 +371,53 @@
     });
   });
 </script>
+<script>
+  setInterval(() => {
+    const searchInput = document.getElementById('search-input');
+    if (document.activeElement === searchInput) return;
+
+    const iframe = document.querySelector('.tab-iframe.active');
+    if (!iframe) return;
+
+    let src = iframe.src;
+    const prefix = __uv$config.prefix;
+
+    try {
+      if (src.includes(prefix)) {
+        const parser = document.createElement('a');
+        parser.href = src;
+        const encoded = parser.pathname.replace(prefix, '');
+        searchInput.value = __uv$config.decodeUrl(encoded);
+      } else {
+        const replaced = src.replace(`${window.location.protocol}//${window.location.hostname}`, '');
+        searchInput.value = `US4://${replaced.startsWith('/') ? replaced.slice(1) : replaced}`;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, 1000);
+</script>
     <script src="/storage/js/prox-settings.js"></script>
     <script src="/storage/js/notify.js"></script>
     <script type="text/javascript" src="/storage/js/cheese-algorithm.js"></script>
+
+<!-- Ultraviolet -->
+    <script src="/static/uv/uv.bundle.js" defer></script>
+    <script src="/static/uv/uv.config.js" defer></script>
+    <script src="/static/register-sw.js" defer></script>
+    <script src="/static/search.js" defer></script>
+    <script src="/static/index.js" defer></script>
+
+    <script>
+    async function regsw(){
+        await navigator.serviceWorker.register("/static/uv-sw.js", {
+            scope: "/static/",
+        });
+    }
+
+    regsw();
+    </script>
+<!-- Ultraviolet -->
+
   </body>
 </html>
