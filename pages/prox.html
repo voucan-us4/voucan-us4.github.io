@@ -328,14 +328,14 @@
     }, 500);
   }
 
-  function search() {
-    const input = document.getElementById('search-input').value.trim();
-    const iframe = document.querySelector('.tab-iframe.active');
-    if (input) {
-      let url = input.startsWith('http') ? input : `https://${input}`;
-      iframe.src = url;
-    }
-  }
+      function search() {
+        const input = document.getElementById('search-input').value.trim();
+        const iframe = document.querySelector('.tab-iframe.active');
+        if (input) {
+          const url = input.startsWith('http') ? input : `https://duckduckgo.com/?q=${encodeURIComponent(input)}`;
+          iframe.src = `/static/embed#${url}`;
+        }
+      }
 
   function home() {
     const iframe = document.querySelector('.tab-iframe.active');
