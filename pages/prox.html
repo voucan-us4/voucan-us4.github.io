@@ -386,12 +386,6 @@
   });
 </script>
 <script>
-(function waitForUVConfig() {
-  if (typeof __uv$config === 'undefined') {
-    setTimeout(waitForUVConfig, 100); // Retry until config is available
-    return;
-  }
-
   setInterval(() => {
     const searchInput = document.getElementById('search-input');
     if (document.activeElement === searchInput) return;
@@ -401,14 +395,15 @@
 
     try {
       const framePath = iframe.contentWindow?.location?.pathname || '';
-      
       const prefix = `${window.location.hostname}/static/load/`;
-      if (!framePath.startsWith(prefix)) return;
 
-      const encoded = framePath.slice(prefix.length);
-      const decodedUrl = new URL(__uv$config.decodeUrl(encoded));
-
-      searchInput.value = decodedUrl.hostname;
+      if (framePath.startsWith(prefix)) {
+        const encoded = framePath.slice(prefix.length);
+        const decodedUrl = new URL(__uv$config.decodeUrl(encoded));
+        searchInput.value = decodedUrl.hostname;
+      } else {
+        searchInput.value = `US4://${framePath}`;
+      }
     } catch (err) {
       console.error('Error decoding or updating search input:', err);
     }
