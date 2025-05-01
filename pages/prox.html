@@ -377,35 +377,39 @@
     if (document.activeElement === searchInput) return;
 
     const iframe = document.querySelector('.tab-iframe.active');
-    if (!iframe) return;
-
-    const src = iframe.src;
-    const prefix = '/static/load/';
+    if (!iframe || !iframe.contentWindow || !iframe.contentWindow.location) return;
 
     try {
-      if (src.includes(prefix)) {
-        const encodedPath = src.split(prefix)[1];
-        searchInput.value = __uv$config.decodeUrl(encodedPath);
+      const path = iframe.contentWindow.location.pathname;
+      const prefix = '/static/load/';
+
+      if (path.startsWith(prefix)) {
+        const encodedUrl = path.replace(prefix, '');
+        const decodedUrl = __uv$config.decodeUrl(encodedUrl);
+        const hostname = new URL(decodedUrl).hostname;
+        searchInput.value = hostname;
+        
+        const expectedSrc = window.location.origin + prefix + encodedUrl;
+        if (iframe.src !== expectedSrc) {
+          iframe.src = expectedSrc;
+        }
       } else {
-        const relativePath = src.replace(window.location.origin, '');
+        const relativePath = iframe.src.replace(window.location.origin, '');
         searchInput.value = `US4://${relativePath.startsWith('/') ? relativePath.slice(1) : relativePath}`;
       }
     } catch (err) {
-      console.error('Error updating search input:', err);
+      console.error('Error decoding or updating search input:', err);
       searchInput.value = '';
     }
-  }, 400);
+  }, 1000);
 </script>
     <script src="/storage/js/prox-settings.js"></script>
     <script src="/storage/js/notify.js"></script>
     <script type="text/javascript" src="/storage/js/cheese-algorithm.js"></script>
 
 <!-- Ultraviolet -->
-    <script src="/static/uv/uv.bundle.js" defer></script>
-    <script src="/static/uv/uv.config.js" defer></script>
-    <script src="/static/register-sw.js" defer></script>
-    <script src="/static/search.js" defer></script>
-    <script src="/static/index.js" defer></script>
+
+<script src="uv/uv.config.js"></script>
 
     <script>
     async function regsw(){
