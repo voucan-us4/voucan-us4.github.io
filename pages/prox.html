@@ -4,10 +4,9 @@
   <head>
 <!-- Ultraviolet -->
 
+<script src="/static/uv/uv.config.js"></script>
 <script src="/static/uv/uv.bundle.js"></script>
-<script src="/static/uv/uv.config.js"></script>
-<script src="/static/uv/register-sw.js"></script>
-<script src="/static/uv/uv.config.js"></script>
+<script src="/static/register-sw.js"></script>
 
     <script>
     async function regsw(){
@@ -394,24 +393,29 @@
     if (document.activeElement === searchInput) return;
 
     const iframe = document.querySelector('.tab-iframe.active');
-    if (!iframe) return;
+    if (!iframe || !iframe.contentWindow || !iframe.contentWindow.location) return;
 
     try {
-      const framePath = iframe.contentWindow?.location?.pathname || '';
-      const prefix = `${window.location.hostname}/static/load/`;
+      const path = iframe.contentWindow.location.pathname;
+      const prefix = '/static/load/';
 
-      if (framePath.startsWith(prefix)) {
-        const encoded = framePath.slice(prefix.length);
-        const decodedUrl = new URL(__uv$config.decodeUrl(encoded));
-        searchInput.value = decodedUrl.hostname;
+      if (path.startsWith(prefix)) {
+      let decodedUrl = new URL(__uv$config.decodeUrl(iframe.contentWindow.location.pathname.replace('/static/load/',''))).hostname
+        searchInput.value = hostname;
+        
+        const expectedSrc = window.location.origin + prefix + encodedUrl;
+        if (iframe.src !== expectedSrc) {
+          iframe.src = expectedSrc;
+        }
       } else {
-        searchInput.value = `US4://${framePath}`;
+        const relativePath = iframe.src.replace(window.location.origin, '');
+        searchInput.value = `US4://${relativePath.startsWith('/') ? relativePath.slice(1) : relativePath}`;
       }
     } catch (err) {
       console.error('Error decoding or updating search input:', err);
+      searchInput.value = '';
     }
   }, 1000);
-})();
 </script>
     <script src="/storage/js/prox-settings.js"></script>
     <script src="/storage/js/notify.js"></script>
