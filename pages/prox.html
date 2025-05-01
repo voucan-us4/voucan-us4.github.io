@@ -388,7 +388,7 @@
 <script>
 (function waitForUVConfig() {
   if (typeof __uv$config === 'undefined') {
-    setTimeout(waitForUVConfig, 100);
+    setTimeout(waitForUVConfig, 100); // Retry until config is available
     return;
   }
 
@@ -401,11 +401,14 @@
 
     try {
       const framePath = iframe.contentWindow?.location?.pathname || '';
-      if (!framePath.startsWith(__uv$config.prefix)) return;
+      
+      const prefix = `${window.location.hostname}/static/load/`;
+      if (!framePath.startsWith(prefix)) return;
 
-      const encoded = framePath.slice(__uv$config.prefix.length);
-      const decodedUrl = __uv$config.decodeUrl(encoded);
-      searchInput.value = decodedUrl;
+      const encoded = framePath.slice(prefix.length);
+      const decodedUrl = new URL(__uv$config.decodeUrl(encoded));
+
+      searchInput.value = decodedUrl.hostname;
     } catch (err) {
       console.error('Error decoding or updating search input:', err);
     }
