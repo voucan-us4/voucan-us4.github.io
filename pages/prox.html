@@ -386,36 +386,31 @@
   });
 </script>
 <script>
+(function waitForUVConfig() {
+  if (typeof __uv$config === 'undefined') {
+    setTimeout(waitForUVConfig, 100);
+    return;
+  }
+
   setInterval(() => {
     const searchInput = document.getElementById('search-input');
     if (document.activeElement === searchInput) return;
 
     const iframe = document.querySelector('.tab-iframe.active');
-    if (!iframe || !iframe.contentWindow || !iframe.contentWindow.location) return;
+    if (!iframe) return;
 
     try {
-      const path = iframe.contentWindow.location.pathname;
-      const prefix = '/static/load/';
+      const framePath = iframe.contentWindow?.location?.pathname || '';
+      if (!framePath.startsWith(__uv$config.prefix)) return;
 
-      if (path.startsWith(prefix)) {
-        const encodedUrl = path.replace(prefix, '');
-        const decodedUrl = __uv$config.decodeUrl(encodedUrl);
-        const hostname = new URL(decodedUrl).hostname;
-        searchInput.value = hostname;
-        
-        const expectedSrc = window.location.origin + prefix + encodedUrl;
-        if (iframe.src !== expectedSrc) {
-          iframe.src = expectedSrc;
-        }
-      } else {
-        const relativePath = iframe.src.replace(window.location.origin, '');
-        searchInput.value = `US4://${relativePath.startsWith('/') ? relativePath.slice(1) : relativePath}`;
-      }
+      const encoded = framePath.slice(__uv$config.prefix.length);
+      const decodedUrl = __uv$config.decodeUrl(encoded);
+      searchInput.value = decodedUrl;
     } catch (err) {
       console.error('Error decoding or updating search input:', err);
-      searchInput.value = '';
     }
   }, 1000);
+})();
 </script>
     <script src="/storage/js/prox-settings.js"></script>
     <script src="/storage/js/notify.js"></script>
