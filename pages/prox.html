@@ -353,7 +353,7 @@
     tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
     const iframe = document.createElement('iframe');
     iframe.classList.add('tab-iframe');
-    iframe.src = 'settings';
+    iframe.src = '/pages/prox/settings';
     iframe.onload = function() {
       updateTabName(iframe);
     };
