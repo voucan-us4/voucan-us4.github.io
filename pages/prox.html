@@ -379,23 +379,22 @@
     const iframe = document.querySelector('.tab-iframe.active');
     if (!iframe) return;
 
-    let src = iframe.src;
+    const src = iframe.src;
     const prefix = '/static/load/';
 
     try {
       if (src.includes(prefix)) {
-        const parser = document.createElement('a');
-        parser.href = src;
-        const encoded = parser.pathname.replace(prefix, '');
-        searchInput.value = __uv$config.decodeUrl(encoded);
+        const encodedPath = src.split(prefix)[1];
+        searchInput.value = __uv$config.decodeUrl(encodedPath);
       } else {
-        const replaced = src.replace(`${window.location.protocol}//${window.location.hostname}`, '');
-        searchInput.value = `US4://${replaced.startsWith('/') ? replaced.slice(1) : replaced}`;
+        const relativePath = src.replace(window.location.origin, '');
+        searchInput.value = `US4://${relativePath.startsWith('/') ? relativePath.slice(1) : relativePath}`;
       }
     } catch (err) {
-      console.error(err);
+      console.error('Error updating search input:', err);
+      searchInput.value = '';
     }
-  }, 1000);
+  }, 400);
 </script>
     <script src="/storage/js/prox-settings.js"></script>
     <script src="/storage/js/notify.js"></script>
