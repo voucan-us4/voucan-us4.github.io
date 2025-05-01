@@ -343,8 +343,22 @@
   }
 
   function settings() {
-    const iframe = document.querySelector('.tab-iframe.active');
-    iframe.src = '/pages/prox/settings';
+    tabCount++;
+    const tabsContainer = document.getElementById('tabs');
+    const newTab = document.createElement('div');
+    newTab.classList.add('tab');
+    newTab.innerHTML = `Settings 
+                        <span class="close-button" onclick="closeTab(event)">×</span>`;
+    newTab.addEventListener("click", () => selectTab(newTab));
+    tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
+    const iframe = document.createElement('iframe');
+    iframe.classList.add('tab-iframe');
+    iframe.src = 'settings';
+    iframe.onload = function() {
+      updateTabName(iframe);
+    };
+    document.getElementById('content-wrapper').appendChild(iframe);
+    selectTab(newTab);
   }
 
   function toggleFullscreen() {
