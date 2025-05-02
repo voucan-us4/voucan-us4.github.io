@@ -54,5 +54,5 @@ function createNotification(message) {
 }
 
 window.onload = () => {
-    createNotification('Added Idle Breakout')
+    createNotification('Added Idle Breakout and Territorial.io')
 };
