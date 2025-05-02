@@ -1,19 +1,18 @@
 const phrases = [
     `hi guys`,
     `cheese`,
-    { type: "image", width: '100%', src: `https://i.ibb.co/v6xfHBB5/7th-graders.png` },
     `dont type this on your keyboard: up, up, down, down, left, right, left, right, B, A, enter`,
     `emerity said you should watch bleach`,
     `im going to put bleach in your eyes`,
     `shoutout to @literalaj on yt`,
     `im in your walls`,
     `"play the strongest battlegrounds" - literalaj`,
-    { other: 'loop', width: '200px', type: "video", src: `https://media.tenor.com/SIpmtvnEsDIAAAPo/rotating-chips.mp4` },
+    /*{ other: 'loop', width: '200px', type: "video", src: `https://media.tenor.com/SIpmtvnEsDIAAAPo/rotating-chips.mp4` },*/
     `jackson is batman`,
     `jacob is the WORST violin. Make sure to bully him (8th grade violin, probably 400 pounds tbh)`,
-    `Jaxon I see U`,
     { type: "image", width: '400px', src: `https://c.tenor.com/9MVlipGuNioAAAAC/tenor.gif` },
-    `"im the best kahoot player" - J.C.`
+    `"im the best kahoot player" - Jay C`,
+    `can someone sign my yearbook, rm 123 at the end of the day`
 ];
 
 const paragraph = document.getElementById('dynamicParagraph');
