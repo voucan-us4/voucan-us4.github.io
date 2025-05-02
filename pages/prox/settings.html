@@ -176,32 +176,6 @@
         localStorage.setItem('backgroundColor', colorPicker.value);
       });
     </script>
-    <script>
-      const bareUrlInput = document.getElementById('bareUrl');
-      const saveBareSettingButton = document.getElementById('saveBareSetting');
-      bareUrlInput.value = localStorage.getItem('bare') || '';
-      async function regsw() {
-        await navigator.serviceWorker.register("/static/uv-sw.js", {
-          scope: "/static/",
-        });
-      }
-      saveBareSettingButton.addEventListener('click', async () => {
-        const bareUrl = bareUrlInput.value.trim();
-        if (bareUrl) {
-          localStorage.setItem('bare', bareUrl);
-          if (navigator.serviceWorker) {
-            const registration = await navigator.serviceWorker.getRegistration("/static/");
-            if (registration) {
-              await registration.unregister();
-            }
-            await regsw();
-            alert('Bare URL saved and service worker re-registered.');
-          }
-        } else {
-          alert('Please enter a valid Bare URL.');
-        }
-      });
-    </script>
     <script type="text/javascript" src="/storage/js/notify.js"></script>
     <script type="text/javascript" src="/storage/js/background.js"></script>
     <script type="text/javascript" src="/storage/js/cheese-algorithm.js"></script>
