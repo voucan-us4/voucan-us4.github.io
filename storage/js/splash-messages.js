@@ -8,6 +8,7 @@ const phrases = [
     `im in your walls`,
     `"play the strongest battlegrounds" - literalaj`,
     /*{ other: 'loop', width: '200px', type: "video", src: `https://media.tenor.com/SIpmtvnEsDIAAAPo/rotating-chips.mp4` },*/
+    { type: "image", width: '50%', src: `https://i.ibb.co/7tj7Fsdg/image.png` },
     `jackson is batman`,
     `jacob is the WORST violin. Make sure to bully him (8th grade violin, probably 400 pounds tbh)`,
     { type: "image", width: '400px', src: `https://c.tenor.com/9MVlipGuNioAAAAC/tenor.gif` },
