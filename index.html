@@ -42,55 +42,7 @@
     <div class="game-title ">US4 | Featured</div>
     <div id="dynamicParagraph" class="games-title ">calculator</div>
 
-    <div class="game-grid " id="gameGrid">
-        <div class="game-button">
-            <a href="/pages/iframe2?url=/pages/apps/print3r">
-                <img src="https://raw.githubusercontent.com/Blobby-Boi/ExtPrint3r/refs/heads/main/icon.png" alt="ExtPrint3r">
-                <div class="overlay-text">ExtPrint3r</div>
-            </a>
-        </div>
-        <div class="game-button">
-            <a href="/pages/iframe?url=/clusterrush/index">
-                <img src="/clusterrush/clusterrush.png" alt="Cluster Rush">
-                <div class="overlay-text">Cluster Rush</div>
-            </a>
-        </div>
-        <div class="game-button">
-            <a href="/pages/iframe?url=/basketrandom/index">
-                <img src="/basketrandom/basketrandom.jfif" alt="Basket Random">
-                <div class="overlay-text">Basket Random</div>
-            </a>
-        </div>
-        <div class="game-button">
-            <a href="/pages/iframe?url=/SubwaySurfers/proxed">
-                <img src="/SubwaySurfers/subway.jfif" alt="Subway Surfers">
-                <div class="overlay-text">Subway Surfers</div>
-            </a>
-        </div>
-        <div class="game-button">
-            <a href="/pages/iframe2?url=/pages/apps/ai">
-                <img src="/pages/apps/images/ai.png" alt="AI">
-                <div class="overlay-text">AI</div>
-            </a>
-        </div>
-        <div class="game-button">
-            <a href="/pages/iframe?url=/snowrider3D/index">
-                <img src="/games-repo/snow-rider/snowrider.png" alt="Snow Rider 3D">
-                <div class="overlay-text">Snow Rider 3D</div>
-            </a>
-        </div>
-        <div class="game-button">
-            <a href="/pages/media">
-                <img src="/pages/apps/images/hvtrs8_-hgaptkvg.raeeq.fet_rrgvkeus-iaols-rgtpo_tt.png" alt="Movies">
-                <div class="overlay-text">Movies</div>
-            </a>
-        </div>
-        <div class="game-button">
-            <a href="/pages/prox">
-                <img src="/pages/apps/images/download.png" alt="Prցxy">
-                <div class="overlay-text">Prօxy</div>
-            </a>
-        </div>
+    <div class="game-grid " id="featuredContent">
     </div>
 <!--     <div class="update-log-overlay" id="updateLog">
         <div class="update-log-content">
@@ -225,6 +177,43 @@ document.addEventListener('keydown', (event) => {
         currentKeyIndex = 0;
     }
 });
+</script>
+
+<script>
+async function fetchAndExtractButtons(url, count) {
+    const response = await fetch(url);
+    const text = await response.text();
+    const tempDoc = new DOMParser().parseFromString(text, 'text/html');
+    const buttons = Array.from(tempDoc.querySelectorAll('.game-button'));
+    return shuffle(buttons).slice(0, count);
+}
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function cloneElement(el) {
+    return el.cloneNode(true);
+}
+
+async function loadFeaturedContent() {
+    const container = document.getElementById('featuredContent');
+
+    const [gameButtons, appButtons] = await Promise.all([
+        fetchAndExtractButtons('/pages/games', 4),
+        fetchAndExtractButtons('/pages/apps', 4),
+    ]);
+
+    [...gameButtons, ...appButtons].forEach(button => {
+        container.appendChild(cloneElement(button));
+    });
+}
+
+window.addEventListener('DOMContentLoaded', loadFeaturedContent);
 </script>
 
 </body>
