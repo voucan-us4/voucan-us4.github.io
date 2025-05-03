@@ -42,7 +42,7 @@
     <div class="game-title ">US4 | Random</div>
     <div id="dynamicParagraph" class="games-title ">calculator</div>
 
-    <div class="game-grid " id="featuredContent">
+    <div class="game-grid " id="random">
     </div>
 <!--     <div class="update-log-overlay" id="updateLog">
         <div class="update-log-content">
@@ -180,7 +180,7 @@ document.addEventListener('keydown', (event) => {
 </script>
 
 <script>
-async function fetchAndExtractButtons(url, count) {
+async function getbuttons(url, count) {
     const response = await fetch(url);
     const text = await response.text();
     const tempDoc = new DOMParser().parseFromString(text, 'text/html');
@@ -200,12 +200,12 @@ function cloneElement(el) {
     return el.cloneNode(true);
 }
 
-async function loadFeaturedContent() {
-    const container = document.getElementById('featuredContent');
+async function loadRandomContent() {
+    const container = document.getElementById('random');
 
     const [gameButtons, appButtons] = await Promise.all([
-        fetchAndExtractButtons('/pages/games', 4),
-        fetchAndExtractButtons('/pages/apps', 4),
+        getbuttons('/pages/games', 4),
+        getbuttons('/pages/apps', 4),
     ]);
 
     [...gameButtons, ...appButtons].forEach(button => {
@@ -213,7 +213,7 @@ async function loadFeaturedContent() {
     });
 }
 
-window.addEventListener('DOMContentLoaded', loadFeaturedContent);
+window.addEventListener('DOMContentLoaded', loadRandomContent);
 </script>
 
 </body>
