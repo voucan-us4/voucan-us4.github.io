@@ -399,9 +399,9 @@
             return decodeURI(proxifiedUrl.replace(proxyPrefix, ""));
           }
           switch (proxifiedUrl) {
-            case "/static/":
+            case "https://" + window.location.hostname + "/static/":
               return "US4://newtab";
-            case "/pages/prox/settings":
+            case "https://" + window.location.hostname + "/pages/prox/settings":
               return "US4://settings";
             default:
               return decodeURI(proxifiedUrl);
