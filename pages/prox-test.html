@@ -306,6 +306,7 @@
 											
 											
 											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -367,6 +368,7 @@
 											
 												
 												
+											
 											
 											
 											
@@ -458,29 +460,35 @@
           const tabIndex = Array.from(document.querySelectorAll('.tab-iframe')).indexOf(iframe);
           const tab = document.querySelectorAll('.tab')[tabIndex];
           if (tab) {
-          const staticLoadPrefix = "https://" + window.location.hostname + "/static/load/";
-          const docHref = iframe.contentWindow.location.href;
-          if (docHref.startsWith(staticLoadPrefix)) {
-            const path = docHref.replace(staticLoadPrefix, "");
-            const host = "https://" + __uv$config.decodeUrl(path);
-            let url;
-            try {
-              url = new URL(host);
-            } catch {
-              url = new URL("https://voucan-us4.github.io");
+            const staticLoadPrefix = "https://" + window.location.hostname + "/static/load/";
+            const docHref = iframe.contentWindow.location.href;
+            if (docHref.startsWith(staticLoadPrefix)) {
+              const path = docHref.replace(staticLoadPrefix, "");
+              const host = "https://" + __uv$config.decodeUrl(path);
+              let url;
+              try {
+                url = new URL(host);
+              } catch {
+                url = new URL("https://voucan-us4.github.io");
+              }
+              const faviconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url.origin}&size=16`;
+              let title = '';
+              try {
+                title = iframe.contentWindow.document.title || url.hostname;
+              } catch {
+                title = url.hostname || 'New Tab';
+              }
+              if (title.length > 18) {
+                title = title.substring(0, 15) + '...';
+              }
+              tab.innerHTML = `
+          
+											<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">
+          ${title}
+          
+												<span class="close-button" onclick="closeTab(event)">×</span>
+        `;
             }
-            const faviconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url.origin}&size=16`;
-            let title = '';
-            try {
-              title = iframe.contentWindow.document.title || url.hostname;
-            } catch {
-              title = url.hostname || 'New Tab';
-            }
-            if (title.length > 18) {
-              title = title.substring(0, 15) + '...';
-            }
-            tab.innerHTML = `<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">
-        ${title}<span class="close-button" onclick="closeTab(event)">×</span>`;
           }
         }, 500);
       }
