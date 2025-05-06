@@ -309,6 +309,9 @@
       <button class="nav-btn" onclick="setIframe('/pages/credits', 'Credits')">
         <i class="fa-solid fa-book"></i>
       </button>
+      <button class="nav-btn" onclick="setIframe('/pages/data', 'Data')">
+        <i class="fa-solid fa-file-arrow-down"></i>
+      </button>
       <button class="nav-btn" onclick="setIframe('/pages/extra', 'Extra')">
         <i class="fas fa-plus"></i>
       </button>
@@ -400,6 +403,8 @@
               return "us4://credits";
             case "https://" + window.location.hostname + "/pages/extra":
               return "us4://extra";
+            case "https://" + window.location.hostname + "/pages/data":
+              return "us4://data";
             default:
               return url;
           }
@@ -564,6 +569,8 @@
               return "us4://credits";
             case "https://" + window.location.hostname + "/pages/extra":
               return "us4://extra";
+            case "https://" + window.location.hostname + "/pages/data":
+              return "us4://data";
             default:
               if (docHref.startsWith(hostPrefix)) {
                 return decodeURI(docHref.replace(hostPrefix, ""));
