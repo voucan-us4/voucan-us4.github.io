@@ -77,6 +77,12 @@
           iframe.src = `/static/embed#${url}`;
         }
       }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("search-input").addEventListener("keydown", (e) => {
+          if (e.key === "Enter") search();
+        });
+      });
 </script>
 </body>
 </html>
