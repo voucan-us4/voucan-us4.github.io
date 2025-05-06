@@ -3,10 +3,13 @@
   <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-K8CCSDNPV3"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-K8CCSDNPV3');
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-K8CCSDNPV3');
     </script>
     <meta property="og:title" content="US4 | Home">
     <meta property="og:description" content="Search the web freely, watch your favorite movies and shows, and play your favorite gаmes with US4.">
@@ -356,7 +359,8 @@
 											
 											
 											
-											<span class="close-button" onclick="closeTab(event)">×</span>`;
+											
+													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
         const iframe = document.createElement('iframe');
@@ -450,7 +454,8 @@
 											
 											
 											
-											<span class="close-button" onclick="closeTab(event)">×</span>`;
+											
+													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
         const iframe = document.createElement('iframe');
@@ -481,7 +486,8 @@
 											
 											
 											
-											<span class="close-button" onclick="closeTab(event)">×</span>`;
+											
+													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
         const iframe = document.createElement('iframe');
@@ -505,7 +511,8 @@
 											
 											
 											
-											<span class="close-button" onclick="closeTab(event)">×</span>`;
+											
+													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
         const iframe = document.createElement('iframe');
@@ -639,7 +646,8 @@
 											
 											
 											
-											<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">
+											
+													<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">
           ${title}
           
 												
@@ -652,7 +660,8 @@
 												
 												
 												
-												<span class="close-button" onclick="closeTab(event)">×</span>
+												
+														<span class="close-button" onclick="closeTab(event)">×</span>
         `;
             }
           }
@@ -707,7 +716,8 @@
 											
 											
 											
-											<span class="close-button" onclick="closeTab(event)">×</span>`;
+											
+														<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
         const iframe = document.createElement('iframe');
@@ -720,6 +730,19 @@
         document.getElementById('content-wrapper').appendChild(iframe);
         selectTab(newTab);
       }
+      document.addEventListener("DOMContentLoaded", () => {
+        const launch = new URLSearchParams(window.location.search).get('launch');
+        if (launch) {
+          const startingtab = document.querySelector('.tab-iframe');
+          if (startingtab) {
+            startingtab.src = `/static/load/${__uv$config.encodeUrl(launch)}`;
+            startingtab.onload = () => {
+              updateSearchBar(startingtab);
+              updateTabName(startingtab);
+            };
+          }
+        }
+      });
     </script>
     <script src="/storage/js/prox-settings.js"></script>
     <script type="text/javascript" src="/storage/js/cheese-algorithm.js"></script>
