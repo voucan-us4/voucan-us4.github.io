@@ -347,6 +347,10 @@
       function home() {
         const iframe = document.querySelector('.tab-iframe.active');
         iframe.src = '/static/';
+        iframe.onload = function() {
+	updateSearchBar(iframe);
+          updateTabName(iframe);
+        };
       }
 
       function settings() {
@@ -363,6 +367,7 @@
         iframe.classList.add('tab-iframe');
         iframe.src = '/pages/prox/settings';
         iframe.onload = function() {
+          updateSearchBar(iframe);
           updateTabName(iframe);
         };
         document.getElementById('content-wrapper').appendChild(iframe);
