@@ -332,7 +332,7 @@
           if (tab) {
             let url;
             try {
-              url = new URL(iframe.contentWindow.location.href);
+              url = getUnproxifiedUrl(iframe.src);
             } catch {
               url = {
                 origin: '',
@@ -426,7 +426,7 @@
 
       function getUnproxifiedUrl(proxifiedUrl) {
         try {
-          const hostPrefix = "https://" + window.location.hostname;
+          const hostPrefix = "https://" + window.location.hostname + "/static/embed#";
           if (proxifiedUrl.startsWith(proxyPrefix)) {
             return decodeURI(proxifiedUrl.replace(proxyPrefix, ""));
           }
