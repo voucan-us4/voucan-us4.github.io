@@ -342,9 +342,9 @@
       function internal(url) {
         try {
           switch (url) {
-            case 'US4://new-tab-page':
+            case 'us4://new-tab-page':
               return '/static/index.html';
-            case 'US4://settings':
+            case 'us4://settings':
               return '/pages/prox/settings';
             default:
               return url;
@@ -468,9 +468,9 @@
           }
           switch (docHref) {
             case "https://" + window.location.hostname + "/static/index.html":
-              return "US4://new-tab-page";
+              return "us4://new-tab-page";
             case "https://" + window.location.hostname + "/pages/prox/settings":
-              return "US4://settings";
+              return "us4://settings";
             default:
               if (docHref.startsWith(hostPrefix)) {
                 return decodeURI(docHref.replace(hostPrefix, ""));
