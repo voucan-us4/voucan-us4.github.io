@@ -87,8 +87,9 @@ h1 {
 #search-button {
     padding: 20px 40px;
     border: none;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #1a1a1a;
+    border: 2px solid white;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #ccc;
     border-radius: 0 50px 50px 0;
     cursor: pointer;
     font-family: "Outfit", sans-serif;
@@ -106,7 +107,7 @@ h1 {
 }
 
 #search-button:hover {
-    background-color: rgba(255, 255, 255, 0.07);
+    background-color: rgba(255, 255, 255, 0.03);
     transform: translateY(-2px);
 }
 
