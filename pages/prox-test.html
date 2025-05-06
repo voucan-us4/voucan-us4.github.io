@@ -463,34 +463,6 @@
           }
         }, 500);
       }
-
-// auto update test
-  let updateInterval;
-  const iframe = document.querySelector('.tab-iframe.active');
-
-  function startSearchBarUpdate() {
-    updateInterval = setInterval(() => {
-      const searchInput = document.getElementById('search-input');
-      if (!(document.activeElement === searchInput || searchInput.matches(':hover'))) {
-        updateSearchBar(iframe);
-      }
-    }, 500);
-  }
-
-  function stopSearchBarUpdate() {
-    clearInterval(updateInterval);
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    startSearchBarUpdate();
-
-    const searchInput = document.getElementById('search-input');
-    searchInput.addEventListener("focus", stopSearchBarUpdate);
-    searchInput.addEventListener("blur", startSearchBarUpdate);
-    searchInput.addEventListener("mouseenter", stopSearchBarUpdate);
-    searchInput.addEventListener("mouseleave", startSearchBarUpdate);
-  });
-//end
     </script>
     <script src="/storage/js/prox-settings.js"></script>
     <script src="/storage/js/notify.js"></script>
