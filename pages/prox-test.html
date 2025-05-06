@@ -295,6 +295,7 @@
         newTab.innerHTML = `New Tab 
                         
 											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -328,10 +329,23 @@
           const tabIndex = Array.from(document.querySelectorAll('.tab-iframe')).indexOf(iframe);
           const tab = document.querySelectorAll('.tab')[tabIndex];
           if (tab) {
-            tab.innerHTML = `${iframe.contentWindow.document.title || 'New Tab'} 
-                         
-											
-											<span class="close-button" onclick="closeTab(event)">×</span>`;
+            let url;
+            try {
+              url = new URL(iframe.contentWindow.location.href);
+            } catch {
+              url = {
+                origin: '',
+                hostname: 'https://voucan-us4.github.io'
+              };
+            }
+            const faviconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url.origin || 'https://voucan-us4.github.io'}&size=16`;
+            const title = iframe.contentWindow.document.title || url.hostname || 'New Tab';
+            tab.innerHTML = `
+        
+											<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">
+        ${title}
+        
+												<span class="close-button" onclick="closeTab(event)">×</span>`;
           }
         }, 500);
       }
@@ -366,7 +380,8 @@
         newTab.innerHTML = `Settings 
                         
 											
-											<span class="close-button" onclick="closeTab(event)">×</span>`;
+											
+												<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
         const iframe = document.createElement('iframe');
