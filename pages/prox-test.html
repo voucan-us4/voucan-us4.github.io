@@ -296,6 +296,7 @@
                         
 											
 											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -339,7 +340,10 @@
               };
             }
             const faviconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url.origin || 'https://voucan-us4.github.io'}&size=16`;
-            const title = iframe.contentWindow.document.title || url.hostname || 'New Tab';
+            let title = iframe.contentWindow.document.title || url.hostname || 'New Tab';
+            if (title.length > 18) {
+              title = title.substring(0, 15) + '...';
+            }
             tab.innerHTML = `
         
 											<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">
@@ -381,6 +385,7 @@
                         
 											
 											
+												
 												<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
