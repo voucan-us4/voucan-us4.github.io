@@ -361,6 +361,7 @@
 											
 											
 											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -468,6 +469,7 @@
 											
 											
 											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -503,6 +505,7 @@
 											
 											
 											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -523,6 +526,7 @@
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
         newTab.innerHTML = `Settings
+											
 											
 											
 											
@@ -665,9 +669,11 @@
 											
 											
 											
+											
 											<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">
           ${title}
           
+												
 												
 												
 												
@@ -741,6 +747,7 @@
 												
 												
 												
+												
 												<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -754,6 +761,19 @@
         document.getElementById('content-wrapper').appendChild(iframe);
         selectTab(newTab);
       }
+      document.addEventListener("DOMContentLoaded", () => {
+        const link = new URLSearchParams(window.location.search).get('link');
+        if (link) {
+          const startingtab = document.querySelector('.tab-iframe');
+          if (startingtab) {
+            startingtab.src = `/static/load/${__uv$config.encodeUrl(link)}`;
+            startingtab.onload = () => {
+              updateSearchBar(startingtab);
+              updateTabName(startingtab);
+            };
+          }
+        }
+      });
     </script>
     <script src="/storage/js/prox-settings.js"></script>
     <script src="/storage/js/notify.js"></script>
