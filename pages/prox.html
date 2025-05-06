@@ -684,6 +684,13 @@
       });
 
       function setIframe(url, name) {
+        const activeTab = document.querySelector('.tab.active');
+        const tabIndex = Array.from(document.querySelectorAll('.tab')).indexOf(activeTab);
+        const activeIframe = document.querySelectorAll('.tab-iframe')[tabIndex];
+        if (activeTab && activeIframe) {
+          activeTab.remove();
+          activeIframe.remove();
+        }
         tabCount++;
         const tabsContainer = document.getElementById('tabs');
         const newTab = document.createElement('div');
@@ -693,7 +700,7 @@
 											
 											
 											
-												<span class="close-button" onclick="closeTab(event)">×</span>`;
+											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
         const iframe = document.createElement('iframe');
