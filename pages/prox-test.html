@@ -463,6 +463,45 @@
           }
         }, 500);
       }
+
+let updateInterval;
+
+function updateSearchBar(iframe) {
+  try {
+    const unproxifiedUrl = getUnproxifiedUrl(iframe.src);
+    const searchInput = document.getElementById('search-input');
+
+    searchInput.value = unproxifiedUrl;
+
+    const activeTab = document.querySelector('.tab.active');
+    updateTabName(iframe, activeTab);
+
+  } catch (e) {
+    console.error('Error updating search bar:', e);
+  }
+}
+
+function startSearchBarUpdate(iframe) {
+  const searchInput = document.getElementById('search-input');
+
+  const isFocused = document.activeElement === searchInput;
+  const isHovered = searchInput.matches(':hover');
+
+  if (!isFocused && !isHovered) {
+    if (!updateInterval) {
+      updateInterval = setInterval(() => updateSearchBar(iframe), 500);
+    }
+  } else {
+    clearInterval(updateInterval);
+    updateInterval = null;
+  }
+}
+
+document.getElementById('search-input').addEventListener('focus', () => clearInterval(updateInterval));
+document.getElementById('search-input').addEventListener('blur', () => startSearchBarUpdate());
+document.getElementById('search-input').addEventListener('mouseenter', () => clearInterval(updateInterval));
+document.getElementById('search-input').addEventListener('mouseleave', () => startSearchBarUpdate());
+
     </script>
     <script src="/storage/js/prox-settings.js"></script>
     <script src="/storage/js/notify.js"></script>
