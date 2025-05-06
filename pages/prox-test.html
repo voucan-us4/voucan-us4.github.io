@@ -299,6 +299,8 @@
 											
 											
 											
+											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -360,6 +362,8 @@
 											
 												
 												
+											
+											
 											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
@@ -433,15 +437,33 @@
         }
       }
 
+      function updateSearchBar(iframe) {
+        try {
+          let rawUrl = iframe.src;
+          try {
+            rawUrl = iframe.contentWindow.location.href;
+          } catch {}
+          const unproxifiedUrl = getUnproxifiedUrl(rawUrl);
+          document.getElementById('search-input').value = unproxifiedUrl;
+          const activeTab = document.querySelector('.tab.active');
+          updateTabName(iframe, activeTab);
+        } catch (e) {
+          console.error('Error updating search bar:', e);
+        }
+      }
+
       function updateTabName(iframe) {
         setTimeout(() => {
           const tabIndex = Array.from(document.querySelectorAll('.tab-iframe')).indexOf(iframe);
           const tab = document.querySelectorAll('.tab')[tabIndex];
           if (tab) {
-            let foundurl = getUnproxifiedUrl(iframe.src);
+            let currentUrl = iframe.src;
+            try {
+              currentUrl = iframe.contentWindow.location.href;
+            } catch {}
             let url;
             try {
-              url = new URL(foundurl);
+              url = new URL(currentUrl);
             } catch {
               url = new URL("https://voucan-us4.github.io");
             }
@@ -468,38 +490,22 @@
         }, 500);
       }
 
-      let updateInterval;
-
-      function updateSearchBar(iframe) {
-        try {
-          const unproxifiedUrl = getUnproxifiedUrl(iframe.src);
-          const searchInput = document.getElementById('search-input');
-          searchInput.value = unproxifiedUrl;
-          const activeTab = document.querySelector('.tab.active');
-          updateTabName(iframe, activeTab);
-        } catch (e) {
-          console.error('Error updating search bar:', e);
-        }
+      function engaged() {
+        const input = document.getElementById('search-input');
+        return document.activeElement === input || input.matches(':hover');
       }
-
-      function startSearchBarUpdate() {
+      setInterval(() => {
         const iframe = document.querySelector('.tab-iframe.active');
-        const searchInput = document.getElementById('search-input');
-        const isFocused = document.activeElement === searchInput;
-        const isHovered = searchInput.matches(':hover');
-        if (!isFocused && !isHovered) {
-          if (!updateInterval) {
-            updateInterval = setInterval(() => updateSearchBar(iframe), 500);
+        if (!iframe || engaged()) return;
+        try {
+          const docHref = iframe.contentWindow.location.href;
+          if (docHref) {
+            updateSearchBar(iframe);
           }
-        } else {
-          clearInterval(updateInterval);
-          updateInterval = null;
+        } catch (e) {
+          console.warn('Unable to access iframe location:', e);
         }
-      }
-      document.getElementById('search-input').addEventListener('focus', () => clearInterval(updateInterval));
-      document.getElementById('search-input').addEventListener('blur', () => startSearchBarUpdate());
-      document.getElementById('search-input').addEventListener('mouseenter', () => clearInterval(updateInterval));
-      document.getElementById('search-input').addEventListener('mouseleave', () => startSearchBarUpdate());
+      }, 500);
     </script>
     <script src="/storage/js/prox-settings.js"></script>
     <script src="/storage/js/notify.js"></script>
