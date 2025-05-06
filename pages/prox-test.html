@@ -411,7 +411,7 @@
           switch (proxifiedUrl) {
             case "https://" + window.location.hostname + "/static/index.html":
               return "US4://new-tab-page";
-            case "https://" + window.location.hostname + "/pages/prox/settings.html":
+            case "https://" + window.location.hostname + "/pages/prox/settings":
               return "US4://settings";
             default:
               return decodeURI(proxifiedUrl);
