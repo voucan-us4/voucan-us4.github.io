@@ -257,7 +257,7 @@
         </button>
       </div>
       <div class="search-bar-container">
-        <input type="text" id="search-input" class="search-bar" placeholder="Search or enter a URL">
+        <input type="text" id="search-input" value="US4://new-tab-page" class="search-bar" placeholder="Search or enter a URL">
       </div>
       <div class="navbar-right">
         <button onclick="inspect()" class="nav-btn">
@@ -409,7 +409,7 @@
           }
           switch (proxifiedUrl) {
             case "https://" + window.location.hostname + "/static/index.html":
-              return "US4://newtab";
+              return "US4://new-tab-page";
             case "https://" + window.location.hostname + "/pages/prox/settings.html":
               return "US4://settings";
             default:
