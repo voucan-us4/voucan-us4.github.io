@@ -14,6 +14,18 @@
       gtag('js', new Date());
       gtag('config', 'G-K8CCSDNPV3');
     </script>
+<script>
+  function updateTabContent(url) {
+    const iframe = document.querySelector('.tab-iframe.active');
+    
+    iframe.src = url;
+    
+    updateSearchBar(iframe);
+    
+    updateTabName(iframe);
+    
+  }
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:title" content="US4 | Prоxy">
@@ -22,7 +34,7 @@
     <title>Home</title>
     <link rel="icon" href="/storage/images/googleclassroom.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
+<style>
       * {
         margin: 0;
         padding: 0;
@@ -297,28 +309,29 @@
     <div class="content-wrapper" id="content-wrapper">
       <iframe class="tab-iframe active" src="/static/index.html"></iframe>
     </div>
-    <div class="lower-navbar">
-      <button class="nav-btn" onclick="setIframe('/pages/games', 'Games')">
-        <i class="fas fa-gamepad"></i>
-      </button>
-      <button class="nav-btn" onclick="setIframe('/static/embed#https://heartive-us4.pages.dev', 'Movies')">
-        <i class="fa-solid fa-video"></i>
-      </button>
-      <button class="nav-btn" onclick="setIframe('/pages/apps', 'Apps')">
-        <i class="fa-sharp fa-solid fa-layer-group"></i>
-      </button>
-      <button class="nav-btn" onclick="setIframe('/pages/partners', 'Partners')">
-        <i class="fa-solid fa-users"></i>
-      </button>
-      <button class="nav-btn" onclick="setIframe('/pages/credits', 'Credits')">
-        <i class="fa-solid fa-book"></i>
-      </button>
-      <button class="nav-btn" onclick="setIframe('/pages/extra', 'Extra')">
-        <i class="fas fa-plus"></i>
-      </button>
-    </div>
-    <script>
-      let tabCount = 1;
+<div class="lower-navbar">
+  <button class="nav-btn" onclick="updateTabContent('/pages/games')">
+    <i class="fas fa-gamepad"></i>
+  </button>
+  <button class="nav-btn" onclick="updateTabContent('/static/embed#https://heartive-us4.pages.dev')">
+    <i class="fa-solid fa-video"></i>
+  </button>
+  <button class="nav-btn" onclick="updateTabContent('/pages/apps')">
+    <i class="fa-sharp fa-solid fa-layer-group"></i>
+  </button>
+  <button class="nav-btn" onclick="updateTabContent('/pages/partners')">
+    <i class="fa-solid fa-users"></i>
+  </button>
+  <button class="nav-btn" onclick="updateTabContent('/pages/credits')">
+    <i class="fa-solid fa-book"></i>
+  </button>
+  <button class="nav-btn" onclick="updateTabContent('/pages/extra')">
+    <i class="fas fa-plus"></i>
+  </button>
+</div>
+
+<script>
+  let tabCount = 1;
 
       function selectTab(tab) {
         document.querySelectorAll('.tab, .tab-iframe').forEach(el => el.classList.remove('active'));
@@ -337,12 +350,6 @@
         newTab.classList.add('tab');
         newTab.innerHTML = `New Tab 
                         
-											
-											
-											
-											
-											
-											
 											
 											
 											
@@ -392,37 +399,24 @@
 
       function internal(url) {
         try {
-          const host = "https://" + window.location.hostname;
           switch (url) {
             case 'us4://new-tab-page':
               return home();
             case 'us4://settings':
               return settings2();
-            case host + "/pages/games":
+            case "https://" + window.location.hostname + "/pages/games":
               return "us4://games";
-            case host + "/pages/heartive":
+            case "https://" + window.location.hostname + "/static/load/hvtrs8%2F-hgaptkvg-ws6.raeeq.fet":
               return "us4://movies";
-            case host + "/pages/apps":
+            case "https://" + window.location.hostname + "/pages/apps":
               return "us4://apps";
-            case host + "/pages/partners":
+            case "https://" + window.location.hostname + "/pages/partners":
               return "us4://partners";
-            case host + "/pages/credits":
+            case "https://" + window.location.hostname + "/pages/credits":
               return "us4://credits";
-            case host + "/pages/extra":
+            case "https://" + window.location.hostname + "/pages/extra":
               return "us4://extra";
-            case 'us4://games-n-apps/frame':
-              return host + "/pages/iframe?url=" + encodeURIComponent("/");
-            case 'us4://games-n-apps/full':
-              return host + "/pages/iframe2?url=" + encodeURIComponent("/");
             default:
-              if (url.startsWith('us4://games-n-apps/frame')) {
-                const remainingPath = url.replace('us4://games-n-apps/frame', '');
-                return host + "/pages/iframe?url=" + encodeURIComponent(remainingPath);
-              }
-              if (url.startsWith('us4://games-n-apps/full')) {
-                const remainingPath = url.replace('us4://games-n-apps/full', '');
-                return host + "/pages/iframe2?url=" + encodeURIComponent(remainingPath);
-              }
               return url;
           }
         } catch (e) {
@@ -464,12 +458,6 @@
 											
 											
 											
-											
-											
-											
-											
-											
-											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -500,12 +488,6 @@
 											
 											
 											
-											
-											
-											
-											
-											
-											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -526,12 +508,6 @@
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
         newTab.innerHTML = `Settings
-											
-											
-											
-											
-											
-											
 											
 											
 											
@@ -573,33 +549,33 @@
       });
       const proxyPrefix = "/static/embed.html#";
       //unprxy
-      function unproxifyUrl(docHref) {
+      function getUnproxifiedUrl(proxifiedUrl) {
         try {
-          const hostPrefix = "https://" + window.location.hostname;
-          if (docHref.startsWith(hostPrefix + "/pages/iframe2")) {
-            const remainingPath = docHref.replace(hostPrefix + "/pages/iframe2", "");
-            return "us4://games-n-apps/full" + remainingPath;
-          }
-          if (docHref.startsWith(hostPrefix + "/pages/iframe")) {
-            const remainingPath = docHref.replace(hostPrefix + "/pages/iframe", "");
-            return "us4://games-n-apps/frame" + remainingPath;
+          const hostPrefix = "https://" + window.location.hostname + "/static/embed#";
+          const staticLoadPrefix = "https://" + window.location.hostname + "/static/load/";
+          const iframe = document.querySelector('.tab-iframe.active');
+          const docHref = iframe.contentWindow.location.href;
+          if (docHref.startsWith(staticLoadPrefix)) {
+            const path = docHref.replace(staticLoadPrefix, "");
+            const decodedUrl = __uv$config.decodeUrl(path);
+            return new URL(decodedUrl);
           }
           switch (docHref) {
-            case hostPrefix + "/static/index.html":
+            case "https://" + window.location.hostname + "/static/index.html":
               return "us4://new-tab-page";
-            case hostPrefix + "/pages/prox/settings":
+            case "https://" + window.location.hostname + "/pages/prox/settings":
               return "us4://settings";
-            case hostPrefix + "/pages/games":
+            case "https://" + window.location.hostname + "/pages/games":
               return "us4://games";
-            case hostPrefix + "/static/load/hvtrs8%2F-hgaptkvg-ws6.raeeq.fet":
+            case "https://" + window.location.hostname + "/static/load/heartive":
               return "us4://movies";
-            case hostPrefix + "/pages/apps":
+            case "https://" + window.location.hostname + "/pages/apps":
               return "us4://apps";
-            case hostPrefix + "/pages/partners":
+            case "https://" + window.location.hostname + "/pages/partners":
               return "us4://partners";
-            case hostPrefix + "/pages/credits":
+            case "https://" + window.location.hostname + "/pages/credits":
               return "us4://credits";
-            case hostPrefix + "/pages/extra":
+            case "https://" + window.location.hostname + "/pages/extra":
               return "us4://extra";
             default:
               if (docHref.startsWith(hostPrefix)) {
@@ -608,7 +584,7 @@
               return decodeURI(docHref);
           }
         } catch (e) {
-          console.error("Error unproxifying URL:", e);
+          console.error('Error unproxifying URL:', e);
           return docHref;
         }
       }
@@ -664,21 +640,9 @@
 											
 											
 											
-											
-											
-											
-											
-											
-											
 											<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">
           ${title}
           
-												
-												
-												
-												
-												
-												
 												
 												
 												
@@ -712,55 +676,6 @@
         }
       }, 500);
       //param
-      document.addEventListener("DOMContentLoaded", () => {
-        const link = new URLSearchParams(window.location.search).get('link');
-        if (link) {
-          const startingtab = document.querySelector('.tab-iframe');
-          if (startingtab) {
-            startingtab.src = `/static/load/${__uv$config.encodeUrl(link)}`;
-            startingtab.onload = () => {
-              updateSearchBar(startingtab);
-              updateTabName(startingtab);
-            };
-          }
-        }
-      });
-
-      function setIframe(url, name) {
-        const activeTab = document.querySelector('.tab.active');
-        const tabIndex = Array.from(document.querySelectorAll('.tab')).indexOf(activeTab);
-        const activeIframe = document.querySelectorAll('.tab-iframe')[tabIndex];
-        if (activeTab && activeIframe) {
-          activeTab.remove();
-          activeIframe.remove();
-        }
-        tabCount++;
-        const tabsContainer = document.getElementById('tabs');
-        const newTab = document.createElement('div');
-        newTab.classList.add('tab');
-        newTab.innerHTML = `${name}
-											
-											
-											
-											
-											
-												
-												
-												
-												
-												<span class="close-button" onclick="closeTab(event)">×</span>`;
-        newTab.addEventListener("click", () => selectTab(newTab));
-        tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
-        const iframe = document.createElement('iframe');
-        iframe.classList.add('tab-iframe');
-        iframe.src = url;
-        iframe.onload = function() {
-          updateSearchBar(iframe);
-          updateTabName(iframe);
-        };
-        document.getElementById('content-wrapper').appendChild(iframe);
-        selectTab(newTab);
-      }
       document.addEventListener("DOMContentLoaded", () => {
         const link = new URLSearchParams(window.location.search).get('link');
         if (link) {
