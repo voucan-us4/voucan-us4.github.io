@@ -412,13 +412,13 @@
       function getUnproxifiedUrl(proxifiedUrl) {
         try {
           const hostPrefix = "https://" + window.location.hostname + "/static/embed#";
-          const staticLoadPrefix = "https://" + window.location.hostname + "/static/load/";
+          const staticLoadPrefix = window.location.hostname + "/static/load/";
           const iframe = document.querySelector('.tab-iframe.active');
           const docHref = iframe.contentWindow.location.href;
           if (docHref.startsWith(staticLoadPrefix)) {
             const path = docHref.replace(staticLoadPrefix, "");
             const decodedUrl = __uv$config.decodeUrl(path);
-            return new URL(decodedUrl).hostname;
+            return new URL(decodedUrl);
           }
           switch (docHref) {
             case "https://" + window.location.hostname + "/static/index.html":
