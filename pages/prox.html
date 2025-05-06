@@ -301,24 +301,24 @@
       <iframe class="tab-iframe active" src="/static/index.html"></iframe>
     </div>
     <div class="lower-navbar">
-      <button class="nav-btn" onclick="loadIframe('/pages/games')">
-        <i class="fas fa-gamepad"></i>
-      </button>
-      <button class="nav-btn" onclick="loadIframe('/static/embed#https://heartive-us4.pages.dev')">
-        <i class="fa-solid fa-video"></i>
-      </button>
-      <button class="nav-btn" onclick="loadIframe('/pages/apps')">
-        <i class="fa-sharp fa-solid fa-layer-group"></i>
-      </button>
-      <button class="nav-btn" onclick="loadIframe('/pages/partners')">
-        <i class="fa-solid fa-users"></i>
-      </button>
-      <button class="nav-btn" onclick="loadIframe('/pages/credits')">
-        <i class="fa-solid fa-book"></i>
-      </button>
-      <button class="nav-btn center-btn" onclick="loadIframe('/pages/extra')">
-        <i class="fas fa-plus"></i>
-      </button>
+<button class="nav-btn" onclick="document.querySelector('.tab-iframe.active').src = '/pages/games'">
+  <i class="fas fa-gamepad"></i>
+</button>
+<button class="nav-btn" onclick="document.querySelector('.tab-iframe.active').src = '/static/embed#https://heartive-us4.pages.dev'">
+  <i class="fa-solid fa-video"></i>
+</button>
+<button class="nav-btn" onclick="document.querySelector('.tab-iframe.active').src = '/pages/apps'">
+  <i class="fa-sharp fa-solid fa-layer-group"></i>
+</button>
+<button class="nav-btn" onclick="document.querySelector('.tab-iframe.active').src = '/pages/partners'">
+  <i class="fa-solid fa-users"></i>
+</button>
+<button class="nav-btn" onclick="document.querySelector('.tab-iframe.active').src = '/pages/credits'">
+  <i class="fa-solid fa-book"></i>
+</button>
+<button class="nav-btn center-btn" onclick="document.querySelector('.tab-iframe.active').src = '/pages/extra'">
+  <i class="fas fa-plus"></i>
+</button>
     </div>
     <script>
       let tabCount = 1;
@@ -679,16 +679,6 @@
           }
         }
       });
-
-      function loadIframe(src) {
-        const iframe = document.querySelector('.tab-iframe.active');
-        if (!iframe) return;
-        iframe.src = src;
-        iframe.onload = () => {
-          updateSearchBar(iframe);
-          updateTabName(iframe);
-        };
-      }
     </script>
     <script src="/storage/js/prox-settings.js"></script>
     <script src="/storage/js/notify.js"></script>
