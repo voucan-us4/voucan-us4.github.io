@@ -470,7 +470,7 @@
               const path = docHref.replace(staticLoadPrefix, "");
               let host;
               try {
-                host = new URL("https://" + __uv$config.decodeUrl(path));
+                host = new URL(__uv$config.decodeUrl(path));
               } catch {
                 host = new URL("https://voucan-us4.github.io");
               }
