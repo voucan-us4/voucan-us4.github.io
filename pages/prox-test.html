@@ -297,6 +297,7 @@
 											
 											
 											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -357,7 +358,8 @@
 											
 											
 												
-												<span class="close-button" onclick="closeTab(event)">×</span>`;
+												
+											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
         const iframe = document.createElement('iframe');
@@ -434,17 +436,20 @@
           const tabIndex = Array.from(document.querySelectorAll('.tab-iframe')).indexOf(iframe);
           const tab = document.querySelectorAll('.tab')[tabIndex];
           if (tab) {
+            let foundurl = getUnproxifiedUrl(iframe.src);
             let url;
             try {
-              url = getUnproxifiedUrl(iframe.src);
+              url = new URL(foundurl);
             } catch {
-              url = {
-                origin: '',
-                hostname: 'https://voucan-us4.github.io'
-              };
+              url = new URL("https://voucan-us4.github.io");
             }
-            const faviconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url.origin || 'https://voucan-us4.github.io'}&size=16`;
-            let title = iframe.contentWindow.document.title || url.hostname || 'New Tab';
+            const faviconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url.origin}&size=16`;
+            let title = '';
+            try {
+              title = iframe.contentWindow.document.title || url.hostname;
+            } catch {
+              title = url.hostname || 'New Tab';
+            }
             if (title.length > 18) {
               title = title.substring(0, 15) + '...';
             }
@@ -453,7 +458,8 @@
 											<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">
         ${title}
         
-												<span class="close-button" onclick="closeTab(event)">×</span>`;
+												<span class="close-button" onclick="closeTab(event)">×</span>
+      `;
           }
         }, 500);
       }
