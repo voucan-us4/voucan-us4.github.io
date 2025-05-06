@@ -360,6 +360,7 @@
 											
 											
 											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -387,6 +388,7 @@
           selectTab(previousTab);
         }
       }
+
       function internal(url) {
         try {
           const host = "https://" + window.location.hostname;
@@ -465,6 +467,7 @@
 											
 											
 											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -499,6 +502,7 @@
 											
 											
 											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -519,6 +523,7 @@
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
         newTab.innerHTML = `Settings
+											
 											
 											
 											
@@ -564,42 +569,44 @@
       });
       const proxyPrefix = "/static/embed.html#";
       //unprxy
-      try {
-        const hostPrefix = "https://" + window.location.hostname;
-        if (docHref.startsWith(hostPrefix + "/pages/iframe2")) {
-          const remainingPath = docHref.replace(hostPrefix + "/pages/iframe2", "");
-          return "us4://games-n-apps/full" + remainingPath;
+      function unproxifyUrl(docHref) {
+        try {
+          const hostPrefix = "https://" + window.location.hostname;
+          if (docHref.startsWith(hostPrefix + "/pages/iframe2")) {
+            const remainingPath = docHref.replace(hostPrefix + "/pages/iframe2", "");
+            return "us4://games-n-apps/full" + remainingPath;
+          }
+          if (docHref.startsWith(hostPrefix + "/pages/iframe")) {
+            const remainingPath = docHref.replace(hostPrefix + "/pages/iframe", "");
+            return "us4://games-n-apps/frame" + remainingPath;
+          }
+          switch (docHref) {
+            case hostPrefix + "/static/index.html":
+              return "us4://new-tab-page";
+            case hostPrefix + "/pages/prox/settings":
+              return "us4://settings";
+            case hostPrefix + "/pages/games":
+              return "us4://games";
+            case hostPrefix + "/static/load/hvtrs8%2F-hgaptkvg-ws6.raeeq.fet":
+              return "us4://movies";
+            case hostPrefix + "/pages/apps":
+              return "us4://apps";
+            case hostPrefix + "/pages/partners":
+              return "us4://partners";
+            case hostPrefix + "/pages/credits":
+              return "us4://credits";
+            case hostPrefix + "/pages/extra":
+              return "us4://extra";
+            default:
+              if (docHref.startsWith(hostPrefix)) {
+                return decodeURI(docHref.replace(hostPrefix, ""));
+              }
+              return decodeURI(docHref);
+          }
+        } catch (e) {
+          console.error("Error unproxifying URL:", e);
+          return docHref;
         }
-        if (docHref.startsWith(hostPrefix + "/pages/iframe")) {
-          const remainingPath = docHref.replace(hostPrefix + "/pages/iframe", "");
-          return "us4://games-n-apps/frame" + remainingPath;
-        }
-        switch (docHref) {
-          case hostPrefix + "/static/index.html":
-            return "us4://new-tab-page";
-          case hostPrefix + "/pages/prox/settings":
-            return "us4://settings";
-          case hostPrefix + "/pages/games":
-            return "us4://games";
-          case hostPrefix + "/static/load/hvtrs8%2F-hgaptkvg-ws6.raeeq.fet":
-            return "us4://movies";
-          case hostPrefix + "/pages/apps":
-            return "us4://apps";
-          case hostPrefix + "/pages/partners":
-            return "us4://partners";
-          case hostPrefix + "/pages/credits":
-            return "us4://credits";
-          case hostPrefix + "/pages/extra":
-            return "us4://extra";
-          default:
-            if (docHref.startsWith(hostPrefix)) {
-              return decodeURI(docHref.replace(hostPrefix, ""));
-            }
-            return decodeURI(docHref);
-        }
-      } catch (e) {
-        console.error("Error unproxifying URL:", e);
-        return docHref;
       }
       //updsb
       function updateSearchBar(iframe) {
@@ -657,9 +664,11 @@
 											
 											
 											
+											
 											<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">
           ${title}
           
+												
 												
 												
 												
@@ -729,6 +738,7 @@
 											
 											
 											
+												
 												
 												
 												<span class="close-button" onclick="closeTab(event)">×</span>`;
