@@ -405,6 +405,8 @@
               return "us4://extra";
             case "https://" + window.location.hostname + "/pages/data":
               return "us4://data";
+            case "https://" + window.location.hostname + "/pages/extra/data-use":
+              return "us4://data-usage";
             default:
               return url;
           }
@@ -571,6 +573,8 @@
               return "us4://extra";
             case "https://" + window.location.hostname + "/pages/data":
               return "us4://data";
+            case "https://" + window.location.hostname + "/pages/extra/data-use":
+              return "us4://data-usage";
             default:
               if (docHref.startsWith(hostPrefix)) {
                 return decodeURI(docHref.replace(hostPrefix, ""));
