@@ -25,8 +25,7 @@
 
     <div id="search-container">
         <form id="uv-form">
-            <input id="uv-search-engine" value="https://duckduckgo.com/?q=%s" type="hidden"/>
-            <input id="uv-address" type="text" class="search-bar-home" placeholder="Search or enter a URL" />
+            <input id="search-input" type="text" class="search-bar-home" placeholder="Search or enter a URL" />
             <button id="search-button" onclick="submitSearch()">SEARCH <i class="fa-solid fa-magnifying-glass"></i></button>
         </form>
 
@@ -70,5 +69,14 @@
 
     regsw();
     </script>
+<script>
+      function search() {
+        const input = document.getElementById('search-input').value.trim();
+        if (input && iframe) {
+          const url = input.startsWith('http') ? input : `https://duckduckgo.com/?q=${encodeURIComponent(input)}`;
+          iframe.src = `/static/embed#${url}`;
+        }
+      }
+</script>
 </body>
 </html>
