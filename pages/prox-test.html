@@ -341,7 +341,7 @@
 
       function home() {
         const iframe = document.querySelector('.tab-iframe.active');
-        iframe.src = '/static/';
+        iframe.src = '/static/index.html';
         iframe.onload = function() {
           updateSearchBar(iframe);
           updateTabName(iframe);
