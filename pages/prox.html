@@ -14,18 +14,6 @@
       gtag('js', new Date());
       gtag('config', 'G-K8CCSDNPV3');
     </script>
-<script>
-  function updateTabContent(url) {
-    const iframe = document.querySelector('.tab-iframe.active');
-    
-    iframe.src = url;
-    
-    updateSearchBar(iframe);
-    
-    updateTabName(iframe);
-    
-  }
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:title" content="US4 | Prоxy">
@@ -34,7 +22,7 @@
     <title>Home</title>
     <link rel="icon" href="/storage/images/googleclassroom.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<style>
+    <style>
       * {
         margin: 0;
         padding: 0;
@@ -309,29 +297,28 @@
     <div class="content-wrapper" id="content-wrapper">
       <iframe class="tab-iframe active" src="/static/index.html"></iframe>
     </div>
-<div class="lower-navbar">
-  <button class="nav-btn" onclick="updateTabContent('/pages/games')">
-    <i class="fas fa-gamepad"></i>
-  </button>
-  <button class="nav-btn" onclick="updateTabContent('/static/embed#https://heartive-us4.pages.dev')">
-    <i class="fa-solid fa-video"></i>
-  </button>
-  <button class="nav-btn" onclick="updateTabContent('/pages/apps')">
-    <i class="fa-sharp fa-solid fa-layer-group"></i>
-  </button>
-  <button class="nav-btn" onclick="updateTabContent('/pages/partners')">
-    <i class="fa-solid fa-users"></i>
-  </button>
-  <button class="nav-btn" onclick="updateTabContent('/pages/credits')">
-    <i class="fa-solid fa-book"></i>
-  </button>
-  <button class="nav-btn" onclick="updateTabContent('/pages/extra')">
-    <i class="fas fa-plus"></i>
-  </button>
-</div>
-
-<script>
-  let tabCount = 1;
+    <div class="lower-navbar">
+      <button class="nav-btn" onclick="setIframe('/pages/games', 'Games')">
+        <i class="fas fa-gamepad"></i>
+      </button>
+      <button class="nav-btn" onclick="setIframe('/static/embed#https://heartive-us4.pages.dev', 'Movies')">
+        <i class="fa-solid fa-video"></i>
+      </button>
+      <button class="nav-btn" onclick="setIframe('/pages/apps', 'Apps')">
+        <i class="fa-sharp fa-solid fa-layer-group"></i>
+      </button>
+      <button class="nav-btn" onclick="setIframe('/pages/partners', 'Partners')">
+        <i class="fa-solid fa-users"></i>
+      </button>
+      <button class="nav-btn" onclick="setIframe('/pages/credits', 'Credits')">
+        <i class="fa-solid fa-book"></i>
+      </button>
+      <button class="nav-btn" onclick="setIframe('/pages/extra', 'Extra')">
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+    <script>
+      let tabCount = 1;
 
       function selectTab(tab) {
         document.querySelectorAll('.tab, .tab-iframe').forEach(el => el.classList.remove('active'));
@@ -350,6 +337,7 @@
         newTab.classList.add('tab');
         newTab.innerHTML = `New Tab 
                         
+											
 											
 											
 											
@@ -458,6 +446,7 @@
 											
 											
 											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -488,6 +477,7 @@
 											
 											
 											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -508,6 +498,7 @@
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
         newTab.innerHTML = `Settings
+											
 											
 											
 											
@@ -640,9 +631,11 @@
 											
 											
 											
+											
 											<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">
           ${title}
           
+												
 												
 												
 												
@@ -689,6 +682,30 @@
           }
         }
       });
+
+      function setIframe(url, name) {
+        tabCount++;
+        const tabsContainer = document.getElementById('tabs');
+        const newTab = document.createElement('div');
+        newTab.classList.add('tab');
+        newTab.innerHTML = `${name}
+											
+											
+											
+											
+												<span class="close-button" onclick="closeTab(event)">×</span>`;
+        newTab.addEventListener("click", () => selectTab(newTab));
+        tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
+        const iframe = document.createElement('iframe');
+        iframe.classList.add('tab-iframe');
+        iframe.src = url;
+        iframe.onload = function() {
+          updateSearchBar(iframe);
+          updateTabName(iframe);
+        };
+        document.getElementById('content-wrapper').appendChild(iframe);
+        selectTab(newTab);
+      }
     </script>
     <script src="/storage/js/prox-settings.js"></script>
     <script src="/storage/js/notify.js"></script>
