@@ -301,28 +301,40 @@
     <div class="content-wrapper" id="content-wrapper">
       <iframe class="tab-iframe active" src="/static/index.html"></iframe>
     </div>
-    <div class="lower-navbar">
-<button class="nav-btn" onclick="document.querySelector('.tab-iframe.active').src = '/pages/games'">
-  <i class="fas fa-gamepad"></i>
-</button>
-<button class="nav-btn" onclick="document.querySelector('.tab-iframe.active').src = '/static/embed#https://heartive-us4.pages.dev'">
-  <i class="fa-solid fa-video"></i>
-</button>
-<button class="nav-btn" onclick="document.querySelector('.tab-iframe.active').src = '/pages/apps'">
-  <i class="fa-sharp fa-solid fa-layer-group"></i>
-</button>
-<button class="nav-btn" onclick="document.querySelector('.tab-iframe.active').src = '/pages/partners'">
-  <i class="fa-solid fa-users"></i>
-</button>
-<button class="nav-btn" onclick="document.querySelector('.tab-iframe.active').src = '/pages/credits'">
-  <i class="fa-solid fa-book"></i>
-</button>
-<button class="nav-btn center-btn" onclick="document.querySelector('.tab-iframe.active').src = '/pages/extra'">
-  <i class="fas fa-plus"></i>
-</button>
-    </div>
-    <script>
-      let tabCount = 1;
+<div class="lower-navbar">
+  <button class="nav-btn" onclick="updateTabContent('/pages/games')">
+    <i class="fas fa-gamepad"></i>
+  </button>
+  <button class="nav-btn" onclick="updateTabContent('/static/embed#https://heartive-us4.pages.dev')">
+    <i class="fa-solid fa-video"></i>
+  </button>
+  <button class="nav-btn" onclick="updateTabContent('/pages/apps')">
+    <i class="fa-sharp fa-solid fa-layer-group"></i>
+  </button>
+  <button class="nav-btn" onclick="updateTabContent('/pages/partners')">
+    <i class="fa-solid fa-users"></i>
+  </button>
+  <button class="nav-btn" onclick="updateTabContent('/pages/credits')">
+    <i class="fa-solid fa-book"></i>
+  </button>
+  <button class="nav-btn center-btn" onclick="updateTabContent('/pages/extra')">
+    <i class="fas fa-plus"></i>
+  </button>
+</div>
+
+<script>
+  let tabCount = 1;
+
+  function updateTabContent(url) {
+    const iframe = document.querySelector('.tab-iframe.active');
+    
+    iframe.src = url;
+    
+    updateSearchBar(iframe);
+    
+    updateTabName(iframe);
+    
+  }
 
       function selectTab(tab) {
         document.querySelectorAll('.tab, .tab-iframe').forEach(el => el.classList.remove('active'));
