@@ -54,5 +54,5 @@ function createNotification(message) {
 }
 
 window.onload = () => {
-    createNotification('6th grader 🧠  leak is crazy - Big Prоxy')
+    createNotification('Prоxy Update; ')
 };
