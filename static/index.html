@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-K8CCSDNPV3"></script>
     <script>
@@ -17,17 +16,18 @@
 </head>
 <body>
 
-    <script src="/particles.js"></script>
-    <script src="/app.js"></script>
-    <div id="particles-js"></div>
+<script src="/particles.js"></script>
+  <script src="/app.js"></script>
+<div id="particles-js"></div>
 
     <h1>US4</h1>
     <p id="dynamicParagraph">(TEXT)</p>
 
     <div id="search-container">
-        <form id="form" onsubmit="search(); return false;">
-            <input id="search-input" type="text" class="search-bar-home" placeholder="Search or enter a URL" aria-label="Search or enter a URL" />
-            <button type="submit" id="search-button">SEARCH <i class="fa-solid fa-magnifying-glass"></i></button>
+        <form id="uv-form">
+            <input id="uv-search-engine" value="https://duckduckgo.com/?q=%s" type="hidden"/>
+            <input id="uv-address" type="text" class="search-bar-home" placeholder="Search or enter a URL" />
+            <button id="search-button" onclick="submitSearch()">SEARCH <i class="fa-solid fa-magnifying-glass"></i></button>
         </form>
 
         <div class="desc left-margin">
@@ -41,14 +41,13 @@
     <script src="/static/register-sw.js" defer></script>
     <script src="/static/search.js" defer></script>
     <script src="/static/index.js" defer></script>
-    <script type="text/javascript" src="/storage/js/background.js" defer></script>
 
     <script>
         const phrases = [
             "us5 when",
             "credits to brunys for the proxy stuff",
             "idk",
-            "there is a nuclear bomb heading for your location. please seek shelter immediately"
+            "there is a nuclear bomb heading for your location. please seek shelter immediately",
         ];
 
         const paragraph = document.getElementById('dynamicParagraph');
@@ -60,31 +59,16 @@
 
         paragraph.addEventListener('click', changeText);
         window.onload = changeText;
-
-        async function regsw() {
-            await navigator.serviceWorker.register("/static/uv-sw.js", {
-                scope: "/static/"
-            });
-        }
-
-        regsw();
-
-        function search() {
-            const input = document.getElementById('search-input').value.trim();
-            if (input) {
-                const url = input.startsWith('http') ? input : `https://duckduckgo.com/?q=${encodeURIComponent(input)}`;
-                window.location.href = `/static/embed#${url}`;
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            document.getElementById("search-input").addEventListener("keydown", (e) => {
-                if (e.key === "Enter") {
-                    e.preventDefault();
-                    search();
-                }
-            });
+    </script>
+    <script type="text/javascript" src="/storage/js/background.js"></script>
+    <script>
+    async function regsw(){
+        await navigator.serviceWorker.register("/static/uv-sw.js", {
+            scope: "/static/",
         });
+    }
+
+    regsw();
     </script>
 </body>
 </html>
