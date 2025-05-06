@@ -282,6 +282,10 @@
         tab.classList.add('active');
         const tabIndex = Array.from(tab.parentNode.children).indexOf(tab);
         document.querySelectorAll('.tab-iframe')[tabIndex].classList.add('active');
+        iframe.onload = function() {
+          updateSearchBar(iframe);
+          updateTabName(iframe);
+        };
       }
 
       function addTab() {
