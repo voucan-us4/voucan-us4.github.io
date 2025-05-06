@@ -54,5 +54,5 @@ function createNotification(message) {
 }
 
 window.onload = () => {
-    createNotification('Prоxy Update; ')
+    createNotification('US4 is now tabbed')
 };
