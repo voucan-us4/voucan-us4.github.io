@@ -412,7 +412,7 @@
       function getUnproxifiedUrl(proxifiedUrl) {
         try {
           const hostPrefix = "https://" + window.location.hostname + "/static/embed#";
-          const staticLoadPrefix = window.location.hostname + "/static/load/";
+          const staticLoadPrefix = "https://" + window.location.hostname + "/static/load/";
           const iframe = document.querySelector('.tab-iframe.active');
           const docHref = iframe.contentWindow.location.href;
           if (docHref.startsWith(staticLoadPrefix)) {
@@ -457,8 +457,13 @@
           const tabIndex = Array.from(document.querySelectorAll('.tab-iframe')).indexOf(iframe);
           const tab = document.querySelectorAll('.tab')[tabIndex];
           if (tab) {
-            let foundurl = getUnproxifiedUrl(iframe.src);
-            let host = foundurl.hostname
+          const hostPrefix = "https://" + window.location.hostname + "/static/embed#";
+          const staticLoadPrefix = window.location.hostname + "/static/load/";
+          const iframe = document.querySelector('.tab-iframe.active');
+          const docHref = iframe.contentWindow.location.href;
+          if (docHref.startsWith(staticLoadPrefix)) {
+            const path = docHref.replace(staticLoadPrefix, "");
+            const host = __uv$config.decodeUrl(path).hostname;
             let url;
             try {
               url = new URL(host);
