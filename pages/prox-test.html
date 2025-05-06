@@ -325,35 +325,6 @@
         }
       }
 
-      function updateTabName(iframe) {
-        setTimeout(() => {
-          const tabIndex = Array.from(document.querySelectorAll('.tab-iframe')).indexOf(iframe);
-          const tab = document.querySelectorAll('.tab')[tabIndex];
-          if (tab) {
-            let url;
-            try {
-              url = getUnproxifiedUrl(iframe.src);
-            } catch {
-              url = {
-                origin: '',
-                hostname: 'https://voucan-us4.github.io'
-              };
-            }
-            const faviconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url.origin || 'https://voucan-us4.github.io'}&size=16`;
-            let title = iframe.contentWindow.document.title || url.hostname || 'New Tab';
-            if (title.length > 18) {
-              title = title.substring(0, 15) + '...';
-            }
-            tab.innerHTML = `
-        
-											<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">
-        ${title}
-        
-												<span class="close-button" onclick="closeTab(event)">×</span>`;
-          }
-        }, 500);
-      }
-
       function search() {
         const input = document.getElementById('search-input').value.trim();
         const iframe = document.querySelector('.tab-iframe.active');
@@ -456,6 +427,35 @@
         } catch (e) {
           console.error('Error updating search bar:', e);
         }
+      }
+
+      function updateTabName(iframe) {
+        setTimeout(() => {
+          const tabIndex = Array.from(document.querySelectorAll('.tab-iframe')).indexOf(iframe);
+          const tab = document.querySelectorAll('.tab')[tabIndex];
+          if (tab) {
+            let url;
+            try {
+              url = getUnproxifiedUrl(iframe.src);
+            } catch {
+              url = {
+                origin: '',
+                hostname: 'https://voucan-us4.github.io'
+              };
+            }
+            const faviconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url.origin || 'https://voucan-us4.github.io'}&size=16`;
+            let title = iframe.contentWindow.document.title || url.hostname || 'New Tab';
+            if (title.length > 18) {
+              title = title.substring(0, 15) + '...';
+            }
+            tab.innerHTML = `
+        
+											<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">
+        ${title}
+        
+												<span class="close-button" onclick="closeTab(event)">×</span>`;
+          }
+        }, 500);
       }
     </script>
     <script src="/storage/js/prox-settings.js"></script>
