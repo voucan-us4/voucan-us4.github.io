@@ -312,6 +312,7 @@
 											
 											
 											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -385,7 +386,8 @@
         const tabsContainer = document.getElementById('tabs');
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
-        newTab.innerHTML = `New Tab<span class="close-button" onclick="closeTab(event)">×</span>`;
+        newTab.innerHTML = `New Tab
+											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
         const iframe = document.createElement('iframe');
@@ -411,7 +413,8 @@
         const tabsContainer = document.getElementById('tabs');
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
-        newTab.innerHTML = `Settings<span class="close-button" onclick="closeTab(event)">×</span>`;
+        newTab.innerHTML = `Settings
+											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
         const iframe = document.createElement('iframe');
@@ -430,7 +433,8 @@
         const tabsContainer = document.getElementById('tabs');
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
-        newTab.innerHTML = `Settings<span class="close-button" onclick="closeTab(event)">×</span>`;
+        newTab.innerHTML = `Settings
+											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
         const iframe = document.createElement('iframe');
@@ -467,7 +471,7 @@
         });
       });
       const proxyPrefix = "/static/embed.html#";
-
+//unprxy
       function getUnproxifiedUrl(proxifiedUrl) {
         try {
           const hostPrefix = "https://" + window.location.hostname + "/static/embed#";
@@ -495,7 +499,7 @@
           return docHref;
         }
       }
-
+//updsb
       function updateSearchBar(iframe) {
         try {
           let rawUrl = iframe.src;
@@ -510,7 +514,7 @@
           console.error('Error updating search bar:', e);
         }
       }
-
+//tabft
       function updateTabName(iframe) {
         setTimeout(() => {
           const tabIndex = Array.from(document.querySelectorAll('.tab-iframe')).indexOf(iframe);
@@ -543,9 +547,11 @@
 											
 											
 											
+											
 											<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">
           ${title}
           
+												
 												
 												
 												
@@ -557,7 +563,7 @@
           }
         }, 500);
       }
-
+//searchbar engage check
       function engaged() {
         const input = document.getElementById('search-input');
         return document.activeElement === input || input.matches(':hover');
@@ -574,6 +580,20 @@
           console.warn('Unable to access iframe location:', e);
         }
       }, 500);
+//param
+      document.addEventListener("DOMContentLoaded", () => {
+        const link = new URLSearchParams(window.location.search).get('link');
+        if (link) {
+          const startingtab = document.querySelector('.tab-iframe');
+          if (startingtab) {
+            startingtab.src = `/static/load/${__uv$config.encodeUrl(link)}`;
+            startingtab.onload = () => {
+              updateSearchBar(startingtab);
+              updateTabName(startingtab);
+            };
+          }
+        }
+      });
     </script>
     <script src="/storage/js/prox-settings.js"></script>
     <script src="/storage/js/notify.js"></script>
