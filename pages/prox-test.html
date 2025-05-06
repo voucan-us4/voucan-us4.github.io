@@ -307,6 +307,7 @@
 											
 											
 											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -368,6 +369,7 @@
 											
 												
 												
+											
 											
 											
 											
@@ -464,14 +466,13 @@
             const docHref = iframe.contentWindow.location.href;
             if (docHref.startsWith(staticLoadPrefix)) {
               const path = docHref.replace(staticLoadPrefix, "");
-              const host = "https://" + __uv$config.decodeUrl(path);
-              let url;
+              let host;
               try {
-                url = new URL(host);
+                host = new URL("https://" + __uv$config.decodeUrl(path));
               } catch {
-                url = new URL("https://voucan-us4.github.io");
+                host = new URL("https://voucan-us4.github.io");
               }
-              const faviconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url.origin}&size=16`;
+              const faviconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${host.origin}&size=16`;
               let title = '';
               try {
                 title = iframe.contentWindow.document.title || url.hostname;
@@ -483,9 +484,11 @@
               }
               tab.innerHTML = `
           
+											
 											<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">
           ${title}
           
+												
 												<span class="close-button" onclick="closeTab(event)">×</span>
         `;
             }
