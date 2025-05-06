@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-K8CCSDNPV3"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -16,205 +16,702 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="icon" href="storage/images/googleclassroom.png" type="image/png">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="/storage/css/index.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap" rel="stylesheet">
-</head>
-<body>
+    <link rel="icon" href="/storage/images/googleclassroom.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Comfortaa', sans-serif;
+        font-weight: bold;
+      }
 
-<script src="/particles.js"></script>
-  <script src="/app.js"></script>
-<div id="particles-js"></div>
+      body,
+      html {
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        background-color: black;
+      }
 
-<div class="navbar">
-    <div class="left-side">
-        <a href="/">
-            <img src="/storage/images/logo.png" alt="logo">
-        </a>
+      .tabs {
+        display: flex;
+        align-items: center;
+        background: #1d1d1d;
+        padding: 2px 5px;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1200;
+        justify-content: flex-start;
+        overflow-x: auto;
+        overflow-y: hidden;
+        max-height: 40px;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .tab {
+        display: flex;
+        align-items: center;
+        padding: 3px 10px;
+        color: white;
+        cursor: pointer;
+        border-radius: 10px;
+        background-color: #1d1d1d;
+        border-right: 2px solid rgba(255, 255, 255, 0.3);
+        transition: background-color 0.3s;
+        flex-shrink: 0;
+        min-width: 100px;
+        max-width: 500px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        height: 40px;
+      }
+
+      .tab.active {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: white;
+      }
+
+      .tab:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+      }
+
+      .tab .close-button {
+        margin-left: 5px;
+        color: white;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      .add-tab-button {
+        padding: 15px;
+        cursor: pointer;
+        background: none;
+        color: white;
+        border: none;
+        outline: none;
+        font-size: 20px;
+        border-radius: 70px;
+      }
+
+      .add-tab-button:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .tabs::-webkit-scrollbar {
+        height: 8px;
+      }
+
+      .tabs::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+      }
+
+      .tabs::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 10px;
+        transition: background-color 0.3s ease-in-out;
+      }
+
+      .tabs::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.7);
+      }
+
+      .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #1d1d1d;
+        padding: 10px 5%;
+        color: white;
+        position: fixed;
+        top: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        z-index: 1100;
+        transition: transform 0.3s ease-in-out;
+        height: 45px;
+      }
+
+      .navbar-left,
+      .navbar-right {
+        display: flex;
+        gap: 10px;
+      }
+
+      .nav-btn {
+        text-decoration: none;
+        color: white;
+        font-size: 16px;
+        padding: 8px 15px;
+        border-radius: 70px;
+        background: none;
+        border: none;
+        transition: background-color 0.3s;
+        flex-grow: 1;
+        text-align: center;
+      }
+
+      .nav-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .search-bar-container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-left: 15px;
+      }
+
+      .search-bar {
+        flex-grow: 1;
+        padding: 10px;
+        border-radius: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        color: white;
+        font-size: 16px;
+        outline: none;
+        text-align: center;
+        height: 30px
+      }
+
+      .search-bar::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .search-bar:focus {
+        border-color: rgba(255, 255, 255, 0.5);
+        background: rgba(0, 0, 0, 0.5);
+      }
+
+      .content-wrapper {
+        flex-grow: 1;
+        overflow: hidden;
+        position: relative;
+        padding-top: 85px;
+        padding-bottom: 60px;
+        height: calc(100% - 145px);
+      }
+
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: none;
+        position: absolute;
+        /*padding-top: 1px; */
+        padding-bottom: 95px;
+        height: calc(100% - 45px);
+      }
+
+      iframe.active {
+        display: block;
+      }
+
+      .navbar.hidden,
+      .tabs.hidden {
+        transform: translateY(-200%);
+      }
+
+      .show-navbar-btn {
+        display: none;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 20px;
+      }
+
+      .show-navbar-btn.active {
+        display: block;
+      }
+
+      .lower-navbar {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        background: #1d1d1d;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        padding: 10px 0;
+        border-top: 2px solid rgba(255, 255, 255, 0.2);
+        z-index: 999;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="tabs" id="tabs">
+      <div class="tab active" onclick="selectTab(this)">New Tab <span class="close-button" onclick="closeTab(event)">×</span>
+      </div>
+      <button class="add-tab-button">+</button>
     </div>
-<div class="right-side">
-<script src="/storage/js/nav.js" defer></script>
-</div>
-</div>
-
-
-    <div class="game-title ">US4 | Random</div>
-    <div id="dynamicParagraph" class="games-title ">calculator</div>
-
-    <div class="game-grid " id="random">
+    <div class="navbar" id="navbar">
+      <div class="navbar-left">
+        <button onclick="home()" class="nav-btn">
+          <i class="fa fa-home"></i>
+        </button>
+        <button onclick="document.querySelector('.tab-iframe.active').contentWindow.history.back()" class="nav-btn">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <button onclick="document.querySelector('.tab-iframe.active').contentWindow.history.forward()" class="nav-btn">
+          <i class="fas fa-arrow-right"></i>
+        </button>
+        <button onclick="document.querySelector('.tab-iframe.active').contentWindow.location.reload()" class="nav-btn">
+          <i class="fas fa-redo"></i>
+        </button>
+      </div>
+      <div class="search-bar-container">
+        <input type="text" id="search-input" value="US4://new-tab-page" class="search-bar" placeholder="Search or enter a URL">
+      </div>
+      <div class="navbar-right">
+        <button onclick="inspect()" class="nav-btn">
+          <i class="fa fa-code"></i>
+        </button>
+        <button onclick="toggleFullscreen()" class="nav-btn">
+          <i class="fas fa-expand"></i>
+        </button>
+        <button onclick="settings()" class="nav-btn">
+          <i class="fa fa-cog"></i>
+        </button>
+      </div>
     </div>
-<!--     <div class="update-log-overlay" id="updateLog">
-        <div class="update-log-content">
-            <h2>Update Log</h2>
-            <p>Make sure to use link hub - voucan.github.io/link-hub</p>
-            <p>Version 1.8: Bug Fixes, Gamebar update</p>
-            <p>Version 1.78.2: More bug fixes, added osu (web)</p>
-            <p>Version 1.78.1: Bug Fixes, Removed Boredom V2</p>
-            <p>Version 1.78: ImageButtons now grow when you hover, Added Rooftop Snipers</p>
-            <p>Version 1.77: Added extprint3r (Extension disabler)</p>
-            <p>Version 1.76: Made the site look better, adapts to your background color</p>
-            <p>Version 1.75: Added customized background colors + Navbar update</p>
-        </div>
-    </div> -->
-
-<script>
-    const currentVersion = "1.8"; // Current version
-
-    window.onload = function() {
-        const storedVersion = localStorage.getItem('updateLogVersion');
-        if (storedVersion !== currentVersion) {
-            document.getElementById('updateLog').style.display = 'block';
-            document.querySelectorAll('.blur-content').forEach(function(element) {
-                element.classList.add('blur-content');
-            });
-        } else {
-            document.getElementById('updateLog').style.display = 'none';
-            document.querySelectorAll('.blur-content').forEach(function(element) {
-                element.classList.remove('blur-content');
-            });
-        }
-    };
-
-    document.getElementById('updateLog').addEventListener('click', function() {
-        if (!localStorage.getItem('firstVisit')) {
-            localStorage.setItem('firstVisit', 'true');
-
-            const container = document.createElement('div');
-            container.style.position = 'relative';
-            container.style.width = '100%';
-            container.style.height = '100%';
-
-            const closeButton = document.createElement('button');
-            closeButton.textContent = 'X';
-            closeButton.style.position = 'absolute';
-            closeButton.style.top = '10px';
-            closeButton.style.right = '10px';
-            closeButton.style.background = 'black';
-            closeButton.style.color = 'white';
-            closeButton.style.border = 'none';
-            closeButton.style.padding = '5px 10px';
-            closeButton.style.fontSize = '16px';
-            closeButton.style.cursor = 'pointer';
-            closeButton.style.borderRadius = '5px';
-
-            closeButton.addEventListener('click', function() {
-                container.parentElement.style.display = 'none';
-            });
-
-            const message = document.createElement('div');
-            message.textContent = 'Select Your Site Settings - You can edit this in the settings tab';
-            message.style.textAlign = 'center';
-            message.style.fontFamily = 'Comfortaa, sans-serif';
-            message.style.fontWeight = 'bold';
-            message.style.fontSize = '20px';
-            message.style.marginBottom = '10px';
-
-            const iframe = document.createElement('iframe');
-            iframe.src = '/pages/settings';
-            iframe.style.width = '100%';
-            iframe.style.height = 'calc(100% - 40px)';
-            iframe.style.border = 'none';
-            iframe.style.borderRadius = 'inherit';
-
-            container.appendChild(message);
-            container.appendChild(closeButton);
-            container.appendChild(iframe);
-
-            const updateLog = document.getElementById('updateLog');
-            updateLog.innerHTML = '';
-            updateLog.appendChild(container);
-        } else {
-            document.getElementById('updateLog').style.opacity = '0';
-            setTimeout(function() {
-                document.getElementById('updateLog').style.display = 'none';
-                document.querySelectorAll('.blur-content').forEach(function(element) {
-                    element.classList.remove('blur-content');
-                });
-            }, 500);
-            localStorage.setItem('updateLogVersion', currentVersion);
-        }
-    });
-</script>
-    <script src="/storage/js/splash-messages.js" defer></script>
-    <script type="text/javascript" src="storage/js/settings-1.js"></script>
-    <script type="text/javascript" src="storage/js/notify.js"></script>
-    <script type="text/javascript" src="/storage/js/background.js"></script>
-    <script type="text/javascript" src="/storage/js/resort.js"></script>
-    <script type="text/javascript" src="/storage/js/cheese-algorithm.js"></script>
-
-<!-- Ultraviolet -->
-    <script src="/static/uv/uv.bundle.js" defer></script>
-    <script src="/static/uv/uv.config.js" defer></script>
-    <script src="/static/register-sw.js" defer></script>
-    <script src="/static/search.js" defer></script>
-    <script src="/static/index.js" defer></script>
-
+    <div class="content-wrapper" id="content-wrapper">
+      <iframe class="tab-iframe active" src="/static/index.html"></iframe>
+    </div>
+    <div class="lower-navbar">
+      <button class="nav-btn" onclick="setIframe('/pages/games', 'Games')">
+        <i class="fas fa-gamepad"></i>
+      </button>
+      <button class="nav-btn" onclick="setIframe('/pages/heartive', 'Movies')">
+        <i class="fa-solid fa-video"></i>
+      </button>
+      <button class="nav-btn" onclick="setIframe('/pages/apps', 'Apps')">
+        <i class="fa-sharp fa-solid fa-layer-group"></i>
+      </button>
+      <button class="nav-btn" onclick="setIframe('/pages/partners', 'Partners')">
+        <i class="fa-solid fa-users"></i>
+      </button>
+      <button class="nav-btn" onclick="setIframe('/pages/credits', 'Credits')">
+        <i class="fa-solid fa-book"></i>
+      </button>
+      <button class="nav-btn" onclick="setIframe('/pages/extra', 'Extra')">
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
     <script>
-    async function regsw(){
-        await navigator.serviceWorker.register("/static/uv-sw.js", {
-            scope: "/static/",
-        });
-    }
+      let tabCount = 1;
 
-    regsw();
-    </script>
-<!-- Ultraviolet -->
+      function selectTab(tab) {
+        document.querySelectorAll('.tab, .tab-iframe').forEach(el => el.classList.remove('active'));
+        tab.classList.add('active');
+        const tabIndex = Array.from(tab.parentNode.children).indexOf(tab);
+        document.querySelectorAll('.tab-iframe')[tabIndex].classList.add('active');
+        const iframe = document.querySelector('.tab-iframe.active');
+        updateSearchBar(iframe);
+        updateTabName(iframe);
+      }
 
-<script>
+      function addTab() {
+        tabCount++;
+        const tabsContainer = document.getElementById('tabs');
+        const newTab = document.createElement('div');
+        newTab.classList.add('tab');
+        newTab.innerHTML = `New Tab 
+                        
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											<span class="close-button" onclick="closeTab(event)">×</span>`;
+        newTab.addEventListener("click", () => selectTab(newTab));
+        tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
+        const iframe = document.createElement('iframe');
+        iframe.classList.add('tab-iframe');
+        iframe.src = '/static/index.html';
+        iframe.onload = function() {
+          updateSearchBar(iframe);
+          updateTabName(iframe);
+        };
+        document.getElementById('content-wrapper').appendChild(iframe);
+        selectTab(newTab);
+      }
 
-const code = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a', 'Enter'];
-let currentKeyIndex = 0;
-
-document.addEventListener('keydown', (event) => {
-    if (event.key === code[currentKeyIndex]) {
-        currentKeyIndex++;
-        if (currentKeyIndex === code.length) {
-            window.location.pathname = "/pages/super-secret.html"
-            currentKeyIndex = 0;
+      function closeTab(event) {
+        event.stopPropagation();
+        const tab = event.target.closest('.tab');
+        const iframe = document.querySelectorAll('.tab-iframe')[Array.from(tab.parentNode.children).indexOf(tab)];
+        let previousTab = tab.previousElementSibling || tab.nextElementSibling;
+        tab.remove();
+        iframe.remove();
+        if (document.querySelectorAll('.tab').length === 0) {
+          addTab();
+        } else {
+          selectTab(previousTab);
         }
-    } else {
-        currentKeyIndex = 0;
-    }
-});
-</script>
+      }
 
-<script>
-async function getbuttons(url, count) {
-    const response = await fetch(url);
-    const text = await response.text();
-    const tempDoc = new DOMParser().parseFromString(text, 'text/html');
-    const buttons = Array.from(tempDoc.querySelectorAll('.game-button'));
-    return shuffle(buttons).slice(0, count);
-}
+      function internal(url) {
+        try {
+          switch (url) {
+            case 'us4://new-tab-page':
+              return home();
+            case 'us4://settings':
+              return settings2();
+            case "https://" + window.location.hostname + "/pages/games":
+              return "us4://games";
+            case "https://" + window.location.hostname + "/pages/heartive":
+              return "us4://movies";
+            case "https://" + window.location.hostname + "/pages/apps":
+              return "us4://apps";
+            case "https://" + window.location.hostname + "/pages/partners":
+              return "us4://partners";
+            case "https://" + window.location.hostname + "/pages/credits":
+              return "us4://credits";
+            case "https://" + window.location.hostname + "/pages/extra":
+              return "us4://extra";
+            default:
+              return url;
+          }
+        } catch (e) {
+          console.error('internal page failed:', e);
+          return url;
+        }
+      }
 
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
+      function search() {
+        const input = document.getElementById('search-input').value.trim();
+        const iframe = document.querySelector('.tab-iframe.active');
+        if (!input || !iframe) return;
+        const mapped = internal(input);
+        if (typeof mapped === 'function') {
+          mapped();
+        } else {
+          const isInternal = mapped === '/static/index.html' || mapped === '/pages/prox/settings';
+          iframe.src = isInternal ? mapped : `/static/embed#${mapped.startsWith('http') ? mapped : `https://duckduckgo.com/?q=${encodeURIComponent(mapped)}`}`;
+          iframe.onload = () => {
+            updateSearchBar(iframe);
+            updateTabName(iframe);
+          };
+        }
+      }
 
-function cloneElement(el) {
-    return el.cloneNode(true);
-}
+      function home() {
+        const activeTab = document.querySelector('.tab.active');
+        const tabIndex = Array.from(document.querySelectorAll('.tab')).indexOf(activeTab);
+        const activeIframe = document.querySelectorAll('.tab-iframe')[tabIndex];
+        if (activeTab && activeIframe) {
+          activeTab.remove();
+          activeIframe.remove();
+        }
+        tabCount++;
+        const tabsContainer = document.getElementById('tabs');
+        const newTab = document.createElement('div');
+        newTab.classList.add('tab');
+        newTab.innerHTML = `New Tab
+											
+											
+											
+											
+											<span class="close-button" onclick="closeTab(event)">×</span>`;
+        newTab.addEventListener("click", () => selectTab(newTab));
+        tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
+        const iframe = document.createElement('iframe');
+        iframe.classList.add('tab-iframe');
+        iframe.src = '/static/index.html';
+        iframe.onload = function() {
+          updateSearchBar(iframe);
+          updateTabName(iframe);
+        };
+        document.getElementById('content-wrapper').appendChild(iframe);
+        selectTab(newTab);
+      }
 
-async function loadRandomContent() {
-    const container = document.getElementById('random');
+      function ssettings() {
+        const activeTab = document.querySelector('.tab.active');
+        const tabIndex = Array.from(document.querySelectorAll('.tab')).indexOf(activeTab);
+        const activeIframe = document.querySelectorAll('.tab-iframe')[tabIndex];
+        if (activeTab && activeIframe) {
+          activeTab.remove();
+          activeIframe.remove();
+        }
+        tabCount++;
+        const tabsContainer = document.getElementById('tabs');
+        const newTab = document.createElement('div');
+        newTab.classList.add('tab');
+        newTab.innerHTML = `Settings
+											
+											
+											
+											
+											<span class="close-button" onclick="closeTab(event)">×</span>`;
+        newTab.addEventListener("click", () => selectTab(newTab));
+        tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
+        const iframe = document.createElement('iframe');
+        iframe.classList.add('tab-iframe');
+        iframe.src = '/pages/prox/settings';
+        iframe.onload = function() {
+          updateSearchBar(iframe);
+          updateTabName(iframe);
+        };
+        document.getElementById('content-wrapper').appendChild(iframe);
+        selectTab(newTab);
+      }
 
-    const [gameButtons, appButtons] = await Promise.all([
-        getbuttons('/pages/games', 4),
-        getbuttons('/pages/apps', 4),
-    ]);
+      function settings() {
+        tabCount++;
+        const tabsContainer = document.getElementById('tabs');
+        const newTab = document.createElement('div');
+        newTab.classList.add('tab');
+        newTab.innerHTML = `Settings
+											
+											
+											
+											
+											<span class="close-button" onclick="closeTab(event)">×</span>`;
+        newTab.addEventListener("click", () => selectTab(newTab));
+        tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
+        const iframe = document.createElement('iframe');
+        iframe.classList.add('tab-iframe');
+        iframe.src = '/pages/prox/settings';
+        iframe.onload = function() {
+          updateSearchBar(iframe);
+          updateTabName(iframe);
+        };
+        document.getElementById('content-wrapper').appendChild(iframe);
+        selectTab(newTab);
+      }
 
-    [...gameButtons, ...appButtons].forEach(button => {
-        container.appendChild(cloneElement(button));
-    });
-}
+      function toggleFullscreen() {
+        const iframe = document.querySelector('.tab-iframe.active');
+        if (iframe.requestFullscreen) {
+          iframe.requestFullscreen();
+        } else if (iframe.mozRequestFullScreen) {
+          iframe.mozRequestFullScreen();
+        } else if (iframe.webkitRequestFullscreen) {
+          iframe.webkitRequestFullscreen();
+        } else if (iframe.msRequestFullscreen) {
+          iframe.msRequestFullscreen();
+        }
+      }
 
-window.addEventListener('DOMContentLoaded', loadRandomContent);
-</script>
+      function inspect() {
+        window.location.href = "javascript: (function() { fetch('/storage/js/eruda.js') .then(response => { if (!response.ok) throw new Error('Network response was not ok'); return response.text(); }) .then(scriptText => eval(scriptText)) .catch(error => console.error('Error fetching or executing the script:', error)); })();"
+      }
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelector(".add-tab-button").addEventListener("click", addTab);
+        document.getElementById("search-input").addEventListener("keydown", (e) => {
+          if (e.key === "Enter") search();
+        });
+      });
+      const proxyPrefix = "/static/embed.html#";
+      //unprxy
+      function getUnproxifiedUrl(proxifiedUrl) {
+        try {
+          const hostPrefix = "https://" + window.location.hostname + "/static/embed#";
+          const staticLoadPrefix = "https://" + window.location.hostname + "/static/load/";
+          const iframe = document.querySelector('.tab-iframe.active');
+          const docHref = iframe.contentWindow.location.href;
+          if (docHref.startsWith(staticLoadPrefix)) {
+            const path = docHref.replace(staticLoadPrefix, "");
+            const decodedUrl = __uv$config.decodeUrl(path);
+            return new URL(decodedUrl);
+          }
+          switch (docHref) {
+            case "https://" + window.location.hostname + "/static/index.html":
+              return "us4://new-tab-page";
+            case "https://" + window.location.hostname + "/pages/prox/settings":
+              return "us4://settings";
+            case "https://" + window.location.hostname + "/pages/games":
+              return "us4://games";
+            case "https://" + window.location.hostname + "/static/load/hvtrs8%2F-hgaptkvg-ws6.raeeq.fet":
+              return "us4://movies";
+            case "https://" + window.location.hostname + "/pages/apps":
+              return "us4://apps";
+            case "https://" + window.location.hostname + "/pages/partners":
+              return "us4://partners";
+            case "https://" + window.location.hostname + "/pages/credits":
+              return "us4://credits";
+            case "https://" + window.location.hostname + "/pages/extra":
+              return "us4://extra";
+            default:
+              if (docHref.startsWith(hostPrefix)) {
+                return decodeURI(docHref.replace(hostPrefix, ""));
+              }
+              return decodeURI(docHref);
+          }
+        } catch (e) {
+          console.error('Error unproxifying URL:', e);
+          return docHref;
+        }
+      }
+      //updsb
+      function updateSearchBar(iframe) {
+        try {
+          let rawUrl = iframe.src;
+          try {
+            rawUrl = iframe.contentWindow.location.href;
+          } catch {}
+          const unproxifiedUrl = getUnproxifiedUrl(rawUrl);
+          document.getElementById('search-input').value = unproxifiedUrl;
+          const activeTab = document.querySelector('.tab.active');
+          updateTabName(iframe, activeTab);
+        } catch (e) {
+          console.error('Error updating search bar:', e);
+        }
+      }
+      //tabft
+      function updateTabName(iframe) {
+        setTimeout(() => {
+          const tabIndex = Array.from(document.querySelectorAll('.tab-iframe')).indexOf(iframe);
+          const tab = document.querySelectorAll('.tab')[tabIndex];
+          if (tab) {
+            const staticLoadPrefix = "https://" + window.location.hostname + "/static/load/";
+            const docHref = iframe.contentWindow.location.href;
+            if (docHref.startsWith(staticLoadPrefix)) {
+              const path = docHref.replace(staticLoadPrefix, "");
+              let host;
+              try {
+                host = new URL(__uv$config.decodeUrl(path));
+              } catch {
+                host = new URL("https://voucan-us4.github.io");
+              }
+              const faviconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${host.hostname}&size=16`;
+              let title = '';
+              try {
+                title = iframe.contentWindow.document.title || url.hostname;
+              } catch {
+                title = url.hostname || 'New Tab';
+              }
+              if (title.length > 18) {
+                title = title.substring(0, 15) + '...';
+              }
+              tab.innerHTML = `
+          
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">
+          ${title}
+          
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												<span class="close-button" onclick="closeTab(event)">×</span>
+        `;
+            }
+          }
+        }, 500);
+      }
+      //searchbar engage check
+      function engaged() {
+        const input = document.getElementById('search-input');
+        return document.activeElement === input || input.matches(':hover');
+      }
+      setInterval(() => {
+        const iframe = document.querySelector('.tab-iframe.active');
+        if (!iframe || engaged()) return;
+        try {
+          const docHref = iframe.contentWindow.location.href;
+          if (docHref) {
+            updateSearchBar(iframe);
+          }
+        } catch (e) {
+          console.warn('Unable to access iframe location:', e);
+        }
+      }, 500);
+      //param
+      document.addEventListener("DOMContentLoaded", () => {
+        const link = new URLSearchParams(window.location.search).get('link');
+        if (link) {
+          const startingtab = document.querySelector('.tab-iframe');
+          if (startingtab) {
+            startingtab.src = `/static/load/${__uv$config.encodeUrl(link)}`;
+            startingtab.onload = () => {
+              updateSearchBar(startingtab);
+              updateTabName(startingtab);
+            };
+          }
+        }
+      });
 
-</body>
+      function setIframe(url, name) {
+        const activeTab = document.querySelector('.tab.active');
+        const tabIndex = Array.from(document.querySelectorAll('.tab')).indexOf(activeTab);
+        const activeIframe = document.querySelectorAll('.tab-iframe')[tabIndex];
+        if (activeTab && activeIframe) {
+          activeTab.remove();
+          activeIframe.remove();
+        }
+        tabCount++;
+        const tabsContainer = document.getElementById('tabs');
+        const newTab = document.createElement('div');
+        newTab.classList.add('tab');
+        newTab.innerHTML = `${name}
+											
+											
+											
+											
+											<span class="close-button" onclick="closeTab(event)">×</span>`;
+        newTab.addEventListener("click", () => selectTab(newTab));
+        tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
+        const iframe = document.createElement('iframe');
+        iframe.classList.add('tab-iframe');
+        iframe.src = url;
+        iframe.onload = function() {
+          updateSearchBar(iframe);
+          updateTabName(iframe);
+        };
+        document.getElementById('content-wrapper').appendChild(iframe);
+        selectTab(newTab);
+      }
+    </script>
+    <script src="/storage/js/prox-settings.js"></script>
+    <script src="/storage/js/notify.js"></script>
+    <script type="text/javascript" src="/storage/js/cheese-algorithm.js"></script>
+  </body>
 </html>
