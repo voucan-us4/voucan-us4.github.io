@@ -482,6 +482,7 @@
       }
 
       function startSearchBarUpdate(iframe) {
+        const iframe = document.querySelector('.tab-iframe.active');
         const searchInput = document.getElementById('search-input');
         const isFocused = document.activeElement === searchInput;
         const isHovered = searchInput.matches(':hover');
