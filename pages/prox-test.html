@@ -474,7 +474,7 @@
               } catch {
                 host = new URL("https://voucan-us4.github.io");
               }
-              const faviconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${host.hostname}&size=16`;
+              const faviconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${host.hostname}&size=16`;
               let title = '';
               try {
                 title = iframe.contentWindow.document.title || url.hostname;
