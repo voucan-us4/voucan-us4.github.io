@@ -301,7 +301,7 @@
       <button class="nav-btn" onclick="setIframe('/pages/games', 'Games')">
         <i class="fas fa-gamepad"></i>
       </button>
-      <button class="nav-btn" onclick="setIframe('/pages/heartive', 'Movies')">
+      <button class="nav-btn" onclick="setIframe('/static/embed#https://heartive-us4.pages.dev', 'Movies')">
         <i class="fa-solid fa-video"></i>
       </button>
       <button class="nav-btn" onclick="setIframe('/pages/apps', 'Apps')">
@@ -337,6 +337,7 @@
         newTab.classList.add('tab');
         newTab.innerHTML = `New Tab 
                         
+											
 											
 											
 											
@@ -447,6 +448,7 @@
 											
 											
 											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -478,6 +480,7 @@
 											
 											
 											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -498,6 +501,7 @@
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
         newTab.innerHTML = `Settings
+											
 											
 											
 											
@@ -540,44 +544,38 @@
       });
       const proxyPrefix = "/static/embed.html#";
       //unprxy
-      function getUnproxifiedUrl(proxifiedUrl) {
-        try {
-          const hostPrefix = "https://" + window.location.hostname + "/static/embed#";
-          const staticLoadPrefix = "https://" + window.location.hostname + "/static/load/";
-          const iframe = document.querySelector('.tab-iframe.active');
-          const docHref = iframe.contentWindow.location.href;
-          if (docHref.startsWith(staticLoadPrefix)) {
-            const path = docHref.replace(staticLoadPrefix, "");
-            const decodedUrl = __uv$config.decodeUrl(path);
-            return new URL(decodedUrl);
-          }
-          switch (docHref) {
-            case "https://" + window.location.hostname + "/static/index.html":
-              return "us4://new-tab-page";
-            case "https://" + window.location.hostname + "/pages/prox/settings":
-              return "us4://settings";
-            case "https://" + window.location.hostname + "/pages/games":
-              return "us4://games";
-            case "https://" + window.location.hostname + "/static/load/hvtrs8%2F-hgaptkvg-ws6.raeeq.fet":
-              return "us4://movies";
-            case "https://" + window.location.hostname + "/pages/apps":
-              return "us4://apps";
-            case "https://" + window.location.hostname + "/pages/partners":
-              return "us4://partners";
-            case "https://" + window.location.hostname + "/pages/credits":
-              return "us4://credits";
-            case "https://" + window.location.hostname + "/pages/extra":
-              return "us4://extra";
-            default:
-              if (docHref.startsWith(hostPrefix)) {
-                return decodeURI(docHref.replace(hostPrefix, ""));
-              }
-              return decodeURI(docHref);
-          }
-        } catch (e) {
-          console.error('Error unproxifying URL:', e);
-          return docHref;
+      try {
+        const hostPrefix = "https://" + window.location.hostname;
+        if (docHref.startsWith(hostPrefix + "/pages/iframe") || docHref.startsWith(hostPrefix + "/pages/iframe2")) {
+          const remainingPath = docHref.replace(hostPrefix + "/pages/iframe", "").replace(hostPrefix + "/pages/iframe2", "");
+          return "us4://games-n-apps" + remainingPath;
         }
+        switch (docHref) {
+          case hostPrefix + "/static/index.html":
+            return "us4://new-tab-page";
+          case hostPrefix + "/pages/prox/settings":
+            return "us4://settings";
+          case hostPrefix + "/pages/games":
+            return "us4://games";
+          case hostPrefix + "/static/load/hvtrs8%2F-hgaptkvg-ws6.raeeq.fet":
+            return "us4://movies";
+          case hostPrefix + "/pages/apps":
+            return "us4://apps";
+          case hostPrefix + "/pages/partners":
+            return "us4://partners";
+          case hostPrefix + "/pages/credits":
+            return "us4://credits";
+          case hostPrefix + "/pages/extra":
+            return "us4://extra";
+          default:
+            if (docHref.startsWith(hostPrefix)) {
+              return decodeURI(docHref.replace(hostPrefix, ""));
+            }
+            return decodeURI(docHref);
+        }
+      } catch (e) {
+        console.error("Error unproxifying URL:", e);
+        return docHref;
       }
       //updsb
       function updateSearchBar(iframe) {
@@ -632,9 +630,11 @@
 											
 											
 											
+											
 											<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">
           ${title}
           
+												
 												
 												
 												
@@ -700,7 +700,8 @@
 											
 											
 											
-											<span class="close-button" onclick="closeTab(event)">×</span>`;
+											
+												<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
         const iframe = document.createElement('iframe');
