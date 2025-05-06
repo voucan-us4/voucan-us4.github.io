@@ -458,9 +458,10 @@
           const tab = document.querySelectorAll('.tab')[tabIndex];
           if (tab) {
             let foundurl = getUnproxifiedUrl(iframe.src);
+            let host = foundurl.hostname
             let url;
             try {
-              url = new URL(foundurl);
+              url = new URL(host);
             } catch {
               url = new URL("https://voucan-us4.github.io");
             }
