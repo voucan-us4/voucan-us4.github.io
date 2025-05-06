@@ -467,6 +467,7 @@
           }
         }, 500);
       }
+
       let updateInterval;
 
       function updateSearchBar(iframe) {
@@ -481,7 +482,7 @@
         }
       }
 
-      function startSearchBarUpdate(iframe) {
+      function startSearchBarUpdate() {
         const iframe = document.querySelector('.tab-iframe.active');
         const searchInput = document.getElementById('search-input');
         const isFocused = document.activeElement === searchInput;
