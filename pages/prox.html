@@ -358,6 +358,8 @@
 											
 											
 											
+											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -385,27 +387,40 @@
           selectTab(previousTab);
         }
       }
-
-      function internal(url) {
+      according to this, where does "us4://games-n-apps/full/retro-bowl/"
+      go ? function internal(url) {
         try {
+          const host = "https://" + window.location.hostname;
           switch (url) {
             case 'us4://new-tab-page':
               return home();
             case 'us4://settings':
               return settings2();
-            case "https://" + window.location.hostname + "/pages/games":
+            case host + "/pages/games":
               return "us4://games";
-            case "https://" + window.location.hostname + "/pages/heartive":
+            case host + "/pages/heartive":
               return "us4://movies";
-            case "https://" + window.location.hostname + "/pages/apps":
+            case host + "/pages/apps":
               return "us4://apps";
-            case "https://" + window.location.hostname + "/pages/partners":
+            case host + "/pages/partners":
               return "us4://partners";
-            case "https://" + window.location.hostname + "/pages/credits":
+            case host + "/pages/credits":
               return "us4://credits";
-            case "https://" + window.location.hostname + "/pages/extra":
+            case host + "/pages/extra":
               return "us4://extra";
+            case 'us4://games-n-apps/frame':
+              return host + "/pages/iframe?url=" + encodeURIComponent("/");
+            case 'us4://games-n-apps/full':
+              return host + "/pages/iframe2?url=" + encodeURIComponent("/");
             default:
+              if (url.startsWith('us4://games-n-apps/frame')) {
+                const remainingPath = url.replace('us4://games-n-apps/frame', '');
+                return host + "/pages/iframe?url=" + encodeURIComponent(remainingPath);
+              }
+              if (url.startsWith('us4://games-n-apps/full')) {
+                const remainingPath = url.replace('us4://games-n-apps/full', '');
+                return host + "/pages/iframe2?url=" + encodeURIComponent(remainingPath);
+              }
               return url;
           }
         } catch (e) {
@@ -449,6 +464,8 @@
 											
 											
 											
+											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -481,6 +498,8 @@
 											
 											
 											
+											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -501,6 +520,8 @@
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
         newTab.innerHTML = `Settings
+											
+											
 											
 											
 											
@@ -546,9 +567,13 @@
       //unprxy
       try {
         const hostPrefix = "https://" + window.location.hostname;
-        if (docHref.startsWith(hostPrefix + "/pages/iframe") || docHref.startsWith(hostPrefix + "/pages/iframe2")) {
-          const remainingPath = docHref.replace(hostPrefix + "/pages/iframe", "").replace(hostPrefix + "/pages/iframe2", "");
-          return "us4://games-n-apps" + remainingPath;
+        if (docHref.startsWith(hostPrefix + "/pages/iframe2")) {
+          const remainingPath = docHref.replace(hostPrefix + "/pages/iframe2", "");
+          return "us4://games-n-apps/full" + remainingPath;
+        }
+        if (docHref.startsWith(hostPrefix + "/pages/iframe")) {
+          const remainingPath = docHref.replace(hostPrefix + "/pages/iframe", "");
+          return "us4://games-n-apps/frame" + remainingPath;
         }
         switch (docHref) {
           case hostPrefix + "/static/index.html":
@@ -631,9 +656,13 @@
 											
 											
 											
+											
+											
 											<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">
           ${title}
           
+												
+												
 												
 												
 												
@@ -701,6 +730,8 @@
 											
 											
 											
+												
+												
 												<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
