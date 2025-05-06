@@ -310,6 +310,7 @@
 											
 											
 											
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -338,17 +339,33 @@
         }
       }
 
+      function internal(url) {
+        try {
+          switch (url) {
+            case 'US4://new-tab-page':
+              return '/static/index.html';
+            case 'US4://settings':
+              return '/pages/prox/settings';
+            default:
+              return url;
+          }
+        } catch (e) {
+          console.error('internal page failed:', e);
+          return url;
+        }
+      }
+
       function search() {
         const input = document.getElementById('search-input').value.trim();
         const iframe = document.querySelector('.tab-iframe.active');
-        if (input && iframe) {
-          const url = input.startsWith('http') ? input : `https://duckduckgo.com/?q=${encodeURIComponent(input)}`;
-          iframe.src = `/static/embed#${url}`;
-          iframe.onload = () => {
-            updateSearchBar(iframe);
-            updateTabName(iframe);
-          };
-        }
+        if (!input || !iframe) return;
+        const mapped = internal(input);
+        const isInternal = mapped === '/static/index.html' || mapped === '/pages/prox/settings';
+        iframe.src = isInternal ? mapped : `/static/embed#${mapped.startsWith('http') ? mapped : `https://duckduckgo.com/?q=${encodeURIComponent(mapped)}`}`;
+        iframe.onload = () => {
+          updateSearchBar(iframe);
+          updateTabName(iframe);
+        };
       }
 
       function home() {
@@ -364,6 +381,7 @@
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
         newTab.innerHTML = `New Tab 
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -389,6 +407,7 @@
 											
 												
 												
+											
 											
 											
 											
@@ -509,9 +528,11 @@
 											
 											
 											
+											
 											<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">
           ${title}
           
+												
 												
 												
 												
