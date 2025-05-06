@@ -283,8 +283,8 @@
         const tabIndex = Array.from(tab.parentNode.children).indexOf(tab);
         document.querySelectorAll('.tab-iframe')[tabIndex].classList.add('active');
         const iframe = document.querySelector('.tab-iframe.active');
-          updateSearchBar(iframe);
-          updateTabName(iframe);
+        updateSearchBar(iframe);
+        updateTabName(iframe);
       }
 
       function addTab() {
@@ -294,6 +294,7 @@
         newTab.classList.add('tab');
         newTab.innerHTML = `New Tab 
                         
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -329,6 +330,7 @@
           if (tab) {
             tab.innerHTML = `${iframe.contentWindow.document.title || 'New Tab'} 
                          
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
           }
         }, 500);
@@ -351,7 +353,7 @@
         const iframe = document.querySelector('.tab-iframe.active');
         iframe.src = '/static/';
         iframe.onload = function() {
-	updateSearchBar(iframe);
+          updateSearchBar(iframe);
           updateTabName(iframe);
         };
       }
@@ -363,6 +365,7 @@
         newTab.classList.add('tab');
         newTab.innerHTML = `Settings 
                         
+											
 											<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -403,15 +406,19 @@
 
       function getUnproxifiedUrl(proxifiedUrl) {
         try {
+          const hostPrefix = "https://" + window.location.hostname;
           if (proxifiedUrl.startsWith(proxyPrefix)) {
             return decodeURI(proxifiedUrl.replace(proxyPrefix, ""));
           }
           switch (proxifiedUrl) {
-            case "https://" + window.location.hostname + "/static/index.html":
+            case hostPrefix + "/static/index.html":
               return "US4://new-tab-page";
-            case "https://" + window.location.hostname + "/pages/prox/settings":
+            case hostPrefix + "/pages/prox/settings":
               return "US4://settings";
             default:
+              if (proxifiedUrl.startsWith(hostPrefix)) {
+                return decodeURI(proxifiedUrl.replace(hostPrefix, ""));
+              }
               return decodeURI(proxifiedUrl);
           }
         } catch (e) {
