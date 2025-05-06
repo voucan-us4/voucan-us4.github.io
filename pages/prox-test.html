@@ -511,6 +511,7 @@
           const docHref = iframe.contentWindow.location.href;
           if (docHref) {
             updateSearchBar(iframe);
+            updateTabName(iframe);
           }
         } catch (e) {
           console.warn('Unable to access iframe location:', e);
