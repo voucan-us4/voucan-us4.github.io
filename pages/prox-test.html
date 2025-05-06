@@ -404,9 +404,9 @@
             return decodeURI(proxifiedUrl.replace(proxyPrefix, ""));
           }
           switch (proxifiedUrl) {
-            case hostPrefix + "/static/index.html":
+            case "https://" + window.location.hostname + "/static/index.html":
               return "US4://new-tab-page";
-            case hostPrefix + "/pages/prox/settings":
+            case "https://" + window.location.hostname + "/pages/prox/settings":
               return "US4://settings";
             default:
               if (proxifiedUrl.startsWith(hostPrefix)) {
