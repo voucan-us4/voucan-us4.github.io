@@ -51,5 +51,15 @@
     <script type="text/javascript" src="/storage/js/settings-1.js"></script>
     <script type="text/javascript" src="/storage/js/background.js"></script>
     <script type="text/javascript" src="/storage/js/cheese-algorithm.js"></script>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const updParam = urlParams.get('upd');
+
+  if (updParam === null) {
+    window.location.href = '/';
+  }
+</script>
+
 </body>
 </html>
