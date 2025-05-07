@@ -661,7 +661,41 @@
           }
         }
       });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const launchFrame = new URLSearchParams(window.location.search).get('launchFrame');
+        if (launch) {
+          const startingtab = document.querySelector('.tab-iframe');
+          if (startingtab) {
+            startingtab.src = `/static/load/${__uv$config.encodeUrl(launchFrame)}`;
+            startingtab.onload = () => {
+              updateSearchBar(startingtab);
+              updateTabName(startingtab);
+            };
+          }
+        }
+      });
     </script>
+
+<script>
+
+const code = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a', 'Enter'];
+let currentKeyIndex = 0;
+
+document.addEventListener('keydown', (event) => {
+        const iframe = document.querySelector('.tab-iframe.active');
+    if (event.key === code[currentKeyIndex]) {
+        currentKeyIndex++;
+        if (currentKeyIndex === code.length) {
+            iframe.src = "/pages/super-secret.html"
+            currentKeyIndex = 0;
+        }
+    } else {
+        currentKeyIndex = 0;
+    }
+});
+</script>
+
     <script src="/storage/js/settings-1.js"></script>
     <script type="text/javascript" src="/storage/js/cheese-algorithm.js"></script>
     <script type="text/javascript" src="/storage/js/notify.js"></script>
