@@ -170,6 +170,19 @@
         background: rgba(255, 255, 255, 0.3);
       }
 
+      .nav-btn-fill {
+        text-decoration: none;
+        color: white;
+        font-size: 16px;
+        padding: 8px 15px;
+        border-radius: 70px;
+        background: none;
+        border: none;
+        transition: background-color 0.3s;
+        flex-grow: 1;
+        text-align: center;
+      }
+
       .search-bar-container {
         display: flex;
         justify-content: center;
@@ -293,6 +306,9 @@
         </button>
         <button onclick="settings()" class="nav-btn">
           <i class="fa fa-cog"></i>
+        </button>
+        <button class="nav-btn-fill">
+          <i></i>
         </button>
       </div>
     </div>
