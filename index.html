@@ -358,6 +358,7 @@
         newTab.classList.add('tab');
         newTab.innerHTML = `New Tab
 													
+													
 													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -388,30 +389,36 @@
 
       function internal(url) {
         try {
-          if (url.startsWith('us4://gaming-frame') || url.startsWith('us4://full-frame')) {
+          // Handle dynamic gaming/app frames
+          if (url.startsWith('us4://gaming-frame')) {
             const path = url.replace('us4://', '/pages/');
-            return setIframe(path, 'Frame');
+            return setIframe(path, 'Games');
           }
+          if (url.startsWith('us4://full-frame')) {
+            const path = url.replace('us4://', '/pages/');
+            return setIframe(path, 'Apps');
+          }
+          // Handle static pages
           switch (url) {
             case 'us4://new-tab-page':
               return setIframe('/static/index.html?upd=', 'New Tab');
             case 'us4://settings':
               return setIframe('/pages/prox/settings?upd=', 'Settings');
-            case "us4://games":
+            case 'us4://games':
               return setIframe('/pages/games?upd=', 'Games');
-            case "us4://movies":
+            case 'us4://movies':
               return setIframe('/pages/heartive?upd=', 'Movies');
-            case "us4://apps":
+            case 'us4://apps':
               return setIframe('/pages/apps?upd=', 'Apps');
-            case "us4://partners":
+            case 'us4://partners':
               return setIframe('/pages/partners?upd=', 'Partners');
-            case "us4://credits":
+            case 'us4://credits':
               return setIframe('/pages/credits?upd=', 'Credits');
-            case "us4://extra":
+            case 'us4://extra':
               return setIframe('/pages/extra?upd=', 'Extra');
-            case "us4://data":
+            case 'us4://data':
               return setIframe('/pages/data?upd=', 'Data');
-            case "us4://data-usage":
+            case 'us4://data-usage':
               return setIframe('/pages/extra/data-use', 'Data Usage');
             default:
               return url;
@@ -453,6 +460,7 @@
         newTab.classList.add('tab');
         newTab.innerHTML = `New Tab
 													
+													
 													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -473,6 +481,7 @@
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
         newTab.innerHTML = `Settings
+													
 													
 													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
@@ -603,7 +612,9 @@
               }
               tab.innerHTML = `
 													
+													
 													<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">${title}
+														
 														
 														<span class="close-button" onclick="closeTab(event)">×</span> `;
             }
@@ -655,6 +666,7 @@
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
         newTab.innerHTML = `${name}
+														
 														
 														<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
