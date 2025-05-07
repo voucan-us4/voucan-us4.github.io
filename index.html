@@ -398,21 +398,21 @@
               return home();
             case 'us4://settings':
               return settings2();
-            case "https://" + window.location.hostname + "/pages/games":
+            case "us4://games":
               return setIframe('/pages/games', 'Games');
-            case "https://" + window.location.hostname + "/pages/heartive":
+            case "us4://movies":
               return setIframe('/pages/heartive', 'Movies');
-            case "https://" + window.location.hostname + "/pages/apps":
+            case "us4://apps":
               return setIframe('/pages/apps', 'Apps');
-            case "https://" + window.location.hostname + "/pages/partners":
+            case "us4://partners":
               return setIframe('/pages/partners', 'Partners');
-            case "https://" + window.location.hostname + "/pages/credits":
+            case "us4://credits":
               return setIframe('/pages/credits', 'Credits');
-            case "https://" + window.location.hostname + "/pages/extra":
+            case "us4://extra":
               return setIframe('/pages/extra', 'Extra');
-            case "https://" + window.location.hostname + "/pages/data":
+            case "us4://data":
               return setIframe('/pages/data', 'Data');
-            case "https://" + window.location.hostname + "/pages/extra/data-use":
+            case "us4://data-use":
               return setIframe('/pages/extra/data-use', 'Data Usage');
             default:
               return url;
