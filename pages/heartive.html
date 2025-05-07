@@ -24,6 +24,14 @@
 
     <script type="text/javascript" src="/storage/js/settings-1.js"></script>
 
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const updParam = urlParams.get('upd');
+
+  if (updParam === null) {
+    window.location.href = '/';
+  }
+</script>
 
 </body>
 </html>
