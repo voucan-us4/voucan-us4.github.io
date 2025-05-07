@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../storage/css/evenmorestyles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../storage/css/static.css">
+    <script src="/storage/js/splash-messages.js"></script>
 </head>
 <body>
 
@@ -42,24 +43,6 @@
     <script src="/static/search.js" defer></script>
     <script src="/static/index.js" defer></script>
 
-    <script>
-        const phrases = [
-            "us5 when",
-            "credits to brunys for the proxy stuff",
-            "idk",
-            "there is a nuclear bomb heading for your location. please seek shelter immediately",
-        ];
-
-        const paragraph = document.getElementById('dynamicParagraph');
-
-        function changeText() {
-            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
-            paragraph.textContent = randomPhrase;
-        }
-
-        paragraph.addEventListener('click', changeText);
-        window.onload = changeText;
-    </script>
     <script type="text/javascript" src="/storage/js/background.js"></script>
     <script>
     async function regsw(){
