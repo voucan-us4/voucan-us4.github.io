@@ -363,6 +363,7 @@
 											
 											
 											
+													
 													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -432,12 +433,28 @@
           mapped();
         } else {
           const isInternal = mapped === '/static/index.html' || mapped === '/pages/prox/settings';
-          iframe.src = isInternal ? mapped : `/static/embed#${mapped.startsWith('http') ? mapped : `https://duckduckgo.com/?q=${encodeURIComponent(mapped)}`}`;
+          let target = mapped;
+          if (!isInternal) {
+            if (/\./.test(target)) {
+              if (!/^https?:\/\//i.test(target)) {
+                target = 'https://' + target;
+              }
+              target = `/static/embed#${target}`;
+            } else {
+              target = `/static/embed#https://duckduckgo.com/?q=${encodeURIComponent(target)}`;
+            }
+          }
+          iframe.src = isInternal ? mapped : target;
           iframe.onload = () => {
             updateSearchBar(iframe);
             updateTabName(iframe);
           };
         }
+      }
+      iframe.onload = () => {
+        updateSearchBar(iframe);
+        updateTabName(iframe);
+      };
       }
 
       function home() {
@@ -458,6 +475,7 @@
 											
 											
 											
+													
 													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -490,6 +508,7 @@
 											
 											
 											
+													
 													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -515,6 +534,7 @@
 											
 											
 											
+													
 													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -650,6 +670,7 @@
 											
 											
 											
+													
 													<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">
           ${title}
           
@@ -664,6 +685,7 @@
 												
 												
 												
+														
 														<span class="close-button" onclick="closeTab(event)">×</span>
         `;
             }
@@ -720,6 +742,7 @@
 											
 											
 											
+														
 														<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
