@@ -661,20 +661,6 @@
           }
         }
       });
-
-      document.addEventListener("DOMContentLoaded", () => {
-        const launchFrame = new URLSearchParams(window.location.search).get('launchFrame');
-        if (launch) {
-          const startingtab = document.querySelector('.tab-iframe');
-          if (startingtab) {
-            startingtab.src = `/static/load/${__uv$config.encodeUrl(launchFrame)}`;
-            startingtab.onload = () => {
-              updateSearchBar(startingtab);
-              updateTabName(startingtab);
-            };
-          }
-        }
-      });
     </script>
 
 <script>
