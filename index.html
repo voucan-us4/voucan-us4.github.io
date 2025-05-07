@@ -356,7 +356,9 @@
         const tabsContainer = document.getElementById('tabs');
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
-        newTab.innerHTML = `New Tab<span class="close-button" onclick="closeTab(event)">×</span>`;
+        newTab.innerHTML = `New Tab
+													
+													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
         const iframe = document.createElement('iframe');
@@ -386,6 +388,10 @@
 
       function internal(url) {
         try {
+          if (url.startsWith('us4://gaming-frame') || url.startsWith('us4://full-frame')) {
+            const path = url.replace('us4://', '/pages/');
+            return setIframe(path, 'Game Frame');
+          }
           switch (url) {
             case 'us4://new-tab-page':
               return setIframe('/static/index.html?upd=', 'New Tab');
@@ -445,7 +451,9 @@
         const tabsContainer = document.getElementById('tabs');
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
-        newTab.innerHTML = `New Tab<span class="close-button" onclick="closeTab(event)">×</span>`;
+        newTab.innerHTML = `New Tab
+													
+													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
         const iframe = document.createElement('iframe');
@@ -464,7 +472,9 @@
         const tabsContainer = document.getElementById('tabs');
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
-        newTab.innerHTML = `Settings<span class="close-button" onclick="closeTab(event)">×</span>`;
+        newTab.innerHTML = `Settings
+													
+													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
         const iframe = document.createElement('iframe');
@@ -504,8 +514,9 @@
       //unprxy
       function getUnproxifiedUrl(proxifiedUrl) {
         try {
-          const hostPrefix = "https://" + window.location.hostname + "/static/embed#";
-          const staticLoadPrefix = "https://" + window.location.hostname + "/static/load/";
+          const hostname = window.location.hostname;
+          const hostPrefix = `https://${hostname}/static/embed#`;
+          const staticLoadPrefix = `https://${hostname}/static/load/`;
           const iframe = document.querySelector('.tab-iframe.active');
           const docHref = iframe.contentWindow.location.href;
           if (docHref.startsWith(staticLoadPrefix)) {
@@ -513,26 +524,30 @@
             const decodedUrl = __uv$config.decodeUrl(path);
             return new URL(decodedUrl);
           }
+          if (docHref.includes("/pages/gaming-frame") || docHref.includes("/pages/full-frame")) {
+            const remaining = docHref.replace(`https://${hostname}/pages/`, "");
+            return `us4://${remaining}`;
+          }
           switch (docHref) {
-            case "https://" + window.location.hostname + "/static/index.html":
+            case `https://${hostname}/static/index.html`:
               return "us4://new-tab-page";
-            case "https://" + window.location.hostname + "/pages/prox/settings":
+            case `https://${hostname}/pages/prox/settings`:
               return "us4://settings";
-            case "https://" + window.location.hostname + "/pages/games?upd=":
+            case `https://${hostname}/pages/games?upd=`:
               return "us4://games";
-            case "https://" + window.location.hostname + "/pages/heartive?upd=":
+            case `https://${hostname}/pages/heartive?upd=`:
               return "us4://movies";
-            case "https://" + window.location.hostname + "/pages/apps?upd=":
+            case `https://${hostname}/pages/apps?upd=`:
               return "us4://apps";
-            case "https://" + window.location.hostname + "/pages/partners?upd=":
+            case `https://${hostname}/pages/partners?upd=`:
               return "us4://partners";
-            case "https://" + window.location.hostname + "/pages/credits?upd=":
+            case `https://${hostname}/pages/credits?upd=`:
               return "us4://credits";
-            case "https://" + window.location.hostname + "/pages/extra?upd=":
+            case `https://${hostname}/pages/extra?upd=`:
               return "us4://extra";
-            case "https://" + window.location.hostname + "/pages/data?upd=":
+            case `https://${hostname}/pages/data?upd=`:
               return "us4://data";
-            case "https://" + window.location.hostname + "/pages/extra/data-use":
+            case `https://${hostname}/pages/extra/data-use`:
               return "us4://data-usage";
             default:
               if (docHref.startsWith(hostPrefix)) {
@@ -586,7 +601,11 @@
               if (title.length > 29) {
                 title = title.substring(0, 26) + '...';
               }
-              tab.innerHTML = `<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">${title}<span class="close-button" onclick="closeTab(event)">×</span> `;
+              tab.innerHTML = `
+													
+													<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">${title}
+														
+														<span class="close-button" onclick="closeTab(event)">×</span> `;
             }
           }
         }, 500);
@@ -635,7 +654,9 @@
         const tabsContainer = document.getElementById('tabs');
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
-        newTab.innerHTML = `${name}<span class="close-button" onclick="closeTab(event)">×</span>`;
+        newTab.innerHTML = `${name}
+														
+														<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
         const iframe = document.createElement('iframe');
@@ -662,26 +683,22 @@
         }
       });
     </script>
-
-<script>
-
-const code = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a', 'Enter'];
-let currentKeyIndex = 0;
-
-document.addEventListener('keydown', (event) => {
+    <script>
+      const code = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a', 'Enter'];
+      let currentKeyIndex = 0;
+      document.addEventListener('keydown', (event) => {
         const iframe = document.querySelector('.tab-iframe.active');
-    if (event.key === code[currentKeyIndex]) {
-        currentKeyIndex++;
-        if (currentKeyIndex === code.length) {
+        if (event.key === code[currentKeyIndex]) {
+          currentKeyIndex++;
+          if (currentKeyIndex === code.length) {
             iframe.src = "/pages/super-secret.html"
             currentKeyIndex = 0;
+          }
+        } else {
+          currentKeyIndex = 0;
         }
-    } else {
-        currentKeyIndex = 0;
-    }
-});
-</script>
-
+      });
+    </script>
     <script src="/storage/js/settings-1.js"></script>
     <script type="text/javascript" src="/storage/js/cheese-algorithm.js"></script>
     <script type="text/javascript" src="/storage/js/notify.js"></script>
