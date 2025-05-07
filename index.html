@@ -316,25 +316,25 @@
       <iframe class="tab-iframe active" src="/static/index.html"></iframe>
     </div>
     <div class="lower-navbar">
-      <button class="nav-btn" onclick="setIframe('/pages/games', 'Games')">
+      <button class="nav-btn" onclick="setIframe('/pages/games?upd=', 'Games')">
         <i class="fas fa-gamepad"></i>
       </button>
-      <button class="nav-btn" onclick="setIframe('/pages/heartive', 'Movies')">
+      <button class="nav-btn" onclick="setIframe('/pages/heartive?upd=', 'Movies')">
         <i class="fa-solid fa-video"></i>
       </button>
-      <button class="nav-btn" onclick="setIframe('/pages/apps', 'Apps')">
+      <button class="nav-btn" onclick="setIframe('/pages/apps?upd=', 'Apps')">
         <i class="fa-sharp fa-solid fa-layer-group"></i>
       </button>
-      <button class="nav-btn" onclick="setIframe('/pages/partners', 'Partners')">
+      <button class="nav-btn" onclick="setIframe('/pages/partners?upd=', 'Partners')">
         <i class="fa-solid fa-users"></i>
       </button>
-      <button class="nav-btn" onclick="setIframe('/pages/credits', 'Credits')">
+      <button class="nav-btn" onclick="setIframe('/pages/credits?upd=', 'Credits')">
         <i class="fa-solid fa-book"></i>
       </button>
-      <button class="nav-btn" onclick="setIframe('/pages/data', 'Data')">
+      <button class="nav-btn" onclick="setIframe('/pages/data?upd=', 'Data')">
         <i class="fa-solid fa-file-arrow-down"></i>
       </button>
-      <button class="nav-btn" onclick="setIframe('/pages/extra', 'Extra')">
+      <button class="nav-btn" onclick="setIframe('/pages/extra?upd=', 'Extra')">
         <i class="fas fa-plus"></i>
       </button>
     </div>
@@ -388,23 +388,23 @@
         try {
           switch (url) {
             case 'us4://new-tab-page':
-              return setIframe('/static/index.html', 'New Tab');
+              return setIframe('/static/index.html?upd=', 'New Tab');
             case 'us4://settings':
-              return setIframe('/pages/prox/settings', 'Settings');
+              return setIframe('/pages/prox/settings?upd=', 'Settings');
             case "us4://games":
-              return setIframe('/pages/games', 'Games');
+              return setIframe('/pages/games?upd=', 'Games');
             case "us4://movies":
-              return setIframe('/pages/heartive', 'Movies');
+              return setIframe('/pages/heartive?upd=', 'Movies');
             case "us4://apps":
-              return setIframe('/pages/apps', 'Apps');
+              return setIframe('/pages/apps?upd=', 'Apps');
             case "us4://partners":
-              return setIframe('/pages/partners', 'Partners');
+              return setIframe('/pages/partners?upd=', 'Partners');
             case "us4://credits":
-              return setIframe('/pages/credits', 'Credits');
+              return setIframe('/pages/credits?upd=', 'Credits');
             case "us4://extra":
-              return setIframe('/pages/extra', 'Extra');
+              return setIframe('/pages/extra?upd=', 'Extra');
             case "us4://data":
-              return setIframe('/pages/data', 'Data');
+              return setIframe('/pages/data?upd=', 'Data');
             case "us4://data-usage":
               return setIframe('/pages/extra/data-use', 'Data Usage');
             default:
@@ -518,19 +518,19 @@
               return "us4://new-tab-page";
             case "https://" + window.location.hostname + "/pages/prox/settings":
               return "us4://settings";
-            case "https://" + window.location.hostname + "/pages/games":
+            case "https://" + window.location.hostname + "/pages/games?upd=":
               return "us4://games";
-            case "https://" + window.location.hostname + "/pages/heartive":
+            case "https://" + window.location.hostname + "/pages/heartive?upd=":
               return "us4://movies";
-            case "https://" + window.location.hostname + "/pages/apps":
+            case "https://" + window.location.hostname + "/pages/apps?upd=":
               return "us4://apps";
-            case "https://" + window.location.hostname + "/pages/partners":
+            case "https://" + window.location.hostname + "/pages/partners?upd=":
               return "us4://partners";
-            case "https://" + window.location.hostname + "/pages/credits":
+            case "https://" + window.location.hostname + "/pages/credits?upd=":
               return "us4://credits";
-            case "https://" + window.location.hostname + "/pages/extra":
+            case "https://" + window.location.hostname + "/pages/extra?upd=":
               return "us4://extra";
-            case "https://" + window.location.hostname + "/pages/data":
+            case "https://" + window.location.hostname + "/pages/data?upd=":
               return "us4://data";
             case "https://" + window.location.hostname + "/pages/extra/data-use":
               return "us4://data-usage";
