@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta property="og:title" content="US4 | Iframe2">
+    <meta property="og:description" content="Fullscreen embed for US4">
+    <meta property="og:image" content="/storage/images/logo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="icon" href="/storage/images/googleclassroom.png" type="image/png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="/storage/css/iframe2.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: white;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      height: 100vh;
+      /*width: calc(100% - 50px);*/
+    width: 100vw;
+      overflow: hidden;
+    }
+
+    .content {
+      height: 100%;
+      width: 100%;
+    }
+
+    .game-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<!--<div class="navbar">
+    <div class="left-side">
+        <a href="/"><i class="fa fa-home"></i></a>
+        <a href="/pages/games"><i class="fas fa-gamepad"></i></a>
+        <a href="/pages/media"><i class="fa-solid fa-video"></i></a>
+        <a href="/pages/apps"><i class="fa-sharp fa-solid fa-layer-group"></i></a>
+        <a href="/pages/prox"><i class="fas fa-globe"></i></a>
+        <a href="/pages/partners"><i class="fa-solid fa-users"></i></a>
+        <a href="/pages/credits"><i class="fa-solid fa-book"></i></a>
+        <a href="/pages/extra"><i class="fas fa-plus"></i></a>
+        <a href="/pages/settings"><i class="fa-solid fa-gear"></i></a>
+        <a href="/pages/data"><i class="fa-solid fa-file-arrow-down"></i></a>
+    </div>
+</div>-->
+
+<div class="container">
+    <div class="content">
+        <iframe id="game-frame" class="game-iframe" allowfullscreen></iframe>
+    </div>
+</div>
+
+<script>
+function getUrlParameter(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+}
+
+// Prevent background.js from changing the body after iframe is loaded
+setTimeout(function() {
+    const iframe = document.getElementById('game-frame');
+    const url = getUrlParameter('url') || '/404';
+    iframe.src = url;
+}, 100);
+
+function refreshGame() {
+    const iframe = document.getElementById('game-frame');
+    iframe.src = iframe.src;
+}
+
+function toggleFullscreen() {
+    const iframe = document.getElementById('game-frame');
+    if (!document.fullscreenElement) {
+        iframe.requestFullscreen().catch(err => {
+            alert(`Error attempting to enable fullscreen mode: ${err.message}`);
+        });
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+function DiscordBM() {
+    window.location.href = "javascript:(function(){var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@widgetbot/crate@3';s.async=true;s.defer=true;document.body.appendChild(s);s.onload=function(){new Crate({server:'1157125685178007672',channel:'1210407964586807376'})}})();";
+}
+
+function AI() {
+    window.location.href = "javascript: (function() { fetch('https://voucan-us4.github.io/ai/bookmarklet.js') .then(response => { if (!response.ok) throw new Error('Network response was not ok'); return response.text(); }) .then(scriptText => eval(scriptText)) .catch(error => console.error('Error fetching or executing the script:', error)); })();";
+}
+
+function openInAboutBlank() {
+    const siteTitle = localStorage.getItem('siteTitle') || "Home";
+    const siteLogo = localStorage.getItem('siteLogo') || "https://raw.githubusercontent.com/voucan/voucan.github.io/refs/heads/main/googleclassroom.png";
+
+    const newTab = window.open('about:blank', '_blank');
+
+    if (newTab) {
+        newTab.document.title = siteTitle;
+
+        const favicon = newTab.document.createElement('link');
+        favicon.rel = 'icon';
+        favicon.href = siteLogo;
+        newTab.document.head.appendChild(favicon);
+
+        const iframe = newTab.document.createElement('iframe');
+        iframe.src = document.getElementById('game-frame').src;
+        iframe.style.width = '100vw';
+        iframe.style.height = '100vh';
+        iframe.style.border = 'none';
+
+        newTab.document.body.style.margin = '0';
+        newTab.document.body.appendChild(iframe);
+    } else {
+        console.error("Failed to open About:Blank page.");
+    }
+}
+
+function saveData() {
+    const newTab = window.open('about:blank', '_blank');
+    const iframe = document.createElement('iframe');
+    iframe.src = '/pages/data';
+    iframe.style.width = '100vw';
+    iframe.style.height = '100vh';
+    iframe.style.border = 'none';
+    newTab.document.body.style.margin = '0';
+    newTab.document.body.appendChild(iframe);
+}
+</script>
+<script src="/storage/js/settings-1.js"></script>
+    <script type="text/javascript" src="/storage/js/cheese-algorithm.js"></script>
+
+<!-- Ultraviolet -->
+    <script src="/static/uv/uv.bundle.js" defer></script>
+    <script src="/static/uv/uv.config.js" defer></script>
+    <script src="/static/register-sw.js" defer></script>
+    <script src="/static/search.js" defer></script>
+    <script src="/static/index.js" defer></script>
+
+    <script>
+    async function regsw(){
+        await navigator.serviceWorker.register("/static/uv-sw.js", {
+            scope: "/static/",
+        });
+    }
+
+    regsw();
+    </script>
+<!-- Ultraviolet -->
+
+</body>
+</html>
