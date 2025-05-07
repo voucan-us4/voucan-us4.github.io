@@ -583,8 +583,8 @@
               } catch {
                 title = url.hostname || 'New Tab';
               }
-              if (title.length > 18) {
-                title = title.substring(0, 15) + '...';
+              if (title.length > 29) {
+                title = title.substring(0, 26) + '...';
               }
               tab.innerHTML = `<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">${title}<span class="close-button" onclick="closeTab(event)">×</span> `;
             }
