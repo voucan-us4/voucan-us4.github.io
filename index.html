@@ -730,7 +730,7 @@
         if (event.key === code[currentKeyIndex]) {
           currentKeyIndex++;
           if (currentKeyIndex === code.length) {
-            iframe.src = "/pages/super-secret.html"
+            iframe.src = "/pages/super-secret.html?upd"
             currentKeyIndex = 0;
           }
         } else {
