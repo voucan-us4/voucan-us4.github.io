@@ -713,7 +713,8 @@
           favicon.href = siteLogo;
           newTab.document.head.appendChild(favicon);
           const iframe = newTab.document.createElement('iframe');
-          iframe.src = document.getElementById('.tab-iframe.active').src;
+          const open = document.querySelector('.tab-iframe.active');
+          iframe.src = open.src;
           iframe.style.width = '100vw';
           iframe.style.height = '100vh';
           iframe.style.border = 'none';
