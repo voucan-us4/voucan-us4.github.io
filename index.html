@@ -393,11 +393,11 @@
 
       function internal(url) {
         try {
-          if (url.startsWith('us4://gaming-frame')) {
+          if (url.startsWith('us4://games-frame')) {
             const path = url.replace('us4://', '/pages/');
             return setIframe(path, 'Games');
           }
-          if (url.startsWith('us4://full-frame')) {
+          if (url.startsWith('us4://apps-frame')) {
             const path = url.replace('us4://', '/pages/');
             return setIframe(path, 'Apps');
           }
@@ -537,7 +537,7 @@
             const decodedUrl = __uv$config.decodeUrl(path);
             return new URL(decodedUrl);
           }
-          if (docHref.includes("/pages/gaming-frame") || docHref.includes("/pages/full-frame")) {
+          if (docHref.includes("/pages/games-frame") || docHref.includes("/pages/apps-frame")) {
             const remaining = docHref.replace(`https://${hostname}/pages/`, "");
             return `us4://${remaining}`;
           }
