@@ -18,7 +18,7 @@
 
         h1 {
             font-size: 10rem;
-            color: #FFD700;
+            color: white;
             margin: 0;
         }
 
@@ -30,7 +30,7 @@
         ul li {
             font-size: 1.2rem;
             margin: 10px 0;
-            color: #FFD700;
+            color: white;
         }
 
         .button {
@@ -38,8 +38,8 @@
             padding: 15px 30px;
             font-size: 1.2rem;
             margin-top: 20px;
-            border: 2px solid #FFD700;
-            color: #FFD700;
+            border: 2px solid white;
+            color: white;
             background: none;
             cursor: pointer;
             text-transform: uppercase;
@@ -48,12 +48,12 @@
         }
 
         .button:hover {
-            background-color: #FFD700;
+            background-color: white;
             color: #1a1a1a;
         }
 
         button.button {
-            border: 2px solid #FFD700;
+            border: 2px solid white;
         }
 
         .background {
