@@ -281,9 +281,6 @@
     </div>
     <div class="navbar" id="navbar">
       <div class="navbar-left">
-        <button onclick="home()" class="nav-btn">
-          <i class="fa fa-home"></i>
-        </button>
         <button onclick="document.querySelector('.tab-iframe.active').contentWindow.history.back()" class="nav-btn">
           <i class="fas fa-arrow-left"></i>
         </button>
@@ -293,16 +290,22 @@
         <button onclick="document.querySelector('.tab-iframe.active').contentWindow.location.reload()" class="nav-btn">
           <i class="fas fa-redo"></i>
         </button>
+        <button onclick="home()" class="nav-btn">
+          <i class="fa fa-home"></i>
+        </button>
       </div>
       <div class="search-bar-container">
         <input type="text" id="search-input" value="US4://new-tab-page" class="search-bar" placeholder="Search or enter a URL">
       </div>
       <div class="navbar-right">
-        <button onclick="inspect()" class="nav-btn">
-          <i class="fa fa-code"></i>
+        <button onclick="openInAboutBlank()" class="nav-btn">
+          <i class="fa-solid fa-up-right-from-square"></i>
         </button>
         <button onclick="toggleFullscreen()" class="nav-btn">
           <i class="fas fa-expand"></i>
+        </button>
+        <button onclick="inspect()" class="nav-btn">
+          <i class="fa fa-code"></i>
         </button>
         <button onclick="settings()" class="nav-btn">
           <i class="fa fa-cog"></i>
@@ -359,6 +362,7 @@
         newTab.innerHTML = `New Tab
 													
 													
+													
 													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -389,7 +393,6 @@
 
       function internal(url) {
         try {
-          // Handle dynamic gaming/app frames
           if (url.startsWith('us4://gaming-frame')) {
             const path = url.replace('us4://', '/pages/');
             return setIframe(path, 'Games');
@@ -398,7 +401,6 @@
             const path = url.replace('us4://', '/pages/');
             return setIframe(path, 'Apps');
           }
-          // Handle static pages
           switch (url) {
             case 'us4://new-tab-page':
               return setIframe('/static/index.html?upd=', 'New Tab');
@@ -461,6 +463,7 @@
         newTab.innerHTML = `New Tab
 													
 													
+													
 													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -481,6 +484,7 @@
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
         newTab.innerHTML = `Settings
+													
 													
 													
 													<span class="close-button" onclick="closeTab(event)">×</span>`;
@@ -613,7 +617,9 @@
               tab.innerHTML = `
 													
 													
+													
 													<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">${title}
+														
 														
 														
 														<span class="close-button" onclick="closeTab(event)">×</span> `;
@@ -668,6 +674,7 @@
         newTab.innerHTML = `${name}
 														
 														
+														
 														<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -694,6 +701,28 @@
           }
         }
       });
+
+      function openInAboutBlank() {
+        const siteTitle = localStorage.getItem('siteTitle') || "Home";
+        const siteLogo = localStorage.getItem('siteLogo') || "https://raw.githubusercontent.com/voucan/voucan.github.io/refs/heads/main/googleclassroom.png";
+        const newTab = window.open('about:blank', '_blank');
+        if (newTab) {
+          newTab.document.title = siteTitle;
+          const favicon = newTab.document.createElement('link');
+          favicon.rel = 'icon';
+          favicon.href = siteLogo;
+          newTab.document.head.appendChild(favicon);
+          const iframe = newTab.document.createElement('iframe');
+          iframe.src = document.getElementById('.tab-iframe.active').src;
+          iframe.style.width = '100vw';
+          iframe.style.height = '100vh';
+          iframe.style.border = 'none';
+          newTab.document.body.style.margin = '0';
+          newTab.document.body.appendChild(iframe);
+        } else {
+          console.error("Failed to open About:Blank page.");
+        }
+      }
     </script>
     <script>
       const code = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a', 'Enter'];
