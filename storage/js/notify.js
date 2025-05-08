@@ -54,5 +54,5 @@ function createNotification(message) {
 }
 
 window.onload = () => {
-    createNotification('US4 is now tabbed; added internal pages')
+    createNotification('Finished internal pages and mapping!')
 };
