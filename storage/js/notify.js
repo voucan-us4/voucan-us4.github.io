@@ -75,5 +75,5 @@ function createNotification(message) {
 }
 
 window.onload = () => {
-    createNotification('Please click on 10 ads to use US4. You only have to do this on your first visit!');
+    createNotification('Test Message');
 };
