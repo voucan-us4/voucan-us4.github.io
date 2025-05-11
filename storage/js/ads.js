@@ -3,7 +3,7 @@ let clickCount = localStorage.getItem(window.location.hostname + "_clickedAds") 
 clickCount = parseInt(clickCount);
 
 if (clickCount < 10) {
-  const tabIframe = document.querySelector('.tab-iframe.active'); // Select the active iframe
+  const tabIframe = document.querySelector('.tab-iframe.active');
 
   if (tabIframe) {
     const adIframe = tabIframe.contentWindow.document.getElementById('container-9bd6dd1837226b9fe69dcbb4f296d85a');
