@@ -313,7 +313,7 @@
       </div>
     </div>
     <div class="content-wrapper" id="content-wrapper">
-      <iframe class="tab-iframe active" src="/static/index.html"></iframe>
+      <iframe class="tab-iframe active" src="/static/"></iframe>
     </div>
     <div class="lower-navbar">
       <button class="nav-btn" onclick="setIframe('/pages/games?upd=', 'Games')">
@@ -365,7 +365,7 @@
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
         const iframe = document.createElement('iframe');
         iframe.classList.add('tab-iframe');
-        iframe.src = '/static/index.html';
+        iframe.src = '/static/';
         iframe.onload = function() {
           updateSearchBar(iframe);
           updateTabName(iframe);
@@ -400,7 +400,7 @@
           }
           switch (url) {
             case 'us4://new-tab-page':
-              return setIframe('/static/index.html?upd=', 'New Tab');
+              return setIframe('/static/?upd=', 'New Tab');
             case 'us4://settings':
               return setIframe('/pages/prox/settings?upd=', 'Settings');
             case 'us4://games':
@@ -436,7 +436,7 @@
         if (typeof mapped === 'function') {
           mapped();
         } else {
-          const isInternal = mapped === '/static/index.html' || mapped === '/pages/prox/settings';
+          const isInternal = mapped === '/static/' || mapped === '/pages/prox/settings';
           iframe.src = isInternal ? mapped : `/static/embed#${mapped.startsWith('http') ? mapped : `https://duckduckgo.com/?q=${encodeURIComponent(mapped)}`}`;
           iframe.onload = () => {
             updateSearchBar(iframe);
@@ -466,7 +466,7 @@
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
         const iframe = document.createElement('iframe');
         iframe.classList.add('tab-iframe');
-        iframe.src = '/static/index.html';
+        iframe.src = '/static/';
         iframe.onload = function() {
           updateSearchBar(iframe);
           updateTabName(iframe);
@@ -539,7 +539,7 @@
             return `us4://${remaining}`;
           }
           switch (docHref) {
-            case `https://${hostname}/static/index.html`:
+            case `https://${hostname}/static/`:
               return "us4://new-tab-page";
             case `https://${hostname}/pages/prox/settings`:
               return "us4://settings";
