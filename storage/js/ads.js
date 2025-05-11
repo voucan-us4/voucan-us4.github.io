@@ -6,7 +6,7 @@ if (clickCount < 10) {
   const tabIframe = document.querySelector('.tab-iframe.active');
 
   if (tabIframe) {
-    const adIframe = tabIframe.contentWindow.document.getElementById('container-9bd6dd1837226b9fe69dcbb4f296d85a');
+    const adIframe = tabIframe.contentWindow.document.getElementById('container-9bd6dd1837226b9fe69dcbb4f296d85a8493');
 
     if (adIframe) {
       adIframe.addEventListener('click', function() {
