@@ -1,24 +1,20 @@
 let clickCount = localStorage.getItem(window.location.hostname + "_clickedAds") || 0;
-
 clickCount = parseInt(clickCount);
 
 if (clickCount < 10) {
-  const tabIframe = document.querySelector('.tab-iframe.active');
+  window.addEventListener('load', function () {
+    const adElement = Array.from(document.querySelectorAll('*'))
+      .find(element => element.id && element.id.includes('container-9bd6dd1837226b9fe69dcbb4f296d85a'));
 
-  if (tabIframe) {
-    const adIframe = Array.from(tabIframe.contentWindow.document.querySelectorAll('*'))
-                           .find(element => element.id && element.id.includes('container-9bd6dd1837226b9fe69dcbb4f296d85a'));
-
-    if (adIframe) {
-      adIframe.addEventListener('click', function() {
+    if (adElement) {
+      adElement.addEventListener('click', function () {
         clickCount++;
-        
         localStorage.setItem(window.location.hostname + "_clickedAds", clickCount);
-        
+
         if (clickCount >= 10) {
-          adIframe.style.display = 'none';
-          
-          const scriptElements = tabIframe.contentWindow.document.querySelectorAll('script[src="//pl26618098.profitableratecpm.com/9b/d6/dd/9bd6dd1837226b9fe69dcbb4f296d85a.js"]');
+          adElement.style.display = 'none';
+
+          const scriptElements = document.querySelectorAll('script[src="//pl26618098.profitableratecpm.com/9b/d6/dd/9bd6dd1837226b9fe69dcbb4f296d85a.js"]');
           scriptElements.forEach(script => script.remove());
 
           console.log('10th click');
@@ -26,10 +22,13 @@ if (clickCount < 10) {
       });
     }
 
-    const script = document.createElement('script');
-    script.src = '//pl26618098.profitableratecpm.com/9b/d6/dd/9bd6dd1837226b9fe69dcbb4f296d85a.js';
-    tabIframe.contentWindow.document.body.appendChild(script);
-  }
+    const existingScript = document.querySelector('script[src="//pl26618098.profitableratecpm.com/9b/d6/dd/9bd6dd1837226b9fe69dcbb4f296d85a.js"]');
+    if (!existingScript) {
+      const script = document.createElement('script');
+      script.src = '//pl26618098.profitableratecpm.com/9b/d6/dd/9bd6dd1837226b9fe69dcbb4f296d85a.js';
+      document.body.appendChild(script);
+    }
+  });
 } else {
   console.log('10th click');
 }
