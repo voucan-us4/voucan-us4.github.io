@@ -714,7 +714,8 @@
           favicon.href = siteLogo;
           newTab.document.head.appendChild(favicon);
           const iframe = newTab.document.createElement('iframe');
-          const open = document.querySelector('.tab-iframe.active');
+          const frame = document.querySelector('.tab-iframe.active');
+          const open = frame.contentWindow.location.href;
           iframe.src = open.src;
           iframe.style.width = '100vw';
           iframe.style.height = '100vh';
