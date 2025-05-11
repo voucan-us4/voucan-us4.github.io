@@ -75,5 +75,5 @@ function createNotification(message) {
 }
 
 window.onload = () => {
-    createNotification('Test Message');
+    createNotification('Added Ads. This will help us continue making sites in the future. You can disable this in settings.');
 };
