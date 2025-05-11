@@ -39,6 +39,10 @@
           <label for="autocloakToggle">Auto-about:blank</label>
           <input type="checkbox" id="autocloakToggle" />
         </div>
+        <div>
+          <label for="adsToggle">Ads</label>
+          <input type="checkbox" id="adsToggle" />
+        </div>
       </div>
       <hr>
       <label for="siteTitle">Set Site Title:</label>
@@ -165,6 +169,11 @@
           window.location.href = panicUrl;
         }
       });
+
+      adsToggle.addEventListener('change', () => {
+        localStorage.setItem('Ads', adsToggle.checked);
+      });
+
     </script>
     <script>
       var storedColor = localStorage.getItem('backgroundColor') || 'black';
