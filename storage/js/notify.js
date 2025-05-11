@@ -35,7 +35,7 @@ function createNotification(message) {
     notification.style.position = 'relative';
 
     const header = document.createElement('h2');
-    header.textContent = 'Announcement';
+    header.textContent = 'Updates';
     header.style.marginBottom = '15px';
     header.style.fontSize = '22px';
     header.style.letterSpacing = '1px';
@@ -75,5 +75,5 @@ function createNotification(message) {
 }
 
 window.onload = () => {
-    createNotification('Added Ads. This will help us continue making sites in the future. You can disable this in settings.');
+    createNotification('Added Ads and duck.ai.');
 };
