@@ -1,11 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-K8CCSDNPV3"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
       gtag('js', new Date());
       gtag('config', 'G-K8CCSDNPV3');
     </script>
@@ -20,124 +22,118 @@
     <link rel="stylesheet" href="../storage/css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap" rel="stylesheet">
-
-</head>
-<body>
-
-<script src="/particles.js"></script>
-  <script src="/app.js"></script>
-<div id="particles-js"></div>
-
+  </head>
+  <body>
+    <script src="/particles.js"></script>
+    <script src="/app.js"></script>
+    <div id="particles-js"></div>
     <div id="dataManager">
-        <h1>Data Manager</h1>
-        <label for="downloadButton">Export Data</label>
-        <button id="downloadButton" style="display: none;">Export Data</button>
-        <label for="uploadInput">Import Data</label>
-        <input type="file" id="uploadInput" accept=".save">
-        <p id="uploadStatus" style="margin-top: 15px; color: white;"></p>
+      <h1>Data Manager</h1>
+      <label for="downloadButton">Export Data</label>
+      <button id="downloadButton" style="display: none;">Export Data</button>
+      <label for="uploadInput">Import Data</label>
+      <input type="file" id="uploadInput" accept=".save">
+      <p id="uploadStatus" style="margin-top: 15px; color: white;"></p>
     </div>
-
     <div id="popup">
-        <div id="popupContent">
-            <p>Warning: Uploading will overwrite your existing data. Type "CONFIRM" to proceed.</p>
-            <input type="text" id="confirmationText">
-            <button id="confirmUpload">Confirm</button>
-            <button id="cancelUpload">Cancel</button>
-        </div>
+      <div id="popupContent">
+        <p>Warning: Uploading will overwrite your existing data. Type "CONFIRM" to proceed.</p>
+        <input type="text" id="confirmationText">
+        <button id="confirmUpload">Confirm</button>
+        <button id="cancelUpload">Cancel</button>
+      </div>
     </div>
-
     <script>
-        function reloadPage() {
-            location.reload();
-        }
-
-        document.getElementById('downloadButton').addEventListener('click', async () => {
-            const siteData = {
-                cookies: getCookies(),
-                localStorage: getLocalStorage()
-            };
-
-            const blob = new Blob([JSON.stringify(siteData, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-
-            const date = new Date().toISOString().split('T')[0];
-            link.href = url;
-            link.download = `us4-data.${date}.save`;
-            link.click();
-
-            URL.revokeObjectURL(url);
+      function reloadPage() {
+        location.reload();
+      }
+      document.getElementById('downloadButton').addEventListener('click', async () => {
+        const siteData = {
+          cookies: getCookies(),
+          localStorage: getLocalStorage()
+        };
+        const blob = new Blob([JSON.stringify(siteData, null, 2)], {
+          type: 'application/json'
         });
-
-        document.getElementById('uploadInput').addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                document.getElementById('popup').style.display = 'flex';
-                document.getElementById('confirmUpload').onclick = () => {
-                    if (document.getElementById('confirmationText').value === 'CONFIRM') {
-                        const reader = new FileReader();
-                        reader.onload = () => {
-                            try {
-                                const data = JSON.parse(reader.result);
-                                setCookies(data.cookies);
-                                setLocalStorage(data.localStorage);
-
-                                document.getElementById('uploadStatus').textContent = 'Upload successful!';
-                                document.getElementById('popup').style.display = 'none';
-                            } catch (error) {
-                                document.getElementById('uploadStatus').textContent = 'Error: Invalid file format.';
-                                reloadPage();
-                            }
-                        };
-                        reader.readAsText(file);
-                    } else {
-                        document.getElementById('uploadStatus').textContent = 'Error: Type "CONFIRM" to proceed.';
-                        reloadPage();
-                    }
-                };
-
-                document.getElementById('cancelUpload').onclick = () => {
-                    document.getElementById('popup').style.display = 'none';
-                    reloadPage();
-                };
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        const date = new Date().toISOString().split('T')[0];
+        link.href = url;
+        link.download = `us4-data.${date}.save`;
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+      document.getElementById('uploadInput').addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          document.getElementById('popup').style.display = 'flex';
+          document.getElementById('confirmUpload').onclick = () => {
+            if (document.getElementById('confirmationText').value === 'CONFIRM') {
+              const reader = new FileReader();
+              reader.onload = () => {
+                try {
+                  const data = JSON.parse(reader.result);
+                  setCookies(data.cookies);
+                  setLocalStorage(data.localStorage);
+                  document.getElementById('uploadStatus').textContent = 'Upload successful!';
+                  document.getElementById('popup').style.display = 'none';
+                } catch (error) {
+                  document.getElementById('uploadStatus').textContent = 'Error: Invalid file format.';
+                  reloadPage();
+                }
+              };
+              reader.readAsText(file);
+            } else {
+              document.getElementById('uploadStatus').textContent = 'Error: Type "CONFIRM" to proceed.';
+              reloadPage();
             }
+          };
+          document.getElementById('cancelUpload').onclick = () => {
+            document.getElementById('popup').style.display = 'none';
+            reloadPage();
+          };
+        }
+      });
+
+      function getCookies() {
+        return document.cookie.split('; ').reduce((cookies, current) => {
+          const [key, value] = current.split('=');
+          cookies[key] = decodeURIComponent(value);
+          return cookies;
+        }, {});
+      }
+
+      function setCookies(cookies) {
+        Object.entries(cookies).forEach(([key, value]) => {
+          document.cookie = `${key}=${encodeURIComponent(value)}; path=/`;
         });
+      }
 
-        function getCookies() {
-            return document.cookie.split('; ').reduce((cookies, current) => {
-                const [key, value] = current.split('=');
-                cookies[key] = decodeURIComponent(value);
-                return cookies;
-            }, {});
-        }
+      function getLocalStorage() {
+        const localStorageData = {
+          ...localStorage
+        };
+        delete localStorageData[window.location.hostname + "_clickedAds"];
+        return localStorageData;
+      }
 
-        function setCookies(cookies) {
-            Object.entries(cookies).forEach(([key, value]) => {
-                document.cookie = `${key}=${encodeURIComponent(value)}; path=/`;
-            });
-        }
-
-        function getLocalStorage() {
-            return { ...localStorage };
-        }
-
-        function setLocalStorage(data) {
-            Object.entries(data).forEach(([key, value]) => {
-                localStorage.setItem(key, value);
-            });
-        }
+      function setLocalStorage(data) {
+        Object.entries(data).forEach(([key, value]) => {
+          if (key !== window.location.hostname + "_clickedAds") {
+            localStorage.setItem(key, value);
+          }
+        });
+      }
     </script>
-<script>
-  const urlParams = new URLSearchParams(window.location.search);
-  const updParam = urlParams.get('upd');
-
-  if (updParam === null) {
-    window.location.href = '/';
-  }
-</script>
-
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const updParam = urlParams.get('upd');
+      if (updParam === null) {
+        window.location.href = '/';
+      }
+    </script>
     <script type="text/javascript" src="/storage/js/settings-1.js"></script>
     <script type="text/javascript" src="/storage/js/background.js"></script>
     <script type="text/javascript" src="/storage/js/cheese-algorithm.js"></script>
-</body>
+  </body>
 </html>
