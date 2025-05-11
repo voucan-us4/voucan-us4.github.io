@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -419,6 +420,8 @@
               return setIframe('/pages/data?upd=', 'Data');
             case 'us4://data-usage':
               return setIframe('/pages/extra/data-use', 'Data Usage');
+            case 'us4://secret':
+              return setIframe('/pages/super-secret?upd', 'secret');
             default:
               return url;
           }
@@ -559,6 +562,8 @@
               return "us4://data";
             case `https://${hostname}/pages/extra/data-use`:
               return "us4://data-usage";
+            case `https://${hostname}/pages/extra/super-secret?upd`:
+              return "us4://secret";
             default:
               if (docHref.startsWith(hostPrefix)) {
                 return decodeURI(docHref.replace(hostPrefix, ""));
@@ -730,7 +735,7 @@
         if (event.key === code[currentKeyIndex]) {
           currentKeyIndex++;
           if (currentKeyIndex === code.length) {
-            iframe.src = "/pages/super-secret.html?upd"
+            iframe.src = "/pages/super-secret?upd"
             currentKeyIndex = 0;
           }
         } else {
