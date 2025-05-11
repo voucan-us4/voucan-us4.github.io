@@ -73,6 +73,7 @@
       const resetPanicButtonSettingsButton = document.getElementById('resetPanicButtonSettings');
       beforeUnloadToggle.checked = localStorage.getItem('beforeUnloadEnabled') === 'true';
       autocloakToggle.checked = localStorage.getItem('autocloakEnabled') === 'true';
+      adsToggle.checked = localStorage.getItem('Ads') === 'true';
       siteTitleInput.value = localStorage.getItem('siteTitle') || '';
       panicKeyInput.value = localStorage.getItem('panicKey') || '';
       panicUrlInput.value = localStorage.getItem('panicUrl') || '';
