@@ -319,7 +319,7 @@
       <button class="nav-btn" onclick="setIframe('/pages/games?upd=', 'Games')">
         <i class="fas fa-gamepad"></i>
       </button>
-      <button class="nav-btn" onclick="setIframe('/pages/heartive?upd=', 'Movies')">
+      <button class="nav-btn" onclick="setIframe('/pages/heartive?upd=', 'Media')">
         <i class="fa-solid fa-video"></i>
       </button>
       <button class="nav-btn" onclick="setIframe('/pages/apps?upd=', 'Apps')">
@@ -406,7 +406,7 @@
             case 'us4://games':
               return setIframe('/pages/games?upd=', 'Games');
             case 'us4://movies':
-              return setIframe('/pages/heartive?upd=', 'Movies');
+              return setIframe('/pages/heartive?upd=', 'Media');
             case 'us4://apps':
               return setIframe('/pages/apps?upd=', 'Apps');
             case 'us4://partners':
@@ -549,8 +549,8 @@
               return "us4://settings";
             case `https://${hostname}/pages/games?upd=`:
               return "us4://games";
-            case `https://${hostname}/pages/heartive?upd=`:
-              return "us4://movies";
+            case `https://${hostname}/pages/media?upd=`:
+              return "us4://media";
             case `https://${hostname}/pages/apps?upd=`:
               return "us4://apps";
             case `https://${hostname}/pages/partners?upd=`:
