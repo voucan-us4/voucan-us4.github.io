@@ -421,6 +421,8 @@
               return setIframe('/pages/extra/data-use', 'Data Usage');
             case 'us4://secret':
               return setIframe('/pages/super-secret?upd', 'secret');
+            case 'us4://cheese.png':
+              return setIframe('/storage/images/cheese.png', 'cheese');
             default:
               return url;
           }
@@ -563,6 +565,8 @@
               return "us4://data-usage";
             case `https://${hostname}/pages/super-secret?upd`:
               return "us4://secret";
+            case `https://${hostname}/storage/images/cheese.png`:
+              return "us4://cheese.png";
             default:
               if (docHref.startsWith(hostPrefix)) {
                 return decodeURI(docHref.replace(hostPrefix, ""));
