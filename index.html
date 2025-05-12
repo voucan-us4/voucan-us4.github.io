@@ -91,8 +91,7 @@
 
       .tab .close-button {
         align-items: right;
-	margin-left: 5px:
-        color: white;
+        margin-left: 5px: color: white;
         cursor: pointer;
         font-size: 14px;
       }
@@ -361,6 +360,7 @@
 													
 													
 													
+													
 													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -434,15 +434,27 @@
       }
 
       function search() {
-        const input = document.getElementById('search-input').value.trim();
+        const inputRaw = document.getElementById('search-input').value.trim();
         const iframe = document.querySelector('.tab-iframe.active');
-        if (!input || !iframe) return;
-        const mapped = internal(input);
+        if (!inputRaw || !iframe) return;
+        const mapped = internal(inputRaw);
         if (typeof mapped === 'function') {
           mapped();
         } else {
           const isInternal = mapped === '/static/' || mapped === '/pages/prox/settings';
-          iframe.src = isInternal ? mapped : `/static/embed#${mapped.startsWith('http') ? mapped : `https://duckduckgo.com/?q=${encodeURIComponent(mapped)}`}`;
+          let finalURL = mapped;
+          if (!isInternal) {
+            const hasProtocol = /^https?:\/\//i.test(mapped);
+            const looksLikeURL = /\.[a-z]{2,}(\/|$)/i.test(mapped);
+            if (hasProtocol) {
+              finalURL = mapped;
+            } else if (looksLikeURL) {
+              finalURL = 'http://' + mapped;
+            } else {
+              finalURL = `https://duckduckgo.com/?q=${encodeURIComponent(mapped)}`;
+            }
+          }
+          iframe.src = isInternal ? mapped : `/static/embed#${finalURL}`;
           iframe.onload = () => {
             updateSearchBar(iframe);
             updateTabName(iframe);
@@ -466,6 +478,7 @@
 													
 													
 													
+													
 													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -486,6 +499,7 @@
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
         newTab.innerHTML = `Settings
+													
 													
 													
 													
@@ -624,7 +638,9 @@
 													
 													
 													
+													
 													<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">${title}
+														
 														
 														
 														
@@ -678,6 +694,7 @@
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
         newTab.innerHTML = `${name}
+														
 														
 														
 														
@@ -750,8 +767,6 @@
     <script src="/storage/js/settings.js"></script>
     <script type="text/javascript" src="/storage/js/cheese-algorithm.js"></script>
     <script type="text/javascript" src="/storage/js/notify.js"></script>
-
     <script type="text/javascript" src="/storage/js/ads.js"></script>
-
   </body>
 </html>
