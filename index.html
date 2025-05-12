@@ -90,6 +90,8 @@
       }
 
       .tab .close-button {
+        align-items: right;
+	margin-left: 5px:
         color: white;
         cursor: pointer;
         font-size: 14px;
@@ -608,7 +610,7 @@
               } catch {
                 host = new URL("https://voucan-us4.github.io");
               }
-              const faviconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${host.hostname}&size=16`;
+              const faviconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${host.hostname}&size=32`;
               let title = '';
               try {
                 title = iframe.contentWindow.document.title || url.hostname;
