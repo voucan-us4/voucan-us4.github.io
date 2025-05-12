@@ -375,6 +375,7 @@
           updateTabName(iframe);
         };
         document.getElementById('content-wrapper').appendChild(iframe);
+	makeTabDraggable(newTab);
         selectTab(newTab);
       }
 
@@ -726,6 +727,7 @@
           contentWrapper.appendChild(iframe);
         }
         selectTab(newTab);
+	makeTabDraggable(newTab);
       }
       document.addEventListener("DOMContentLoaded", () => {
         const launch = new URLSearchParams(window.location.search).get('launch');
@@ -780,6 +782,63 @@
         }
       });
     </script>
+<script>
+let draggedTab = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.tab').forEach(makeTabDraggable);
+});
+
+function makeTabDraggable(tab) {
+  tab.setAttribute('draggable', 'true');
+
+  tab.addEventListener('dragstart', (e) => {
+    draggedTab = tab;
+    e.dataTransfer.effectAllowed = 'move';
+  });
+
+  tab.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  });
+
+  tab.addEventListener('drop', (e) => {
+    e.preventDefault();
+    if (draggedTab && draggedTab !== tab) {
+      const container = document.getElementById('tabs');
+      const tabs = Array.from(container.children).filter(el => el.classList.contains('tab'));
+
+      const draggedIndex = tabs.indexOf(draggedTab);
+      const droppedIndex = tabs.indexOf(tab);
+
+      if (draggedIndex < droppedIndex) {
+        container.insertBefore(draggedTab, tab.nextSibling);
+      } else {
+        container.insertBefore(draggedTab, tab);
+      }
+
+      reorderIframes();
+    }
+  });
+}
+
+function reorderIframes() {
+  const container = document.getElementById('content-wrapper');
+  const iframes = Array.from(document.querySelectorAll('.tab-iframe'));
+  const tabs = Array.from(document.querySelectorAll('.tab'));
+  const orderedIframes = [];
+
+  tabs.forEach((tab, index) => {
+    const originalIndex = Array.from(tab.parentNode.children).indexOf(tab);
+    if (iframes[originalIndex]) {
+      orderedIframes.push(iframes[originalIndex]);
+    }
+  });
+
+  iframes.forEach(iframe => iframe.remove());
+  orderedIframes.forEach(iframe => container.appendChild(iframe));
+}
+</script>
     <script src="/storage/js/settings.js"></script>
     <script type="text/javascript" src="/storage/js/cheese-algorithm.js"></script>
     <script type="text/javascript" src="/storage/js/notify.js"></script>
