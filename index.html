@@ -720,7 +720,7 @@
           const iframe = newTab.document.createElement('iframe');
           const frame = document.querySelector('.tab-iframe.active');
           const open = frame.contentWindow.location.href;
-          iframe.src = open.src;
+          iframe.src = open;
           iframe.style.width = '100vw';
           iframe.style.height = '100vh';
           iframe.style.border = 'none';
