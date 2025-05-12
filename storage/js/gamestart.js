@@ -46,7 +46,7 @@ window.addEventListener("load", function () {
         maxWidth: "80%",
         opacity: "0.8"
     });
-    tipText.textContent = "Want to suggest a game? Join our discord!";
+    tipText.textContent = "Want to suggest a game or app? Join our discord!";
 
     const progressBarContainer = document.createElement("div");
     Object.assign(progressBarContainer.style, {
