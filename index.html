@@ -291,7 +291,7 @@
         <button onclick="document.querySelector('.tab-iframe.active').contentWindow.location.reload()" class="nav-btn">
           <i class="fas fa-redo"></i>
         </button>
-        <button onclick="home()" class="nav-btn">
+        <button onclick="setIframe('/static/', 'New Tab')" class="nav-btn">
           <i class="fa fa-home"></i>
         </button>
       </div>
@@ -358,6 +358,7 @@
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
         newTab.innerHTML = `New Tab
+													
 													
 													
 													
@@ -480,6 +481,7 @@
 													
 													
 													
+													
 													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -500,6 +502,7 @@
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
         newTab.innerHTML = `Settings
+													
 													
 													
 													
@@ -640,7 +643,9 @@
 													
 													
 													
+													
 													<img src="${faviconUrl}" alt="favicon" style="width:16px;height:16px;margin-right:6px;">${title}
+														
 														
 														
 														
@@ -683,25 +688,27 @@
       });
 
       function setIframe(url, name) {
+        const tabs = Array.from(document.querySelectorAll('.tab'));
+        const iframes = Array.from(document.querySelectorAll('.tab-iframe'));
         const activeTab = document.querySelector('.tab.active');
-        const tabIndex = Array.from(document.querySelectorAll('.tab')).indexOf(activeTab);
-        const activeIframe = document.querySelectorAll('.tab-iframe')[tabIndex];
-        if (activeTab && activeIframe) {
-          activeTab.remove();
-          activeIframe.remove();
+        const tabIndex = tabs.indexOf(activeTab);
+        if (activeTab && tabIndex !== -1) {
+          tabs[tabIndex].remove();
+          iframes[tabIndex].remove();
         }
         tabCount++;
         const tabsContainer = document.getElementById('tabs');
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
-        newTab.innerHTML = `${name}
-														
-														
-														
-														
+        newTab.innerHTML = `${name} 
 														<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
-        tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
+        const referenceTab = document.querySelectorAll('.tab')[tabIndex];
+        if (referenceTab) {
+          tabsContainer.insertBefore(newTab, referenceTab);
+        } else {
+          tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
+        }
         const iframe = document.createElement('iframe');
         iframe.classList.add('tab-iframe');
         iframe.src = url;
@@ -709,7 +716,14 @@
           updateSearchBar(iframe);
           updateTabName(iframe);
         };
-        document.getElementById('content-wrapper').appendChild(iframe);
+        const contentWrapper = document.getElementById('content-wrapper');
+        const allIframes = document.querySelectorAll('.tab-iframe');
+        const referenceIframe = allIframes[tabIndex];
+        if (referenceIframe) {
+          contentWrapper.insertBefore(iframe, referenceIframe);
+        } else {
+          contentWrapper.appendChild(iframe);
+        }
         selectTab(newTab);
       }
       document.addEventListener("DOMContentLoaded", () => {
