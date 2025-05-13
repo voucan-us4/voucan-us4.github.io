@@ -452,7 +452,7 @@
               finalURL = `https://duckduckgo.com/?q=${encodeURIComponent(mapped)}`;
             }
           }
-          iframe.src = isInternal ? mapped : `/static/embed#${finalURL}`;
+          iframe.src = isInternal ? mapped : `/static/embed?p=${finalURL}`;
           iframe.onload = () => {
             updateSearchBar(iframe);
             updateTabName(iframe);
@@ -501,12 +501,12 @@
           if (e.key === "Enter") search();
         });
       });
-      const proxyPrefix = "/static/embed.html#";
+      const proxyPrefix = "/static/embed.html?p=";
       //unprxy
       function getUnproxifiedUrl(proxifiedUrl) {
         try {
           const hostname = window.location.hostname;
-          const hostPrefix = `https://${hostname}/static/embed#`;
+          const hostPrefix = `https://${hostname}/static/embed?p=`;
           const staticLoadPrefix = `https://${hostname}/static/load/`;
           const iframe = document.querySelector('.tab-iframe.active');
           const docHref = iframe.contentWindow.location.href;
