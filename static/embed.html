@@ -23,17 +23,7 @@
 <script src="register-sw.js"></script>
 <script src="embed.js"></script>
 <script type="text/javascript" src="/storage/js/background.js"></script>
-    <script>
-      window.addEventListener('DOMContentLoaded', () => {
-        const CB = localStorage.getItem('custombare');
-        if (CB && self.__uv$config) {
-          self.__uv$config.bare = CB;
-          console.log('bare set to', CB);
-        } else {
-          console.warn('No custom bare set in localStorage or __uv$config not defined.');
-        }
-      });
-    </script>
+    <script type="text/javascript" src="/storage/js/bare.js"></script>
 
 </body>
 </html>
