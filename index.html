@@ -78,7 +78,6 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         height: 40px;
-	draggable: true;
       }
 
       .tab.active {
@@ -369,7 +368,6 @@
           updateTabName(iframe);
         };
         document.getElementById('content-wrapper').appendChild(iframe);
-	makeTabDraggable(newTab);
         selectTab(newTab);
       }
 
@@ -670,7 +668,6 @@
           contentWrapper.appendChild(iframe);
         }
         selectTab(newTab);
-	makeTabDraggable(newTab);
       }
       document.addEventListener("DOMContentLoaded", () => {
         const launch = new URLSearchParams(window.location.search).get('launch');
