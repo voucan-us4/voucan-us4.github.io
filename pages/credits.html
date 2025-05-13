@@ -23,7 +23,7 @@
 <body>
 
 <script src="/particles.js"></script>
-  <script src="/app.js"></script>
+<script src="/app.js"></script>
 <div id="particles-js"></div>
 
 <div class="navbar">
@@ -32,114 +32,114 @@
             <img src="/storage/images/logo.png" alt="logo">
         </a>
     </div>
-<div class="right-side">
-     <script type="text/javascript" src="/storage/js/nav.js"></script>
-</div>
-</div>
-    <div class="game-title">Credits</div>
-
-    <div class="game-grid" id="gameGrid">
-        <div class="game-button">
-            <a href="https://voucan.is-a.dev" target="_blank">
-                <img src="https://voucan.github.io/vcngrey.png" alt="Voucan">
-                <div class="overlay-text">Voucan: Website, Games, Apps</div>
-            </a>
-        </div>
-        <div class="game-button">
-            <a href="https://brunys.org" target="_blank">
-                <img src="https://mexi.lol/devpfps/bruny.jpg" alt="Brunys">
-                <div class="overlay-text">Brunys: Games</div>
-            </a>
-        </div>
-        <div class="game-button">
-            <a href="https://a456pur.dev/" target="_blank">
-                <img src="https://a456pur.dev/images/astra.jpg" alt="Astralogical">
-                <div class="overlay-text">Astralogical: Thirty Dollar Website</div>
-            </a>
-        </div>
-        <div class="game-button" target="_blank">
-            <a href="https://github.com/titaniumnetwork-dev">
-                <img src="https://avatars.githubusercontent.com/u/47227492?s=200&v=4" alt="Titanium Network">
-                <div class="overlay-text">Titanium Network: Ultraviolet</div>
-            </a>
-        </div>
-        <div class="game-button" target="_blank">
-            <a href="https://benrogo.net">
-                <img src="https://benrogo.net/logo.png" alt="Benrogo">
-                <div class="overlay-text">Benrogo: Bare Server</div>
-            </a>
-        </div>
-        <div class="game-button" target="_blank">
-            <a href="https://discord.com/users/1152700631514099793">
-                <img src="https://cdn.discordapp.com/avatars/1152700631514099793/81df95bb8c5459481e8bc0466f51e812.webp?size=4096" alt="Nobody">
-                <div class="overlay-text">Nobody: Art</div>
-            </a>
-        </div>
-        <div class="game-button" target="_blank">
-            <a href="https://mexi.lol/">
-                <img src="https://mexi.lol/devpfps/jv.jpg" alt="jv">
-                <div class="overlay-text">jv: Background.js</div>
-            </a>
-        </div>
-        <div class="game-button" target="_blank">
-            <a href="https://jobi.one/">
-                <img src="https://mexi.lol/devpfps/jobapplication.png" alt="Jobi">
-                <div class="overlay-text">Jobi: SW register script</div>
-            </a>
-        </div>
+    <div class="right-side">
+        <script type="text/javascript" src="/storage/js/nav.js"></script>
     </div>
+</div>
 
-    <script>
-        function checkGridAlignment() {
-            const gameGrid = document.getElementById('gameGrid');
-            const buttons = document.querySelectorAll('.game-button');
-            const pageWidth = window.innerWidth;
-            
-            buttons.forEach(button => {
-                const rect = button.getBoundingClientRect();
-                const distanceToRightEdge = pageWidth - rect.right;
-                
-             
-                if (distanceToRightEdge < 75) {
-                    button.style.clear = 'both';
-                } else {
-                    button.style.clear = 'none';
-                }
-            });
-        }
-        window.addEventListener('resize', checkGridAlignment);
-        window.addEventListener('load', checkGridAlignment);
-    </script>
+<div class="game-title">Credits</div>
 
-    <script type="text/javascript" src="../storage/js/settings-1.js"></script>
-
-    <script>
-        function filterGames() {
-            const searchInput = document.getElementById('gameSearch').value.toLowerCase();
-            const games = document.querySelectorAll('.game-button');
-
-            games.forEach(game => {
-                const gameTitle = game.querySelector('.overlay-text').textContent.toLowerCase();
-                if (gameTitle.includes(searchInput)) {
-                    game.style.display = 'block';
-                } else {
-                    game.style.display = 'none';
-                }
-            });
-        }
-    </script>
+<div class="game-grid" id="gameGrid">
+    <div class="game-button">
+        <a href="https://voucan.is-a.dev" target="_blank">
+            <img src="https://voucan.github.io/vcngrey.png" alt="Voucan">
+            <div class="overlay-text">Voucan: Website, Games, Apps</div>
+        </a>
+    </div>
+    <div class="game-button">
+        <a href="https://brunys.org" target="_blank">
+            <img src="https://mexi.lol/devpfps/bruny.jpg" alt="Brunys">
+            <div class="overlay-text">Brunys: Games</div>
+        </a>
+    </div>
+    <div class="game-button">
+        <a href="https://a456pur.dev/" target="_blank">
+            <img src="https://a456pur.dev/images/astra.jpg" alt="Astralogical">
+            <div class="overlay-text">Astralogical: Thirty Dollar Website</div>
+        </a>
+    </div>
+    <div class="game-button">
+        <a href="https://github.com/titaniumnetwork-dev" target="_blank">
+            <img src="https://avatars.githubusercontent.com/u/47227492?s=200&v=4" alt="Titanium Network">
+            <div class="overlay-text">Titanium Network: Ultraviolet</div>
+        </a>
+    </div>
+    <div class="game-button">
+        <a href="https://benrogo.net" target="_blank">
+            <img src="https://benrogo.net/logo.png" alt="Benrogo">
+            <div class="overlay-text">Benrogo: Bare Server</div>
+        </a>
+    </div>
+    <div class="game-button">
+        <a href="https://discord.com/users/1152700631514099793" target="_blank">
+            <img src="https://cdn.discordapp.com/avatars/1152700631514099793/81df95bb8c5459481e8bc0466f51e812.webp?size=4096" alt="Nobody">
+            <div class="overlay-text">Nobody: Art</div>
+        </a>
+    </div>
+    <div class="game-button">
+        <a href="https://mexi.lol/" target="_blank">
+            <img src="https://mexi.lol/devpfps/jv.jpg" alt="jv">
+            <div class="overlay-text">jv: Background.js</div>
+        </a>
+    </div>
+    <div class="game-button">
+        <a href="https://jobi.one/" target="_blank">
+            <img src="https://mexi.lol/devpfps/jobapplication.png" alt="Jobi">
+            <div class="overlay-text">Jobi: SW register script</div>
+        </a>
+    </div>
+</div>
 
 <script>
-  const urlParams = new URLSearchParams(window.location.search);
-  const updParam = urlParams.get('upd');
+    function checkGridAlignment() {
+        const gameGrid = document.getElementById('gameGrid');
+        const buttons = document.querySelectorAll('.game-button');
+        const pageWidth = window.innerWidth;
 
-  if (updParam === null) {
-    window.location.href = '/';
-  }
+        buttons.forEach(button => {
+            const rect = button.getBoundingClientRect();
+            const distanceToRightEdge = pageWidth - rect.right;
+
+            if (distanceToRightEdge < 75) {
+                button.style.clear = 'both';
+            } else {
+                button.style.clear = 'none';
+            }
+        });
+    }
+    window.addEventListener('resize', checkGridAlignment);
+    window.addEventListener('load', checkGridAlignment);
 </script>
 
-    <script type="text/javascript" src="/storage/js/notify.js"></script>
-    <script type="text/javascript" src="/storage/js/background.js"></script>
-    <script type="text/javascript" src="/storage/js/cheese-algorithm.js"></script>
+<script type="text/javascript" src="../storage/js/settings-1.js"></script>
+
+<script>
+    function filterGames() {
+        const searchInput = document.getElementById('gameSearch').value.toLowerCase();
+        const games = document.querySelectorAll('.game-button');
+
+        games.forEach(game => {
+            const gameTitle = game.querySelector('.overlay-text').textContent.toLowerCase();
+            if (gameTitle.includes(searchInput)) {
+                game.style.display = 'block';
+            } else {
+                game.style.display = 'none';
+            }
+        });
+    }
+</script>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const updParam = urlParams.get('upd');
+
+    if (updParam === null) {
+        window.location.href = '/';
+    }
+</script>
+
+<script type="text/javascript" src="/storage/js/notify.js"></script>
+<script type="text/javascript" src="/storage/js/background.js"></script>
+<script type="text/javascript" src="/storage/js/cheese-algorithm.js"></script>
 </body>
 </html>
