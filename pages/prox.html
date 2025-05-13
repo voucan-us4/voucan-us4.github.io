@@ -301,7 +301,7 @@
       <button class="nav-btn" onclick="setIframe('/pages/games', 'Games')">
         <i class="fas fa-gamepad"></i>
       </button>
-      <button class="nav-btn" onclick="setIframe('/static/embed#https://heartive-us4.pages.dev', 'Movies')">
+      <button class="nav-btn" onclick="setIframe('/static/embed?p=https://heartive-us4.pages.dev', 'Movies')">
         <i class="fa-solid fa-video"></i>
       </button>
       <button class="nav-btn" onclick="setIframe('/pages/apps', 'Apps')">
@@ -423,7 +423,7 @@
           mapped();
         } else {
           const isInternal = mapped === '/static/index.html' || mapped === '/pages/prox/settings';
-          iframe.src = isInternal ? mapped : `/static/embed#${mapped.startsWith('http') ? mapped : `https://duckduckgo.com/?q=${encodeURIComponent(mapped)}`}`;
+          iframe.src = isInternal ? mapped : `/static/embed?p=${mapped.startsWith('http') ? mapped : `https://duckduckgo.com/?q=${encodeURIComponent(mapped)}`}`;
           iframe.onload = () => {
             updateSearchBar(iframe);
             updateTabName(iframe);
@@ -542,7 +542,7 @@
           if (e.key === "Enter") search();
         });
       });
-      const proxyPrefix = "/static/embed.html#";
+      const proxyPrefix = "/static/embed.html?p=";
       //unprxy
       try {
         const hostPrefix = "https://" + window.location.hostname;
@@ -557,7 +557,7 @@
             return "us4://settings";
           case hostPrefix + "/pages/games":
             return "us4://games";
-          case hostPrefix + "/static/load/hvtrs8%2F-hgaptkvg-ws6.raeeq.fet":
+          case hostPrefix + "/pages/heartive":
             return "us4://movies";
           case hostPrefix + "/pages/apps":
             return "us4://apps";
