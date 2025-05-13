@@ -45,9 +45,6 @@
         </div>
       </div>
       <hr>
-      <label for="siteTitle">Set Custom Bare:</label>
-      <input type="text" id="bare" placeholder="https://bare.benrogo.net" />
-      <hr>
       <label for="siteTitle">Set Site Title:</label>
       <input type="text" id="siteTitle" placeholder="Enter site title" />
       <label for="siteLogo">Set Site Favicon:</label>
@@ -176,21 +173,6 @@
       });
       adsToggle.addEventListener('change', () => {
         localStorage.setItem('Ads', adsToggle.checked);
-      });
-      const bareInput = document.getElementById('bare');
-      bareInput.addEventListener('input', async () => {
-        const newBare = bareInput.value;
-        localStorage.setItem('custombare', newBare);
-        if ('serviceWorker' in navigator) {
-          const registrations = await navigator.serviceWorker.getRegistrations();
-          for (let reg of registrations) {
-            await reg.unregister();
-          }
-          await navigator.serviceWorker.register("/static/uv-sw.js", {
-            scope: "/static/",
-          });
-          console.log('Service worker re-registered with new bare:', newBare);
-        }
       });
     </script>
     <script>
