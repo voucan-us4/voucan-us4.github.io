@@ -230,11 +230,32 @@
         border: none;
         display: none;
         position: absolute;
+        /*padding-top: 1px; */
         padding-bottom: 95px;
         height: calc(100% - 45px);
       }
 
       iframe.active {
+        display: block;
+      }
+
+      .navbar.hidden,
+      .tabs.hidden {
+        transform: translateY(-200%);
+      }
+
+      .show-navbar-btn {
+        display: none;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 20px;
+      }
+
+      .show-navbar-btn.active {
         display: block;
       }
 
@@ -258,7 +279,7 @@
     <div class="tabs" id="tabs">
       <div class="tab active" onclick="selectTab(this)">New Tab <span class="close-button" onclick="closeTab(event)">×</span>
       </div>
-      <button onclick="addTab('/static/', 'New Tab')" class="add-tab-button">+</button>
+      <button class="add-tab-button">+</button>
     </div>
     <div class="navbar" id="navbar">
       <div class="navbar-left">
@@ -276,7 +297,7 @@
         </button>
       </div>
       <div class="search-bar-container">
-        <input type="text" id="search-input" value="US4://new-tab-page" class="search-bar" placeholder="Search or enter a URL">
+        <input type="text" id="search-input" value="us4://new-tab-page" class="search-bar" placeholder="Search or enter a URL">
       </div>
       <div class="navbar-right">
         <button onclick="openInAboutBlank()" class="nav-btn">
@@ -288,7 +309,7 @@
         <button onclick="inspect()" class="nav-btn">
           <i class="fa fa-code"></i>
         </button>
-        <button onclick="addTab('/pages/prox/settings/', 'Settings')" class="nav-btn">
+        <button onclick="settings()" class="nav-btn">
           <i class="fa fa-cog"></i>
         </button>
       </div>
@@ -321,7 +342,7 @@
     </div>
     <script>
       let tabCount = 1;
-//select
+
       function selectTab(tab) {
         document.querySelectorAll('.tab, .tab-iframe').forEach(el => el.classList.remove('active'));
         tab.classList.add('active');
@@ -331,26 +352,27 @@
         updateSearchBar(iframe);
         updateTabName(iframe);
       }
-//addTab
-      function addTab(url, name) {
+
+      function addTab() {
         tabCount++;
         const tabsContainer = document.getElementById('tabs');
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
-        newTab.innerHTML = `${name} <span class="close-button" onclick="closeTab(event)">×</span>`;
+        newTab.innerHTML = `New Tab <span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
         const iframe = document.createElement('iframe');
         iframe.classList.add('tab-iframe');
-        iframe.src = ${url};
+        iframe.src = '/static/';
         iframe.onload = function() {
           updateSearchBar(iframe);
           updateTabName(iframe);
         };
         document.getElementById('content-wrapper').appendChild(iframe);
+	makeTabDraggable(newTab);
         selectTab(newTab);
       }
-//close
+
       function closeTab(event) {
         event.stopPropagation();
         const tab = event.target.closest('.tab');
@@ -364,7 +386,7 @@
           selectTab(previousTab);
         }
       }
-//search-internal
+
       function internal(url) {
         try {
           if (url.startsWith('us4://games-frame')) {
@@ -408,7 +430,7 @@
           return url;
         }
       }
-//search
+
       function search() {
         const inputRaw = document.getElementById('search-input').value.trim();
         const iframe = document.querySelector('.tab-iframe.active');
@@ -437,7 +459,26 @@
           };
         }
       }
-//fs
+
+      function settings() {
+        tabCount++;
+        const tabsContainer = document.getElementById('tabs');
+        const newTab = document.createElement('div');
+        newTab.classList.add('tab');
+        newTab.innerHTML = `Settings <span class="close-button" onclick="closeTab(event)">×</span>`;
+        newTab.addEventListener("click", () => selectTab(newTab));
+        tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
+        const iframe = document.createElement('iframe');
+        iframe.classList.add('tab-iframe');
+        iframe.src = '/pages/prox/settings';
+        iframe.onload = function() {
+          updateSearchBar(iframe);
+          updateTabName(iframe);
+        };
+        document.getElementById('content-wrapper').appendChild(iframe);
+        selectTab(newTab);
+      }
+
       function toggleFullscreen() {
         const iframe = document.querySelector('.tab-iframe.active');
         if (iframe.requestFullscreen) {
@@ -450,11 +491,12 @@
           iframe.msRequestFullscreen();
         }
       }
-//inspect
+
       function inspect() {
         window.location.href = "javascript: (function() { fetch('/storage/js/eruda.js') .then(response => { if (!response.ok) throw new Error('Network response was not ok'); return response.text(); }) .then(scriptText => eval(scriptText)) .catch(error => console.error('Error fetching or executing the script:', error)); })();"
       }
       document.addEventListener("DOMContentLoaded", () => {
+        document.querySelector(".add-tab-button").addEventListener("click", addTab);
         document.getElementById("search-input").addEventListener("keydown", (e) => {
           if (e.key === "Enter") search();
         });
@@ -544,7 +586,7 @@
               } catch {
                 host = new URL("https://voucan-us4.github.io");
               }
-              const faviconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${host.hostname}&size=48`;
+              const faviconUrl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${host.hostname}&size=32`;
               let title = '';
               try {
                 title = iframe.contentWindow.document.title || url.hostname;
@@ -590,7 +632,7 @@
           }
         }
       });
-//setIframe
+
       function setIframe(url, name) {
         const tabs = Array.from(document.querySelectorAll('.tab'));
         const iframes = Array.from(document.querySelectorAll('.tab-iframe'));
@@ -604,8 +646,7 @@
         const tabsContainer = document.getElementById('tabs');
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
-        newTab.innerHTML = `${name} 
-														<span class="close-button" onclick="closeTab(event)">×</span>`;
+        newTab.innerHTML = `${name} <span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         const referenceTab = document.querySelectorAll('.tab')[tabIndex];
         if (referenceTab) {
@@ -629,6 +670,7 @@
           contentWrapper.appendChild(iframe);
         }
         selectTab(newTab);
+	makeTabDraggable(newTab);
       }
       document.addEventListener("DOMContentLoaded", () => {
         const launch = new URLSearchParams(window.location.search).get('launch');
@@ -643,7 +685,7 @@
           }
         }
       });
-//ab
+
       function openInAboutBlank() {
         const siteTitle = localStorage.getItem('siteTitle') || "Home";
         const siteLogo = localStorage.getItem('siteLogo') || "https://raw.githubusercontent.com/voucan/voucan.github.io/refs/heads/main/googleclassroom.png";
