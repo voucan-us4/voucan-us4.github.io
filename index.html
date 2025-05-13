@@ -357,7 +357,8 @@
         const tabsContainer = document.getElementById('tabs');
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
-        newTab.innerHTML = `New Tab <span class="close-button" onclick="closeTab(event)">×</span>`;
+        newTab.innerHTML = `New Tab 
+													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
         const iframe = document.createElement('iframe');
@@ -463,7 +464,8 @@
         const tabsContainer = document.getElementById('tabs');
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
-        newTab.innerHTML = `Settings <span class="close-button" onclick="closeTab(event)">×</span>`;
+        newTab.innerHTML = `Settings 
+													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
         const iframe = document.createElement('iframe');
@@ -594,7 +596,9 @@
               if (title.length > 29) {
                 title = title.substring(0, 26) + '...';
               }
-              tab.innerHTML = `<img src="${faviconUrl}" alt="favicon" style="width:24px;height:24px;margin-right:6px;">${title} <span class="close-button" onclick="closeTab(event)">×</span> `;
+              tab.innerHTML = `
+													<img src="${faviconUrl}" alt="favicon" style="width:24px;height:24px;margin-right:6px;">${title} 
+														<span class="close-button" onclick="closeTab(event)">×</span> `;
             }
           }
         }, 500);
@@ -644,7 +648,8 @@
         const tabsContainer = document.getElementById('tabs');
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
-        newTab.innerHTML = `${name} <span class="close-button" onclick="closeTab(event)">×</span>`;
+        newTab.innerHTML = `${name} 
+														<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         const referenceTab = document.querySelectorAll('.tab')[tabIndex];
         if (referenceTab) {
@@ -719,6 +724,17 @@
           }
         } else {
           currentKeyIndex = 0;
+        }
+      });
+    </script>
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        const CB = localStorage.getItem('custombare');
+        if (CB && self.__uv$config) {
+          self.__uv$config.bare = CB;
+          console.log('bare set to', CB);
+        } else {
+          console.warn('No custom bare set in localStorage or __uv$config not defined.');
         }
       });
     </script>
