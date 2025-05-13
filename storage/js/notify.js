@@ -75,5 +75,5 @@ function createNotification(message) {
 }
 
 window.onload = () => {
-    createNotification('Added Ads and duck.ai.');
+    createNotification('Improvements, Bug Fixes, Added Tiktok');
 };
