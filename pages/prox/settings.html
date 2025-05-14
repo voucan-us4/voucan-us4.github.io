@@ -77,7 +77,6 @@
       siteTitleInput.value = localStorage.getItem('siteTitle') || '';
       panicKeyInput.value = localStorage.getItem('panicKey') || '';
       panicUrlInput.value = localStorage.getItem('panicUrl') || '';
-      bare.value = localStorage.getItem('panicUrl') || '';
       const savedLogo = localStorage.getItem('siteLogo');
       if (savedLogo) {
         const faviconLink = document.createElement('link');
@@ -171,9 +170,11 @@
           window.location.href = panicUrl;
         }
       });
+
       adsToggle.addEventListener('change', () => {
         localStorage.setItem('Ads', adsToggle.checked);
       });
+
     </script>
     <script>
       var storedColor = localStorage.getItem('backgroundColor') || 'black';
