@@ -24,7 +24,7 @@
     <title>Home</title>
     <link rel="icon" href="/storage/images/googleclassroom.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<style>
+    <style>
       * {
         margin: 0;
         padding: 0;
@@ -59,21 +59,21 @@
         transition: transform 0.3s ease-in-out;
       }
 
-.tab {
-  display: flex;
-  align-items: center;
-  padding: 3px 10px;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  flex-shrink: 0;
-  min-width: 15px;
-  max-width: 500px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  height: 40px;
-}
+      .tab {
+        display: flex;
+        align-items: center;
+        padding: 3px 10px;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        flex-shrink: 0;
+        min-width: 15px;
+        max-width: 500px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        height: 40px;
+      }
 
       .tab.active {
         border-top-left-radius: 10px;
@@ -335,6 +335,7 @@
         newTab.classList.add('tab');
         newTab.innerHTML = `New Tab 
 													
+													
 													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -442,6 +443,7 @@
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
         newTab.innerHTML = `Settings 
+													
 													
 													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
@@ -576,7 +578,9 @@
               }
               tab.innerHTML = `
 													
+													
 													<img src="${faviconUrl}" alt="favicon" style="width:24px;height:24px;margin-right:6px;">${title} 
+														
 														
 														<span class="close-button" onclick="closeTab(event)">×</span> `;
             }
@@ -629,6 +633,7 @@
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
         newTab.innerHTML = `${name} 
+														
 														
 														<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
