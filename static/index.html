@@ -54,5 +54,20 @@
 
     regsw();
     </script>
+    <script>
+      const code = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a', 'Enter'];
+      let currentKeyIndex = 0;
+      document.addEventListener('keydown', (event) => {
+        if (event.key === code[currentKeyIndex]) {
+          currentKeyIndex++;
+          if (currentKeyIndex === code.length) {
+            window.location.href = "/pages/super-secret?upd"
+            currentKeyIndex = 0;
+          }
+        } else {
+          currentKeyIndex = 0;
+        }
+      });
+    </script>
 </body>
 </html>
