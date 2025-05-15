@@ -24,7 +24,7 @@
     <title>Home</title>
     <link rel="icon" href="/storage/images/googleclassroom.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
+<style>
       * {
         margin: 0;
         padding: 0;
@@ -45,7 +45,6 @@
       .tabs {
         display: flex;
         align-items: center;
-        background: rgba(29, 29, 29, 0.1);
         padding: 2px 5px;
         width: 100%;
         position: fixed;
@@ -57,35 +56,44 @@
         overflow-x: auto;
         overflow-y: hidden;
         max-height: 40px;
-        border-bottom: 2px solid rgba(255, 255, 255);
         transition: transform 0.3s ease-in-out;
       }
 
-      .tab {
-        display: flex;
-        align-items: center;
-        padding: 3px 10px;
-        color: white;
-        cursor: pointer;
-        border-radius: 10px;
-        background-color: rgba(0, 0, 0, 0.2);
-        transition: background-color 0.3s;
-        flex-shrink: 0;
-        min-width: 15px;
-        max-width: 500px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        height: 40px;
-      }
+.tab {
+  display: flex;
+  align-items: center;
+  padding: 3px 10px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  flex-shrink: 0;
+  min-width: 15px;
+  max-width: 500px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  height: 40px;
+}
 
       .tab.active {
-        background-color: rgba(0, 0, 0, 0.3);
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        background-color: rgba(0, 0, 0, 0.2);
         color: white;
       }
 
       .tab:hover {
-        background-color: rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .tab.active:hover {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        background-color: rgba(0, 0, 0, 0.2);
+        color: white;
       }
 
       .tab .close-button {
