@@ -1,11 +1,14 @@
 <html>
-<head>
+  <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-K8CCSDNPV3"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-K8CCSDNPV3');
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-K8CCSDNPV3');
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,46 +16,60 @@
     <link rel="stylesheet" href="../storage/css/evenmorestyles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../storage/css/static.css">
-</head>
-<body>
-
-<script src="/particles.js"></script>
-  <script src="/app.js"></script>
-<div id="particles-js"></div>
-
+  </head>
+  <body>
+    <script src="/particles.js"></script>
+    <script src="/app.js"></script>
+    <div id="particles-js"></div>
     <h1>US4</h1>
     <p id="dynamicParagraph">(TEXT)</p>
-
     <div id="search-container">
-        <form id="uv-form">
-            <input id="uv-search-engine" value="https://duckduckgo.com/?q=%s" type="hidden"/>
-            <input id="uv-address" type="text" class="search-bar-home" placeholder="Search or enter a URL" />
-            <button id="search-button" onclick="submitSearch()">SEARCH <i class="fa-solid fa-magnifying-glass"></i></button>
-        </form>
-
-        <div class="desc left-margin">
-            <p id="uv-error"></p>
-            <pre id="uv-error-code"></pre>
-        </div>
+      <form id="uv-form">
+        <input id="uv-search-engine" value="https://duckduckgo.com/?q=%s" type="hidden" />
+        <input id="uv-address" type="text" class="search-bar-home" placeholder="Search or enter a URL" />
+        <button id="search-button" onclick="search()">SEARCH <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+      <div class="desc left-margin">
+        <p id="uv-error"></p>
+        <pre id="uv-error-code"></pre>
+      </div>
     </div>
-
     <script src="/static/uv/uv.bundle.js" defer></script>
     <script src="/static/uv/uv.config.js" defer></script>
     <script src="/static/register-sw.js" defer></script>
-    <script src="/static/search.js" defer></script>
-    <script src="/static/index.js" defer></script>
-
     <script type="text/javascript" src="/storage/js/background.js"></script>
     <script src="/storage/js/splash-messages.js"></script>
-
     <script>
-    async function regsw(){
-        await navigator.serviceWorker.register("/static/uv-sw.js", {
-            scope: "/static/",
-        });
-    }
+      document.getElementById('uv-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        search();
+      });
 
-    regsw();
+      function search() {
+        const inputRaw = document.getElementById('uv-address').value.trim();
+        if (!inputRaw) return;
+        const hasProtocol = /^https?:\/\//i.test(inputRaw);
+        const looksLikeURL = /\.[a-z]{2,}(\/|$)/i.test(inputRaw);
+        let finalURL;
+        if (hasProtocol) {
+          finalURL = inputRaw;
+        } else if (looksLikeURL) {
+          finalURL = 'http://' + inputRaw;
+        } else {
+          const searchEngine = document.getElementById('uv-search-engine').value;
+          finalURL = searchEngine.replace('%s', encodeURIComponent(inputRaw));
+        }
+        window.location.href = finalURL;
+      }
+    </script>
+    <script>
+      async function regsw() {
+        await navigator.serviceWorker.register("/static/uv-sw.js", {
+          scope: "/static/",
+        });
+      }
+      regsw();
     </script>
     <script>
       const code = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a', 'Enter'];
@@ -69,5 +86,5 @@
         }
       });
     </script>
-</body>
+  </body>
 </html>
