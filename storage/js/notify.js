@@ -75,5 +75,5 @@ function createNotification(message) {
 }
 
 window.onload = () => {
-    createNotification('Improvements, Bug Fixes, Added Tiktok');
+    createNotification('Tabs and Navbar now update to your set background color');
 };
