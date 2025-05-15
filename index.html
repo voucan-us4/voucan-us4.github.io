@@ -680,21 +680,6 @@
         }
       }
     </script>
-    <script>
-      const code = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a', 'Enter'];
-      let currentKeyIndex = 0;
-      document.addEventListener('keydown', (event) => {
-        if (event.key === code[currentKeyIndex]) {
-          currentKeyIndex++;
-          if (currentKeyIndex === code.length) {
-            setIframe('/pages/super-secret?upd', 'secret')
-            currentKeyIndex = 0;
-          }
-        } else {
-          currentKeyIndex = 0;
-        }
-      });
-    </script>
     <script src="/storage/js/settings.js"></script>
     <script type="text/javascript" src="/storage/js/cheese-algorithm.js"></script>
     <script type="text/javascript" src="/storage/js/notify.js"></script>
