@@ -60,7 +60,7 @@
           const searchEngine = document.getElementById('uv-search-engine').value;
           finalURL = searchEngine.replace('%s', encodeURIComponent(inputRaw));
         }
-        window.location.href = finalURL;
+        window.location.href = `/static/embed?p=${finalURL}`;
       }
     </script>
     <script>
