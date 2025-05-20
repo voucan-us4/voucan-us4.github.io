@@ -75,5 +75,5 @@ function createNotification(message) {
 }
 
 window.onload = () => {
-    createNotification('Tabs and Navbar now update to your set background color');
+    createNotification('hi bree ❤️');
 };
