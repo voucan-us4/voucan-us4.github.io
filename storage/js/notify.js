@@ -75,5 +75,5 @@ function createNotification(message) {
 }
 
 window.onload = () => {
-    createNotification('hi bree ❤️');
+    createNotification('Welcome to US5!');
 };
