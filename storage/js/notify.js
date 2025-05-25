@@ -75,5 +75,5 @@ function createNotification(message) {
 }
 
 window.onload = () => {
-    createNotification('Welcome to US5!');
+    createNotification('Thank you for using US4. We hope to see you in the 2025-2026 school year! Join our discord for updates on new sites like US5.');
 };
