@@ -1,0 +1,883 @@
+
+<!DOCTYPE html>
+<!--------------------------------------* 
+*
+*  ARCORA
+*  Modified for VAPOR
+*  
+*  Credits:
+* - iTunes api - searching
+* - lyrics.ovh - lyrics
+* - youtube data v3 - player
+*
+*  developed by technonyte0
+*  https://techno.pics
+*--------------------------------------->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>arcora</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/_a/fa/css/all.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.4.0/color-thief.min.js"></script>
+    <style>:root {
+        --bg-start: #747474;
+        --bg-end: #4b4b4b;
+        --card-width: 540px;
+        --card-height: 220px;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        color: #fff;
+        padding: 20px;
+        transition: background 0.8s ease;
+      }
+      .search-container {
+        width: 100%;
+        max-width: 560px;
+        margin-bottom: 20px;
+        z-index: 100;
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .search-input {
+        width: 100%;
+        padding: 12px 20px;
+        border-radius: 12px;
+        border: none;
+        font-family: "Inter", sans-serif;
+        font-size: 16px;
+        background: rgba(255, 255, 255, 0.15);
+        color: #fff;
+        outline: none;
+        transition: all 0.2s ease;
+        backdrop-filter: blur(5px);
+      }
+      .search-input::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+      }
+      .search-input:focus {
+        background: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      }
+      .search-results {
+        width: 100%;
+        max-width: 560px;
+        max-height: 400px;
+        background: rgba(30, 30, 30, 0.65);
+        backdrop-filter: blur(10px);
+        border-radius: 8px;
+        overflow-y: auto;
+        opacity: 0;
+        transform: translateY(-7px);
+        visibility: hidden;
+        transition: all 0.2s ease;
+        z-index: 99;
+        position: absolute;
+        top: 75px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-7px);
+      }
+      .search-results.active {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+        visibility: visible;
+      }
+      .result-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 16px;
+        cursor: pointer;
+        transition: background 0.2s;
+        overflow: hidden;
+      }
+      .result-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .result-img {
+        width: 60px;
+        height: 60px;
+        border-radius: 6px;
+        overflow: hidden;
+        margin-right: 16px;
+        flex-shrink: 0;
+      }
+      .result-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .result-info {
+        flex: 1;
+      }
+      .result-title {
+        font-weight: 600;
+        margin-bottom: 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .result-artist {
+        font-size: 14px;
+        opacity: 0.7;
+      }
+      .player {
+        width: 100%;
+        width: 570px;
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        padding: 24px;
+        margin: 0 auto;
+      }
+      .album-art {
+        flex: 0 0 220px;
+        height: 220px;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .album-art img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-left: 0px;
+        text-shadow: 0px 0px 12px rgba(0, 0, 0, 0.3);
+      }
+      .top-icons {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+      }
+      .top-icons i {
+        font-size: 20px;
+        opacity: 0.6;
+      }
+      
+      .track-title {
+        font-size: 34px;
+        font-weight: 700;
+        margin-bottom: 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 300px;
+      }
+      .artist {
+        font-size: 20px;
+        opacity: 0.75;
+        margin-bottom: 45px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 300px;
+      }
+      .controls {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 18px;
+      }
+      .controls i {
+        font-size: 32px;
+        cursor: pointer;
+        transition: 0.12s ease;
+      }
+      .controls i:active {
+        transform: scale(0.94);
+      }
+      .seekbar {
+        height: 6px;
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 6px;
+        position: relative;
+        cursor: pointer;
+        transition: height 0.2s ease;
+      }
+      .seekbar.active {
+        height: 8px;
+      }
+      #progress {
+        height: 100%;
+        width: 0%;
+        background: #fff;
+        border-radius: 3px;
+      }
+      .timecodes {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        opacity: 0.7;
+        margin-top: 4px;
+      }
+      #ytPlayer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1px;
+        height: 1px;
+        opacity: 0.01;
+      }
+      .loading {
+        text-align: center;
+        padding: 20px;
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .search-results::-webkit-scrollbar {
+        width: 6px;
+      }
+      .search-results::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 3px;
+      }
+      .search-results::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 3px;
+      }
+      
+      .lyrics-toggle {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: all 0.2s ease;
+        z-index: 100;
+      }
+      
+      .lyrics-toggle:hover {
+        background: rgba(255, 255, 255, 0.25);
+      }
+      
+      .lyrics-toggle i {
+        font-size: 18px;
+        color: white;
+      }
+      
+      /* Lyrics view */
+      .lyrics-info {
+        flex: 1;
+        display: none;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-left: 0px;
+        text-shadow: 0px 0px 12px rgba(0, 0, 0, 0.3);
+      }
+      
+      .lyrics-content {
+        max-height: 220px;
+        overflow-y: auto;
+        text-align: left;
+        white-space: pre-line;
+        padding-right: 10px;
+        font-size: 16px;
+        line-height: 1.6;
+      }
+      
+      .lyrics-content::-webkit-scrollbar {
+        width: 4px;
+      }
+      
+      .lyrics-content::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 3px;
+      }
+      
+      .lyrics-content::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 3px;
+      }
+      
+      .lyrics-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        display: none;
+      }
+      
+      .lyrics-title {
+        font-size: 30px;
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 300px;
+      }
+      
+      .lyrics-artist {
+        font-size: 16px;
+        opacity: 0.75;
+        margin-bottom: 15px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 300px;
+      }
+      
+      #volumeBtn {
+        font-size: 20px;
+      }
+      </style>
+  </head>
+  <body>
+    <div class="search-container">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search for any song..."
+        id="searchInput"
+      />
+    </div>
+
+    <div class="search-results" id="searchResults">
+      <!-- cappuccino assassino -->
+    </div>
+
+    <div class="player">
+      <div class="album-art">
+        <img
+          src="/_a/img/empty_art.png"
+          alt="Album"
+          id="albumCover"
+          crossorigin="anonymous"
+        />
+      </div>
+      <div class="info" id="playerInfo">
+        <div class="track-title" id="trackTitle">Not Playing</div>
+        <div class="artist" id="artistName">Not Playing</div>
+        <div class="controls">
+          <i id="playPause" class="fa-solid fa-play fa-lg control-btn"></i>
+          <i id="volumeBtn" class="fa-solid fa-volume-high control-btn"></i>
+        </div>
+        <div id="seekbar" class="seekbar"><div id="progress"></div></div>
+        <div class="timecodes">
+          <span id="currentTime">0:00</span>
+          <span id="remainingTime">-0:00</span>
+        </div>
+      </div>
+
+      <!-- TUNG TUNG TUGN TUNG TUNG TUNG TUNG SAHUR -->
+      <div class="lyrics-info" id="lyricsInfo">
+        <div class="lyrics-header">
+          <div>
+            <div class="lyrics-title" id="lyricsSongTitle">Not Playing</div>
+            <div class="lyrics-artist" id="lyricsArtistName">Not Playing</div>
+          </div>
+        </div>
+        <div class="lyrics-content" id="lyricsContent">
+          No lyrics available.
+        </div>
+      </div>
+    </div>
+
+    <!-- tralalero tralala -->
+    <div class="lyrics-toggle" id="lyricsToggle">
+      <i class="fa-solid fa-align-left"></i>
+    </div>
+
+    <!-- ballerina cappuccina -->
+    <div id="player-container">
+      <div id="ytPlayer"></div>
+    </div>
+
+    <!-- Endpoints, By Bombardino Crocodilo-->
+    <script>const YT_KEY = "AIzaSyAf62uxazE_nFYZhq1St7jPjSL9l7-mzV8";
+        // stealing this gives you NO GAIN
+        // just make it your own, it's 100% free...
+        
+        const LYRIC_EP = "https://api.lyrics.ovh/v1/";
+        const YT_EP = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=";
+        const SEARCH_EP = "https://itunes.apple.com/search?term=";
+        </script>
+
+    <script>const searchInput = document.getElementById("searchInput");
+        const searchResults = document.getElementById("searchResults");
+        const trackTitle = document.getElementById("trackTitle");
+        const artistName = document.getElementById("artistName");
+        const albumCover = document.getElementById("albumCover");
+        const playPauseBtn = document.getElementById("playPause");
+        const volumeBtn = document.getElementById("volumeBtn");
+        const seekBar = document.getElementById("seekbar");
+        const progressBar = document.getElementById("progress");
+        const currentTimeSpan = document.getElementById("currentTime");
+        const remainingTimeSpan = document.getElementById("remainingTime");
+        const lyricsToggle = document.getElementById("lyricsToggle");
+        const playerInfo = document.getElementById("playerInfo");
+        const lyricsInfo = document.getElementById("lyricsInfo");
+        const lyricsSongTitle = document.getElementById("lyricsSongTitle");
+        const lyricsArtistName = document.getElementById("lyricsArtistName");
+        const lyricsContent = document.getElementById("lyricsContent");
+        
+        let showingLyrics = false;
+        let isMuted = false;
+        
+        let player;
+        let isPlaying = false;
+        let isDragging = false;
+        let searchTimeout;
+        let currentTrack = {
+          title: "Not Playing",
+          artist: "Not Playing",
+          artwork: "https://vapor.my/_a/img/empty_art.png",
+        };
+        
+        const colorThief = new ColorThief();
+        
+        let currentColor = { r: 115, g: 98, b: 86 };
+        let targetColor = { r: 115, g: 98, b: 86 };
+        let animationId = null;
+        </script>
+    <script>function applyColors(color) {
+        if (!color || !Array.isArray(color) || color.length < 3) {
+          return;
+        }
+      
+        targetColor = { r: color[0], g: color[1], b: color[2] };
+      
+        if (animationId) {
+          cancelAnimationFrame(animationId);
+        }
+      
+        applyAnimation();
+      }
+      
+      function applyAnimation() {
+        const dr = (targetColor.r - currentColor.r) * 0.1;
+        const dg = (targetColor.g - currentColor.g) * 0.1;
+        const db = (targetColor.b - currentColor.b) * 0.1;
+      
+        currentColor.r += dr;
+        currentColor.g += dg;
+        currentColor.b += db;
+      
+        const r = Math.round(currentColor.r);
+        const g = Math.round(currentColor.g);
+        const b = Math.round(currentColor.b);
+      
+        const darkenAmount = 30;
+        const endR = Math.max(0, r - darkenAmount);
+        const endG = Math.max(0, g - darkenAmount);
+        const endB = Math.max(0, b - darkenAmount);
+      
+        document.documentElement.style.setProperty(
+          "--bg-start",
+          `rgb(${r}, ${g}, ${b})`
+        );
+        document.documentElement.style.setProperty(
+          "--bg-end",
+          `rgb(${endR}, ${endG}, ${endB})`
+        );
+      
+        const tolerance = 0.5;
+        if (
+          Math.abs(targetColor.r - currentColor.r) > tolerance ||
+          Math.abs(targetColor.g - currentColor.g) > tolerance ||
+          Math.abs(targetColor.b - currentColor.b) > tolerance
+        ) {
+          animationId = requestAnimationFrame(applyAnimation);
+        } else {
+          currentColor = { ...targetColor };
+        }
+      }
+      </script>
+    <script>const tag = document.createElement("script");
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName("script")[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        
+        function onYouTubeIframeAPIReady() {
+          player = new YT.Player("ytPlayer", {
+            height: "360",
+            width: "640",
+            videoId: "-",
+            host: 'https://www.youtube-nocookie.com',
+            playerVars: {
+              playsinline: 1,
+              enablejsapi: 1,
+              modestbranding: 1,
+              rel: 0,
+              showinfo: 0,
+            },
+            events: {
+              onReady: onPlayerReady,
+              onStateChange: onPlayerStateChange,
+            },
+          });
+        }
+        
+        function onPlayerReady(event) {
+          console.log("Player is ready");
+        
+          playPauseBtn.addEventListener("click", togglePlayback);
+          volumeBtn.addEventListener("click", toggleMute);
+        
+          seekBar.addEventListener("mousedown", startSeek);
+          document.addEventListener("mousemove", dragSeek);
+          document.addEventListener("mouseup", endSeek);
+        
+          setInterval(updateProgress, 500);
+        
+          if (albumCover.complete) {
+            try {
+              const dominantColor = colorThief.getColor(albumCover);
+              applyColors(dominantColor);
+            } catch (e) {
+              console.error("Initial color extraction failed:", e);
+            }
+          } else {
+            albumCover.onload = function () {
+              try {
+                const dominantColor = colorThief.getColor(albumCover);
+                applyColors(dominantColor);
+              } catch (e) {
+                console.error("Initial color extraction failed:", e);
+              }
+            };
+          }
+        }
+        
+        function onPlayerStateChange(event) {
+          console.log("Player state changed:", event.data);
+        
+          if (event.data === YT.PlayerState.PLAYING) {
+            isPlaying = true;
+            playPauseBtn.classList.remove("fa-play");
+            playPauseBtn.classList.add("fa-pause");
+          } else if (
+            event.data === YT.PlayerState.PAUSED ||
+            event.data === YT.PlayerState.ENDED
+          ) {
+            isPlaying = false;
+            playPauseBtn.classList.remove("fa-pause");
+            playPauseBtn.classList.add("fa-play");
+          }
+        }
+        // Toggle Mute function
+        function toggleMute() {
+          if (!player) return;
+        
+          if (isMuted) {
+            player.unMute();
+            volumeBtn.className = "fa-solid fa-volume-high control-btn";
+            isMuted = false;
+          } else {
+            player.mute();
+            volumeBtn.className = "fa-solid fa-volume-xmark control-btn";
+            isMuted = true;
+          }
+        }
+        </script>
+    <script>searchInput.addEventListener("input", function () {
+        clearTimeout(searchTimeout);
+      
+        searchTimeout = setTimeout(() => {
+          const query = searchInput.value.trim();
+          if (query.length > 1) {
+            searchSongs(query);
+          } else {
+            hideSearchResults();
+          }
+        }, 500);
+      });
+      
+      searchInput.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(searchTimeout);
+          const query = searchInput.value.trim();
+          if (query.length > 1) {
+            searchSongs(query);
+          }
+        }
+      });
+      
+      function searchSongs(query) {
+        searchResults.innerHTML = '<div class="loading">Searching...</div>';
+        showSearchResults();
+      
+        const url = `${SEARCH_EP}${encodeURIComponent(query)}&media=music&limit=10`;
+      
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("iTunes search results:", data);
+            displaySearchResults(data.results);
+          })
+          .catch((error) => {
+            console.error("Error searching iTunes:", error);
+            searchResults.innerHTML =
+              '<div class="loading">Search failed. Please try again.</div>';
+          });
+      }
+      
+      function displaySearchResults(results) {
+        if (!results || results.length === 0) {
+          searchResults.innerHTML = '<div class="loading">No results found</div>';
+          return;
+        }
+      
+        searchResults.innerHTML = "";
+      
+        results.forEach((item) => {
+          if (!item.trackName || !item.artistName) return;
+      
+          const resultElement = document.createElement("div");
+          resultElement.className = "result-item";
+          resultElement.innerHTML = `
+            <div class="result-img">
+              <img src="${item.artworkUrl100}" alt="${item.trackName}" crossorigin="anonymous">
+            </div>
+            <div class="result-info">
+              <div class="result-title">${item.trackName}</div>
+              <div class="result-artist">${item.artistName}</div>
+            </div>
+          `;
+      
+          resultElement.addEventListener("click", () => {
+            playSong(item.trackName, item.artistName, item.artworkUrl100);
+            hideSearchResults();
+            searchInput.value = "";
+          });
+      
+          searchResults.appendChild(resultElement);
+        });
+      }
+      
+      function showSearchResults() {
+        searchResults.classList.add("active");
+      }
+      
+      function hideSearchResults() {
+        searchResults.classList.remove("active");
+      }
+      </script>
+    <script>function playSong(title, artist, artwork) {
+        trackTitle.textContent = title;
+        artistName.textContent = artist;
+      
+        lyricsSongTitle.textContent = title;
+        lyricsArtistName.textContent = artist;
+      
+        if (showingLyrics) {
+          fetchLyrics(artist, title);
+        }
+      
+        const highResArtwork = artwork.replace("100x100", "600x600");
+      
+        albumCover.crossOrigin = "anonymous";
+        albumCover.src = highResArtwork;
+      
+        albumCover.onload = function () {
+          try {
+            const dominantColor = colorThief.getColor(albumCover);
+            applyColors(dominantColor);
+          } catch (e) {
+            console.error("Color extraction failed:", e);
+          }
+        };
+      
+        currentTrack = {
+          title: title,
+          artist: artist,
+          artwork: artwork,
+        };
+      
+        const searchQuery = `${title} - ${artist}`;
+        getYT(searchQuery);
+      }
+      
+      function getYT(query) {
+        const url = `${YT_EP}${encodeURIComponent(
+          query
+        )}&type=video&key=${YT_KEY}&maxResults=1`;
+      
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("YouTube search results:", data);
+            if (data.items && data.items.length > 0) {
+              const videoId = data.items[0].id.videoId;
+              loadVid(videoId);
+            } else {
+              console.error("No YouTube results found");
+            }
+          })
+          .catch((error) => {
+            console.error("Error searching YouTube:", error);
+          });
+      }
+      
+      function loadVid(videoId) {
+        if (player && player.loadVideoById) {
+          player.loadVideoById(videoId);
+          player.playVideo();
+      
+          if (isMuted) {
+            player.mute();
+          } else {
+            player.unMute();
+          }
+        } else {
+          console.error("YouTube player not ready");
+        }
+      }
+      </script>
+    <script>lyricsToggle.addEventListener("click", function () {
+        showingLyrics = !showingLyrics;
+      
+        if (showingLyrics) {
+          playerInfo.style.display = "none";
+          lyricsInfo.style.display = "flex";
+          fetchLyrics(currentTrack.artist, currentTrack.title);
+          lyricsToggle.innerHTML = '<i class="fa-solid fa-music"></i>';
+        } else {
+          playerInfo.style.display = "flex";
+          lyricsInfo.style.display = "none";
+          lyricsToggle.innerHTML = '<i class="fa-solid fa-align-left"></i>';
+        }
+      });
+      
+      function fetchLyrics(artist, title) {
+        lyricsSongTitle.textContent = title;
+        lyricsArtistName.textContent = artist;
+        lyricsContent.textContent = "Loading lyrics...";
+      
+        const cleanArtist = encodeURIComponent(artist.trim());
+        const cleanTitle = encodeURIComponent(title.trim());
+      
+        fetch(`${LYRIC_EP}${cleanArtist}/${cleanTitle}`)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Lyrics not found");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            if (data.lyrics) {
+              const normalizedLyrics = data.lyrics.replace(/\n{3,}/g, "\n\n");
+              const formattedLyrics = normalizedLyrics.replace(/\n/g, "<br>");
+              lyricsContent.innerHTML = formattedLyrics;
+            } else {
+              lyricsContent.textContent = "No lyrics available.";
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching lyrics:", error);
+            lyricsContent.textContent = "No lyrics available.";
+          });
+      }
+      </script>
+    <script>function togglePlayback() {
+        console.log("Toggle playback called");
+        if (!player) return;
+      
+        if (isPlaying) {
+          player.pauseVideo();
+        } else {
+          player.playVideo();
+        }
+      }
+      
+      function startSeek(e) {
+        isDragging = true;
+        seekBar.classList.add("active");
+        updateSeekPosition(e);
+      }
+      
+      function dragSeek(e) {
+        if (isDragging) {
+          updateSeekPosition(e);
+        }
+      }
+      
+      function endSeek() {
+        if (isDragging) {
+          isDragging = false;
+          seekBar.classList.remove("active");
+        }
+      }
+      
+      function updateSeekPosition(e) {
+        if (!player || !player.getDuration) return;
+      
+        const rect = seekBar.getBoundingClientRect();
+        const position = (e.clientX - rect.left) / rect.width;
+        const percent = Math.min(Math.max(position, 0), 1);
+      
+        progressBar.style.width = percent * 100 + "%";
+      
+        const duration = player.getDuration();
+        player.seekTo(percent * duration, true);
+      }
+      
+      function updateProgress() {
+        if (!player || !player.getDuration || isDragging) return;
+      
+        try {
+          const duration = player.getDuration() || 0;
+          const currentTime = player.getCurrentTime() || 0;
+          const percent = (currentTime / duration) * 100;
+      
+          progressBar.style.width = percent + "%";
+      
+          currentTimeSpan.textContent = formatTime(currentTime);
+          remainingTimeSpan.textContent = "-" + formatTime(duration - currentTime);
+        } catch (error) {
+          console.error("Error updating progress:", error);
+        }
+      }
+      
+      function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60)
+          .toString()
+          .padStart(2, "0");
+        return `${minutes}:${secs}`;
+      }
+      </script>
+
+    <script>
+      document.addEventListener("click", function (e) {
+        if (!searchResults.contains(e.target) && e.target !== searchInput) {
+          hideSearchResults();
+        }
+      });
+    </script>
+  </body>
+</html>
