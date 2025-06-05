@@ -3,8 +3,8 @@ const Notify = true;
 function createNotification(message) {
     if (!Notify) return;
 
-    const savedMessage = localStorage.getItem('readMessage');
-    if (savedMessage === message) return;
+    //const savedMessage = localStorage.getItem('readMessage');
+    //if (savedMessage === message) return;
 
     localStorage.setItem('readMessage', message);
 
@@ -75,5 +75,5 @@ function createNotification(message) {
 }
 
 window.onload = () => {
-    createNotification('Thank you for using US4. We hope to see you in the 2025-2026 school year! Join our discord for updates on new sites like US5.');
+    createNotification('US5 will be releasing in the 2025-2026 school year. Join our discord for updates on US5: https://discord.gg/VDA8Ngx38Z');
 };
