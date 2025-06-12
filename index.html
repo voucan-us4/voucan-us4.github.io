@@ -731,10 +731,14 @@
     <script type="text/javascript" src="/storage/js/panic.js"></script>
     <script type="text/javascript" src="/storage/js/background.js"></script>
 <script>
-  const viewedlink = 'viewed_' + window.location.href;
+  const currentURL = window.location.href;
+  const viewedKey = 'viewedLinks';
 
-  if (!localStorage.getItem(viewedlink)) {
-    localStorage.setItem(viewedlink, 'true');
+  let viewedLinks = JSON.parse(localStorage.getItem(viewedKey) || '[]');
+
+  if (!viewedLinks.includes(currentURL)) {
+    viewedLinks.push(currentURL);
+    localStorage.setItem(viewedKey, JSON.stringify(viewedLinks));
 
     fetch("https://curly-credit-302b.bijoh41469.workers.dev/", { mode: "no-cors" });
   }
