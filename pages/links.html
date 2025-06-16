@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="/storage/css/style.css" rel="stylesheet" />
+  <title>Links</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f9fc;
+      margin: 0;
+      padding: 2em;
+    }
+
+    h1, h5 {
+      text-align: center;
+      color: rgba(255, 255, 255);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 2em;
+    }
+
+    .link-card {
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      background-color: rgba(0, 0, 0, 0.2);
+      color: white;
+      padding: 1em;
+      border-radius: 8px;
+      word-wrap: break-word;
+      transition: transform 0.2s ease;
+    }
+
+    .link-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .link-card a {
+      color: rgba(255, 255, 255);
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .link-card a:hover {
+      text-decoration: underline;
+    }
+
+    .empty {
+      text-align: center;
+      color: rgba(255, 255, 255);
+      margin-top: 4em;
+    }
+  </style>
+</head>
+<body>
+
+<script src="/storage/js/particles.js"></script>
+<script src="/storage/js/apps.js"></script>
+<div id="particles-js"></div>
+
+<h1>Logged Links</h1>
+<h5>Fetches links that have been visited by any user</h5>
+<div id="linkGrid" class="grid"></div>
+<div id="emptyMsg" class="empty" style="display:none;">
+  No links available.
+</div>
+
+<script>
+  const LOGS_URL = "https://curly-credit-302b.bijoh41469.workers.dev/logs";
+  const CACHE_KEY = "us4-cache";
+  const linkGrid = document.getElementById("linkGrid");
+  const emptyMsg = document.getElementById("emptyMsg");
+
+  function attachClickSanitizer(linkEl) {
+    linkEl.addEventListener("click", (event) => {
+      event.preventDefault();
+
+      const cleanedHref = linkEl.textContent.replace(/\u200B/g, "");
+
+      window.open(cleanedHref, "_blank", "noopener");
+    });
+  }
+
+  function renderLinks(links) {
+    linkGrid.innerHTML = "";
+    if (!links || links.length === 0) {
+      emptyMsg.style.display = "block";
+      return;
+    }
+
+    emptyMsg.style.display = "none";
+    links.forEach((url) => {
+      const card = document.createElement("div");
+      card.className = "link-card";
+
+      const linkEl = document.createElement("a");
+
+      linkEl.textContent = url;
+      linkEl.href = url;
+
+      linkEl.target = "_blank";
+      linkEl.rel = "noopener noreferrer";
+
+      attachClickSanitizer(linkEl);
+
+      card.appendChild(linkEl);
+      linkGrid.appendChild(card);
+    });
+  }
+
+  function getCachedLinks() {
+    try {
+      const data = localStorage.getItem(CACHE_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch (e) {
+      console.error("Error reading cached links:", e);
+      return [];
+    }
+  }
+
+  function setCachedLinks(links) {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify(links));
+    } catch (e) {
+      console.error("Error writing to localStorage:", e);
+    }
+  }
+
+  async function fetchAndMergeLinks() {
+    const cachedLinks = getCachedLinks();
+    renderLinks(cachedLinks);
+
+    try {
+      const response = await fetch(LOGS_URL, { mode: "cors" });
+      if (!response.ok) throw new Error("Network response was not ok");
+      const fetchedLinks = await response.json();
+
+      const newLinks = fetchedLinks.filter(link => !cachedLinks.includes(link));
+      if (newLinks.length > 0) {
+        const mergedLinks = [...new Set([...cachedLinks, ...newLinks])];
+        setCachedLinks(mergedLinks);
+        renderLinks(mergedLinks);
+      }
+    } catch (err) {
+      console.error("Failed to fetch links:", err);
+      if (cachedLinks.length === 0) {
+        emptyMsg.textContent = "Failed to load links.";
+        emptyMsg.style.display = "block";
+      }
+    }
+  }
+
+  fetchAndMergeLinks();
+</script>
+
+<script type="text/javascript" src="/storage/js/background.js"></script>
+</body>
+</html>
