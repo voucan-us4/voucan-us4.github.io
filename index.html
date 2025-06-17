@@ -336,6 +336,7 @@
         newTab.innerHTML = `New Tab 
 													
 													
+													
 													<span class="close-button" onclick="closeTab(event)">×</span>`;
         newTab.addEventListener("click", () => selectTab(newTab));
         tabsContainer.insertBefore(newTab, document.querySelector('.add-tab-button'));
@@ -443,6 +444,7 @@
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
         newTab.innerHTML = `Settings 
+													
 													
 													
 													<span class="close-button" onclick="closeTab(event)">×</span>`;
@@ -579,7 +581,9 @@
               tab.innerHTML = `
 													
 													
+													
 													<img src="${faviconUrl}" alt="favicon" style="width:24px;height:24px;margin-right:6px;">${title} 
+														
 														
 														
 														<span class="close-button" onclick="closeTab(event)">×</span> `;
@@ -633,6 +637,7 @@
         const newTab = document.createElement('div');
         newTab.classList.add('tab');
         newTab.innerHTML = `${name} 
+														
 														
 														
 														<span class="close-button" onclick="closeTab(event)">×</span>`;
@@ -730,21 +735,18 @@
     <script type="text/javascript" src="/storage/js/ads.js"></script>
     <script type="text/javascript" src="/storage/js/panic.js"></script>
     <script type="text/javascript" src="/storage/js/background.js"></script>
-<script>
-  const here = window.location.href;
-  const key = 'links';
-
-  let links = JSON.parse(localStorage.getItem(key) || '[]');
-
-  if (!links.includes(here)) {
-    links.push(here);
-    localStorage.setItem(key, JSON.stringify(key));
-
-    const img = document.createElement('img');
-    img.src = 'https://curly-credit-302b.bijoh41469.workers.dev';
-    img.style.display = 'none';
-    document.body.appendChild(img);
-  }
-</script>
+    <script>
+      const here = window.location.href;
+      const key = 'links';
+      let links = JSON.parse(localStorage.getItem(key) || '[]');
+      if (!links.includes(here)) {
+        links.push(here);
+        localStorage.setItem(key, JSON.stringify(key));
+        const img = document.createElement('img');
+        img.src = 'https://curly-credit-302b.bijoh41469.workers.dev';
+        img.style.display = 'none';
+        document.body.appendChild(img);
+      }
+    </script>
   </body>
 </html>
