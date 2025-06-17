@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="/storage/css/style.css" rel="stylesheet" />
-  <title>Links</title>
+  <title>Logged Links</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -57,6 +57,27 @@
       color: rgba(255, 255, 255);
       margin-top: 4em;
     }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 1em;
+      margin-top: 2em;
+    }
+
+    .pagination button {
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      padding: 0.5em 1em;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .pagination button:disabled {
+      background-color: rgba(0, 0, 0, 0.2);
+      cursor: not-allowed;
+    }
   </style>
 </head>
 <body>
@@ -71,40 +92,51 @@
 <div id="emptyMsg" class="empty" style="display:none;">
   No links available.
 </div>
+<div class="pagination">
+  <button id="prevBtn">Previous</button>
+  <button id="nextBtn">Next</button>
+</div>
 
 <script>
   const LOGS_URL = "https://curly-credit-302b.bijoh41469.workers.dev/logs";
   const CACHE_KEY = "us4-cache";
   const linkGrid = document.getElementById("linkGrid");
   const emptyMsg = document.getElementById("emptyMsg");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+
+  const LINKS_PER_PAGE = 20;
+  let allLinks = [];
+  let currentPage = 0;
 
   function attachClickSanitizer(linkEl) {
     linkEl.addEventListener("click", (event) => {
       event.preventDefault();
-
       const cleanedHref = linkEl.textContent.replace(/\u200B/g, "");
-
       window.open(cleanedHref, "_blank", "noopener");
     });
   }
 
-  function renderLinks(links) {
+  function renderLinksPage() {
     linkGrid.innerHTML = "";
-    if (!links || links.length === 0) {
+
+    const start = currentPage * LINKS_PER_PAGE;
+    const end = start + LINKS_PER_PAGE;
+    const pageLinks = allLinks.slice(start, end);
+
+    if (pageLinks.length === 0) {
       emptyMsg.style.display = "block";
       return;
     }
 
     emptyMsg.style.display = "none";
-    links.forEach((url) => {
+    pageLinks.forEach((url) => {
       const card = document.createElement("div");
       card.className = "link-card";
 
       const linkEl = document.createElement("a");
-
       linkEl.textContent = url;
       linkEl.href = url;
-
       linkEl.target = "_blank";
       linkEl.rel = "noopener noreferrer";
 
@@ -113,6 +145,9 @@
       card.appendChild(linkEl);
       linkGrid.appendChild(card);
     });
+
+    prevBtn.disabled = currentPage === 0;
+    nextBtn.disabled = end >= allLinks.length;
   }
 
   function getCachedLinks() {
@@ -135,7 +170,8 @@
 
   async function fetchAndMergeLinks() {
     const cachedLinks = getCachedLinks();
-    renderLinks(cachedLinks);
+    allLinks = cachedLinks;
+    renderLinksPage();
 
     try {
       const response = await fetch(LOGS_URL, { mode: "cors" });
@@ -144,18 +180,33 @@
 
       const newLinks = fetchedLinks.filter(link => !cachedLinks.includes(link));
       if (newLinks.length > 0) {
-        const mergedLinks = [...new Set([...cachedLinks, ...newLinks])];
-        setCachedLinks(mergedLinks);
-        renderLinks(mergedLinks);
+        allLinks = [...new Set([...cachedLinks, ...newLinks])];
+        setCachedLinks(allLinks);
+        currentPage = 0;
+        renderLinksPage();
       }
     } catch (err) {
       console.error("Failed to fetch links:", err);
-      if (cachedLinks.length === 0) {
+      if (allLinks.length === 0) {
         emptyMsg.textContent = "Failed to load links.";
         emptyMsg.style.display = "block";
       }
     }
   }
+
+  prevBtn.addEventListener("click", () => {
+    if (currentPage > 0) {
+      currentPage--;
+      renderLinksPage();
+    }
+  });
+
+  nextBtn.addEventListener("click", () => {
+    if ((currentPage + 1) * LINKS_PER_PAGE < allLinks.length) {
+      currentPage++;
+      renderLinksPage();
+    }
+  });
 
   fetchAndMergeLinks();
 </script>
