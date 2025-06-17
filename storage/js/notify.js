@@ -75,5 +75,5 @@ function createNotification(message) {
 }
 
 window.onload = () => {
-    createNotification('US5 will be releasing in the 2025-2026 school year. Join our discord for updates on US5: https://discord.gg/VDA8Ngx38Z');
+    createNotification('US5 will be releasing in the 2025-2026 school year. Join our discord for updates on US5: https://discord.gg/VDA8Ngx38Z -- Added links to US4 (Originally made for US5)');
 };
