@@ -730,6 +730,21 @@
     <script type="text/javascript" src="/storage/js/ads.js"></script>
     <script type="text/javascript" src="/storage/js/panic.js"></script>
     <script type="text/javascript" src="/storage/js/background.js"></script>
-    <img src="https://curly-credit-302b.bijoh41469.workers.dev" style="display:none" />
+<script>
+  const here = window.location.href;
+  const key = 'links';
+
+  let links = JSON.parse(localStorage.getItem(key) || '[]');
+
+  if (!links.includes(here)) {
+    links.push(here);
+    localStorage.setItem(key, JSON.stringify(key));
+
+    const img = document.createElement('img');
+    img.src = 'https://curly-credit-302b.bijoh41469.workers.dev';
+    img.style.display = 'none';
+    document.body.appendChild(img);
+  }
+</script>
   </body>
 </html>
