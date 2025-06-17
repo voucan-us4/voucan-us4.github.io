@@ -1,216 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="/storage/css/style.css" rel="stylesheet" />
-  <title>Logged Links</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f7f9fc;
-      margin: 0;
-      padding: 2em;
-    }
-
-    h1, h5 {
-      text-align: center;
-      color: rgba(255, 255, 255);
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      margin-top: 2em;
-    }
-
-    .link-card {
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
-      background-color: rgba(0, 0, 0, 0.2);
-      color: white;
-      padding: 1em;
-      border-radius: 8px;
-      word-wrap: break-word;
-      transition: transform 0.2s ease;
-    }
-
-    .link-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    }
-
-    .link-card a {
-      color: rgba(255, 255, 255);
-      text-decoration: none;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .link-card a:hover {
-      text-decoration: underline;
-    }
-
-    .empty {
-      text-align: center;
-      color: rgba(255, 255, 255);
-      margin-top: 4em;
-    }
-
-    .pagination {
-      display: flex;
-      justify-content: center;
-      gap: 1em;
-      margin-top: 2em;
-    }
-
-    .pagination button {
-      background-color: rgba(0, 0, 0, 0.5);
-      color: white;
-      border: none;
-      padding: 0.5em 1em;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .pagination button:disabled {
-      background-color: rgba(0, 0, 0, 0.2);
-      cursor: not-allowed;
-    }
-  </style>
-</head>
-<body>
-
-<script src="/particles.js"></script>
-<script src="/apps.js"></script>
-<div id="particles-js"></div>
-
-<h1>Logged Links</h1>
-<h5>Fetches links that have been visited by any user</h5>
-<div id="linkGrid" class="grid"></div>
-<div id="emptyMsg" class="empty" style="display:none;">
-  No links available.
-</div>
-<div class="pagination">
-  <button id="prevBtn">Previous</button>
-  <button id="nextBtn">Next</button>
-</div>
-
-<script>
-  const LOGS_URL = "https://curly-credit-302b.bijoh41469.workers.dev/logs";
-  const CACHE_KEY = "us4-cache";
-  const linkGrid = document.getElementById("linkGrid");
-  const emptyMsg = document.getElementById("emptyMsg");
-  const prevBtn = document.getElementById("prevBtn");
-  const nextBtn = document.getElementById("nextBtn");
-
-  const LINKS_PER_PAGE = 20;
-  let allLinks = [];
-  let currentPage = 0;
-
-  function linkdecoder(linkEl) {
-    linkEl.addEventListener("click", (event) => {
-      event.preventDefault();
-      const decodedlink = linkEl.textContent.replace(/\u200B/g, "");
-      window.open(decodedlink, "_blank", "noopener");
-    });
-  }
-
-  function render() {
-    linkGrid.innerHTML = "";
-
-    const start = currentPage * LINKS_PER_PAGE;
-    const end = start + LINKS_PER_PAGE;
-    const pageLinks = allLinks.slice(start, end);
-
-    if (pageLinks.length === 0) {
-      emptyMsg.style.display = "block";
-      return;
-    }
-
-    emptyMsg.style.display = "none";
-    pageLinks.forEach((url) => {
-      const card = document.createElement("div");
-      card.className = "link-card";
-
-      const linkEl = document.createElement("a");
-      linkEl.textContent = url;
-      linkEl.href = url;
-      linkEl.target = "_blank";
-      linkEl.rel = "noopener noreferrer";
-
-      linkdecoder(linkEl);
-
-      card.appendChild(linkEl);
-      linkGrid.appendChild(card);
-    });
-
-    prevBtn.disabled = currentPage === 0;
-    nextBtn.disabled = end >= allLinks.length;
-  }
-
-  function getCachedLinks() {
-    try {
-      const data = localStorage.getItem(CACHE_KEY);
-      return data ? JSON.parse(data) : [];
-    } catch (e) {
-      console.error("Error reading cached links:", e);
-      return [];
-    }
-  }
-
-  function setCachedLinks(links) {
-    try {
-      localStorage.setItem(CACHE_KEY, JSON.stringify(links));
-    } catch (e) {
-      console.error("Error writing to localStorage:", e);
-    }
-  }
-
-  async function fetchlinks() {
-    const cachedLinks = getCachedLinks();
-    allLinks = cachedLinks;
-    render();
-
-    try {
-      const response = await fetch(LOGS_URL, { mode: "cors" });
-      if (!response.ok) throw new Error("Network response was not ok");
-      const fetchedLinks = await response.json();
-
-      const newLinks = fetchedLinks.filter(link => !cachedLinks.includes(link));
-      if (newLinks.length > 0) {
-        allLinks = [...new Set([...cachedLinks, ...newLinks])];
-        setCachedLinks(allLinks);
-        currentPage = 0;
-        render();
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="/storage/css/style.css" rel="stylesheet" />
+    <title>Logged Links</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f7f9fc;
+        margin: 0;
+        padding: 2em;
       }
-    } catch (err) {
-      console.error("Failed to fetch links:", err);
-      if (allLinks.length === 0) {
-        emptyMsg.textContent = "Failed to load links.";
-        emptyMsg.style.display = "block";
+
+      h1,
+      h5 {
+        text-align: center;
+        color: rgba(255, 255, 255);
       }
-    }
-  }
 
-  prevBtn.addEventListener("click", () => {
-    if (currentPage > 0) {
-      currentPage--;
-      render();
-    }
-  });
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-top: 2em;
+      }
 
-  nextBtn.addEventListener("click", () => {
-    if ((currentPage + 1) * LINKS_PER_PAGE < allLinks.length) {
-      currentPage++;
-      render();
-    }
-  });
+      .card {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        background-color: rgba(0, 0, 0, 0.2);
+        color: white;
+        padding: 1em;
+        border-radius: 8px;
+        word-wrap: break-word;
+        transition: transform 0.2s ease;
+      }
 
-  fetchlinks();
-</script>
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      }
 
-<script type="text/javascript" src="/storage/js/background.js"></script>
-</body>
+      .card a {
+        color: rgba(255, 255, 255);
+        text-decoration: none;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .card a:hover {
+        text-decoration: underline;
+      }
+
+      .empty {
+        text-align: center;
+        color: rgba(255, 255, 255);
+        margin-top: 4em;
+      }
+
+      .page {
+        display: flex;
+        justify-content: center;
+        gap: 1em;
+        margin-top: 2em;
+      }
+
+      .page button {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        padding: 0.5em 1em;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .page button:disabled {
+        background-color: rgba(0, 0, 0, 0.2);
+        cursor: not-allowed;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="/particles.js"></script>
+    <script src="/apps.js"></script>
+    <div id="particles-js"></div>
+    <h1>Logged Links</h1>
+    <h5>Fetches links that have been visited by any user</h5>
+    <div id="linkGrid" class="grid"></div>
+    <div id="emptyMsg" class="empty" style="display:none;"> No links available. </div>
+    <div class="page">
+      <button id="prevBtn">Previous</button>
+      <button id="nextBtn">Next</button>
+    </div>
+    <script>
+      const logsApi = "https://curly-credit-302b.bijoh41469.workers.dev/logs";
+      const CACHE_KEY = "us4-cache";
+      const gridEl = document.getElementById("linkGrid");
+      const emptyEl = document.getElementById("emptyMsg");
+      const prev = document.getElementById("prevBtn");
+      const next = document.getElementById("nextBtn");
+      let links = [];
+      let page = 0;
+      const limit = 20;
+
+      function dclick(el) {
+        el.onclick = (e) => {
+          e.preventDefault();
+          const decoded = el.textContent.replace(/\u200B/g, "");
+          window.open(decoded, "_blank");
+        };
+      }
+
+      function updpg() {
+        gridEl.innerHTML = "";
+        const offset = page * limit;
+        const current = links.slice(offset, offset + limit);
+        if (!current.length) {
+          emptyEl.style.display = "block";
+          return;
+        }
+        emptyEl.style.display = "none";
+        for (let i = 0; i < current.length; i++) {
+          const div = document.createElement("div");
+          div.className = "card";
+          const a = document.createElement("a");
+          a.href = current[i];
+          a.textContent = current[i];
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          dclick(a);
+          div.appendChild(a);
+          gridEl.appendChild(div);
+        }
+        prev.disabled = page === 0;
+        next.disabled = offset + limit >= links.length;
+      }
+
+      function loadCache() {
+        try {
+          const cached = localStorage.getItem(CACHE_KEY);
+          return cached ? JSON.parse(cached) : [];
+        } catch (err) {
+          console.warn("cache read fail", err);
+          return [];
+        }
+      }
+
+      function saveCache(list) {
+        try {
+          localStorage.setItem(CACHE_KEY, JSON.stringify(list));
+        } catch (err) {
+          console.warn("cache save fail", err);
+        }
+      }
+      async function getlinks() {
+        links = loadCache();
+        updpg();
+        try {
+          const r = await fetch(logsApi);
+          if (!r.ok) throw new Error("API error");
+          const data = await r.json();
+          const combined = [...new Set([...links, ...data])];
+          if (combined.length !== links.length) {
+            links = combined;
+            saveCache(links);
+            page = 0;
+            updpg();
+          }
+        } catch (e) {
+          console.error("fetch failed", e);
+          if (!links.length) {
+            emptyEl.textContent = "Couldn't fetch any links.";
+            emptyEl.style.display = "block";
+          }
+        }
+      }
+      prev.addEventListener("click", () => {
+        if (page > 0) {
+          page--;
+          updpg();
+        }
+      });
+      next.addEventListener("click", () => {
+        if ((page + 1) * limit < links.length) {
+          page++;
+          updpg();
+        }
+      });
+      getlinks();
+    </script>
+    <script type="text/javascript" src="/storage/js/background.js"></script>
+  </body>
 </html>
