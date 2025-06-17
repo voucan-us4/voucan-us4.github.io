@@ -109,15 +109,15 @@
   let allLinks = [];
   let currentPage = 0;
 
-  function attachClickSanitizer(linkEl) {
+  function linkdecoder(linkEl) {
     linkEl.addEventListener("click", (event) => {
       event.preventDefault();
-      const cleanedHref = linkEl.textContent.replace(/\u200B/g, "");
-      window.open(cleanedHref, "_blank", "noopener");
+      const decodedlink = linkEl.textContent.replace(/\u200B/g, "");
+      window.open(decodedlink, "_blank", "noopener");
     });
   }
 
-  function renderLinksPage() {
+  function render() {
     linkGrid.innerHTML = "";
 
     const start = currentPage * LINKS_PER_PAGE;
@@ -140,7 +140,7 @@
       linkEl.target = "_blank";
       linkEl.rel = "noopener noreferrer";
 
-      attachClickSanitizer(linkEl);
+      linkdecoder(linkEl);
 
       card.appendChild(linkEl);
       linkGrid.appendChild(card);
@@ -168,10 +168,10 @@
     }
   }
 
-  async function fetchAndMergeLinks() {
+  async function fetchlinks() {
     const cachedLinks = getCachedLinks();
     allLinks = cachedLinks;
-    renderLinksPage();
+    render();
 
     try {
       const response = await fetch(LOGS_URL, { mode: "cors" });
@@ -183,7 +183,7 @@
         allLinks = [...new Set([...cachedLinks, ...newLinks])];
         setCachedLinks(allLinks);
         currentPage = 0;
-        renderLinksPage();
+        render();
       }
     } catch (err) {
       console.error("Failed to fetch links:", err);
@@ -197,18 +197,18 @@
   prevBtn.addEventListener("click", () => {
     if (currentPage > 0) {
       currentPage--;
-      renderLinksPage();
+      render();
     }
   });
 
   nextBtn.addEventListener("click", () => {
     if ((currentPage + 1) * LINKS_PER_PAGE < allLinks.length) {
       currentPage++;
-      renderLinksPage();
+      render();
     }
   });
 
-  fetchAndMergeLinks();
+  fetchlinks();
 </script>
 
 <script type="text/javascript" src="/storage/js/background.js"></script>
