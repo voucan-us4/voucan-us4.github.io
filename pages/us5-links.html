@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="/storage/css/style.css" rel="stylesheet" />
+    <title>Logged Links</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f7f9fc;
+        margin: 0;
+        padding: 2em;
+      }
+
+      h1,
+      h5 {
+        text-align: center;
+        color: rgba(255, 255, 255);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-top: 2em;
+      }
+
+      .card {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        background-color: rgba(0, 0, 0, 0.2);
+        color: white;
+        padding: 1em;
+        border-radius: 8px;
+        word-wrap: break-word;
+        transition: transform 0.2s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      }
+
+      .card a {
+        color: rgba(255, 255, 255);
+        text-decoration: none;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .card a:hover {
+        text-decoration: underline;
+      }
+
+      .empty {
+        text-align: center;
+        color: rgba(255, 255, 255);
+        margin-top: 4em;
+      }
+
+      .page {
+        display: flex;
+        justify-content: center;
+        gap: 1em;
+        margin-top: 2em;
+      }
+
+      .page button {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        padding: 0.5em 1em;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .page button:disabled {
+        background-color: rgba(0, 0, 0, 0.2);
+        cursor: not-allowed;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="/particles.js"></script>
+    <script src="/apps.js"></script>
+    <div id="particles-js"></div>
+    <h1>Logged Links for US5 (Disabled)</h1>
+    <h5>Fetches links that have been visited by any user - Not working? try the manually uploaded links: <a href="/pages/us5-links2" target="_blank" style="color: blue;">Click Here</a> </h5>
+    <div id="linkGrid" class="grid"></div>
+    <div id="emptyMsg" class="empty" style="display:none;"> No links available. </div>
+    <div class="page">
+      <button id="prevBtn">Previous</button>
+      <button id="nextBtn">Next</button>
+    </div>
+    <script>
+      const logsApi = "";
+      const CACHE_KEY = "us5-cache";
+      const gridEl = document.getElementById("linkGrid");
+      const emptyEl = document.getElementById("emptyMsg");
+      const prev = document.getElementById("prevBtn");
+      const next = document.getElementById("nextBtn");
+      let links = [];
+      let page = 0;
+      const limit = 20;
+
+      function dclick(el) {
+        el.onclick = (e) => {
+          e.preventDefault();
+          const decoded = el.textContent.replace(/\u200B/g, "");
+          window.open(decoded, "_blank");
+        };
+      }
+
+      function updpg() {
+        gridEl.innerHTML = "";
+        const offset = page * limit;
+        const current = links.slice(offset, offset + limit);
+        if (!current.length) {
+          emptyEl.style.display = "block";
+          return;
+        }
+        emptyEl.style.display = "none";
+        for (let i = 0; i < current.length; i++) {
+          const div = document.createElement("div");
+          div.className = "card";
+          const a = document.createElement("a");
+          a.href = current[i];
+          a.textContent = current[i];
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          dclick(a);
+          div.appendChild(a);
+          gridEl.appendChild(div);
+        }
+        prev.disabled = page === 0;
+        next.disabled = offset + limit >= links.length;
+      }
+
+      function loadCache() {
+        try {
+          const cached = localStorage.getItem(CACHE_KEY);
+          return cached ? JSON.parse(cached) : [];
+        } catch (err) {
+          console.warn("cache read fail", err);
+          return [];
+        }
+      }
+
+      function saveCache(list) {
+        try {
+          localStorage.setItem(CACHE_KEY, JSON.stringify(list));
+        } catch (err) {
+          console.warn("cache save fail", err);
+        }
+      }
+      async function getlinks() {
+        links = loadCache();
+        updpg();
+        try {
+          const r = await fetch(logsApi);
+          if (!r.ok) throw new Error("API error");
+          const data = await r.json();
+          const combined = [...new Set([...links, ...data])];
+          if (combined.length !== links.length) {
+            links = combined;
+            saveCache(links);
+            page = 0;
+            updpg();
+          }
+        } catch (e) {
+          console.error("fetch failed", e);
+          if (!links.length) {
+            emptyEl.textContent = "Couldn't fetch any links.";
+            emptyEl.style.display = "block";
+          }
+        }
+      }
+      prev.addEventListener("click", () => {
+        if (page > 0) {
+          page--;
+          updpg();
+        }
+      });
+      next.addEventListener("click", () => {
+        if ((page + 1) * limit < links.length) {
+          page++;
+          updpg();
+        }
+      });
+      getlinks();
+    </script>
+    <script type="text/javascript" src="/storage/js/background.js"></script>
+  </body>
+</html>
