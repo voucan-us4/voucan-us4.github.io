@@ -3,9 +3,6 @@ const Notify = true;
 function createNotification(message) {
     if (!Notify) return;
 
-    //const savedMessage = localStorage.getItem('readMessage');
-    //if (savedMessage === message) return;
-
     localStorage.setItem('readMessage', message);
 
     const overlay = document.createElement('div');
@@ -44,7 +41,8 @@ function createNotification(message) {
     notification.appendChild(header);
 
     const messageSpan = document.createElement('div');
-    messageSpan.textContent = message;
+    messageSpan.innerHTML = `US4 is discontinued. We recommend you export your data to US5 once released. 
+    For more information go to <a href="${window.origin}/us5.html" target="_blank" style="color:#4da6ff; text-decoration:underline;">this page</a>.`;
     messageSpan.style.marginBottom = '20px';
     notification.appendChild(messageSpan);
 
@@ -75,5 +73,5 @@ function createNotification(message) {
 }
 
 window.onload = () => {
-    createNotification('US4 is now discontinued. We are currently working on US5. Export your data at `/pages/data` on this site. https://discord.gg/VDA8Ngx38Z')
+    createNotification('US4 is discontinued. We recommend you export your data to US5 once released.');
 };
