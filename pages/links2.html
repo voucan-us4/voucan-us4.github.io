@@ -60,10 +60,17 @@
       }
 
       .page {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
         display: flex;
         justify-content: center;
         gap: 1em;
-        margin-top: 2em;
+        z-index: 1000;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 0.5em 1em;
+        border-radius: 8px;
       }
 
       .page button {
@@ -79,16 +86,20 @@
         background-color: rgba(0, 0, 0, 0.2);
         cursor: not-allowed;
       }
+
+      .flicker {
+        display: inline-block;
+      }
     </style>
   </head>
   <body>
-    <script src="/particles.js"></script>
-    <script src="/apps.js"></script>
+    <script src="/storage/js/particles.js"></script>
+    <script src="/storage/js/apps.js"></script>
     <div id="particles-js"></div>
-    <h1>Logged Links 2</h1>
+    <h1>Logged Links</h1>
     <h5>Fetches links that have been visited by any user</h5>
     <div id="linkGrid" class="grid"></div>
-    <div id="emptyMsg" class="empty" style="display:none;"> No links available. </div>
+    <div id="emptyMsg" class="empty" style="display:none;"> Loading... </div>
     <div class="page">
       <button id="prevBtn">Previous</button>
       <button id="nextBtn">Next</button>
@@ -104,15 +115,43 @@
       let page = 0;
       const limit = 20;
 
+      let flick = [];
+
+      function deleteflickgloveslapbattles() {
+        flick.forEach(cancelAnimationFrame);
+        flick = [];
+      }
+
       function dclick(el) {
         el.onclick = (e) => {
           e.preventDefault();
-          const decoded = el.textContent.replace(/\u200B/g, "");
+          const decoded = el.textContent.replace(/\u200B/g, "").replace(/\uFFFD/g, "");
           window.open(decoded, "_blank");
         };
       }
 
+      function antiscreenshot(el) {
+        const text = el.textContent;
+        el.innerHTML = "";
+        for (let i = 0; i < text.length; i++) {
+          const span = document.createElement("span");
+          span.className = "flicker";
+          span.textContent = text[i];
+          el.appendChild(span);
+
+          const flicker = () => {
+            const r = Math.random();
+            if (r < 0.85) span.style.opacity = "1";
+            else if (r < 0.95) span.style.opacity = "0";
+            const id = requestAnimationFrame(flicker);
+            flick.push(id);
+          };
+          flicker();
+        }
+      }
+
       function updpg() {
+        deleteflickgloveslapbattles();
         gridEl.innerHTML = "";
         const offset = page * limit;
         const current = links.slice(offset, offset + limit);
@@ -132,6 +171,7 @@
           dclick(a);
           div.appendChild(a);
           gridEl.appendChild(div);
+          antiscreenshot(a);
         }
         prev.disabled = page === 0;
         next.disabled = offset + limit >= links.length;
@@ -154,6 +194,7 @@
           console.warn("cache save fail", err);
         }
       }
+
       async function getlinks() {
         links = loadCache();
         updpg();
@@ -176,18 +217,21 @@
           }
         }
       }
+
       prev.addEventListener("click", () => {
         if (page > 0) {
           page--;
           updpg();
         }
       });
+
       next.addEventListener("click", () => {
         if ((page + 1) * limit < links.length) {
           page++;
           updpg();
         }
       });
+
       getlinks();
     </script>
     <script type="text/javascript" src="/storage/js/background.js"></script>
