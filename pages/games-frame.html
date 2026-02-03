@@ -1,164 +1,185 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta property="og:title" content="US4 | Iframe2">
-    <meta property="og:description" content="Fullscreen embed for US4">
-    <meta property="og:image" content="/storage/images/logo.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    
     <link rel="icon" href="/storage/images/googleclassroom.png" type="image/png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="/storage/css/iframe2.css" rel="stylesheet">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: white;
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      overflow: hidden;
-    }
 
-    .container {
-      height: 100vh;
-      /*width: calc(100% - 50px);*/
-    width: 100vw;
-      overflow: hidden;
-    }
-
-    .content {
-      height: 100%;
-      width: 100%;
-    }
-
-    .game-iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: block;
-    }
-  </style>
+    <style>
+        .ad-box {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 160px;
+            height: 600px;
+            background-color: rgba(0,0,0,0.2);
+            border-radius: 15px;
+            border: 2px solid rgba(255,255,255,0.35);
+            overflow: hidden;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+        }
+        .ad-box iframe { position: relative; z-index: 1; }
+        .ad-close {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: auto;
+            text-align: center;
+            padding: 2px 6px;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 0 4px black;
+            background: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            z-index: 10001;
+        }
+        .ad-box.left { left: 20px; }
+        .ad-box.right { right: 20px; }
+    </style>
 </head>
 <body>
 
-<!--<div class="navbar">
-    <div class="left-side">
-        <a href="/"><i class="fa fa-home"></i></a>
-        <a href="/pages/games"><i class="fas fa-gamepad"></i></a>
-        <a href="/pages/media"><i class="fa-solid fa-video"></i></a>
-        <a href="/pages/apps"><i class="fa-sharp fa-solid fa-layer-group"></i></a>
-        <a href="/pages/prox"><i class="fas fa-globe"></i></a>
-        <a href="/pages/partners"><i class="fa-solid fa-users"></i></a>
-        <a href="/pages/credits"><i class="fa-solid fa-book"></i></a>
-        <a href="/pages/extra"><i class="fas fa-plus"></i></a>
-        <a href="/pages/settings"><i class="fa-solid fa-gear"></i></a>
-        <a href="/pages/data"><i class="fa-solid fa-file-arrow-down"></i></a>
-    </div>
-</div>-->
-
 <div class="container">
     <div class="content">
-        <iframe id="game-frame" class="game-iframe" allowfullscreen></iframe>
+
+        <div class="ad-box left" id="ad-left">
+            <div class="ad-close" onclick="closeAd('ad-left')">×</div>
+<script>
+  atOptions = {
+    'key' : '540294eec56fbe02dbcdfc98d8f0434c',
+    'format' : 'iframe',
+    'height' : 600,
+    'width' : 160,
+    'params' : {}
+  };
+</script>
+<script src="https://enoughprosperabsorbed.com/540294eec56fbe02dbcdfc98d8f0434c/invoke.js"></script>
+        </div>
+
+        <div id="ruffle" style="width:100%;height:100%;display:none;"></div>
+        <iframe id="game-frame" class="game-iframe" allowfullscreen style="display:block;"></iframe>
+
+        <div class="ad-box right" id="ad-right">
+            <div class="ad-close" onclick="closeAd('ad-right')">×</div>
+<script>
+  atOptions = {
+    'key' : '540294eec56fbe02dbcdfc98d8f0434c',
+    'format' : 'iframe',
+    'height' : 600,
+    'width' : 160,
+    'params' : {}
+  };
+</script>
+<script src="https://enoughprosperabsorbed.com/540294eec56fbe02dbcdfc98d8f0434c/invoke.js"></script>
+        </div>
+
     </div>
 </div>
 
 <script>
-function getUrlParameter(name) {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(name);
+function loadLocalRuffle() {
+    var script = document.createElement('script');
+    script.src = '/storage/ruffle/ruffle.js';
+    document.body.appendChild(script);
 }
 
-// Prevent background.js from changing the body after iframe is loaded
-setTimeout(function() {
-    const iframe = document.getElementById('game-frame');
-    const url = getUrlParameter('url') || '/404';
-    iframe.src = url;
-}, 100);
+var cdnScript = document.createElement('script');
+cdnScript.src = 'https://unpkg.com/@ruffle-rs/ruffle';
+cdnScript.onerror = loadLocalRuffle;
+document.body.appendChild(cdnScript);
+</script>
 
-function refreshGame() {
-    const iframe = document.getElementById('game-frame');
-    iframe.src = iframe.src;
+<script>
+function closeAd(adId) {
+    const ad = document.getElementById(adId);
+    if (!ad) return;
+    ad.style.display = 'none';
+    setTimeout(() => { ad.style.display = 'flex'; }, 300000);
 }
 
-function toggleFullscreen() {
-    const iframe = document.getElementById('game-frame');
-    if (!document.fullscreenElement) {
-        iframe.requestFullscreen().catch(err => {
-            alert(`Error attempting to enable fullscreen mode: ${err.message}`);
-        });
-    } else {
-        document.exitFullscreen();
-    }
+document.querySelectorAll('.ad-close').forEach(btn => {
+    btn.addEventListener('click', function() {
+        closeAd(this.parentElement.id);
+    });
+});
+
+function removeAd(adId) {
+    const ad = document.getElementById(adId);
+    if (ad) ad.remove();
 }
 
-function DiscordBM() {
-    window.location.href = "javascript:(function(){var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@widgetbot/crate@3';s.async=true;s.defer=true;document.body.appendChild(s);s.onload=function(){new Crate({server:'1157125685178007672',channel:'1210407964586807376'})}})();";
-}
-
-function AI() {
-    window.location.href = "javascript: (function() { fetch('https://voucan-us4.github.io/ai/bookmarklet.js') .then(response => { if (!response.ok) throw new Error('Network response was not ok'); return response.text(); }) .then(scriptText => eval(scriptText)) .catch(error => console.error('Error fetching or executing the script:', error)); })();";
-}
-
-function openInAboutBlank() {
-    const siteTitle = localStorage.getItem('siteTitle') || "Home";
-    const siteLogo = localStorage.getItem('siteLogo') || "https://raw.githubusercontent.com/voucan/voucan.github.io/refs/heads/main/googleclassroom.png";
-
-    const newTab = window.open('about:blank', '_blank');
-
-    if (newTab) {
-        newTab.document.title = siteTitle;
-
-        const favicon = newTab.document.createElement('link');
-        favicon.rel = 'icon';
-        favicon.href = siteLogo;
-        newTab.document.head.appendChild(favicon);
-
-        const iframe = newTab.document.createElement('iframe');
-        iframe.src = document.getElementById('game-frame').src;
-        iframe.style.width = '100vw';
-        iframe.style.height = '100vh';
-        iframe.style.border = 'none';
-
-        newTab.document.body.style.margin = '0';
-        newTab.document.body.appendChild(iframe);
-    } else {
-        console.error("Failed to open About:Blank page.");
-    }
-}
-
-function saveData() {
-    const newTab = window.open('about:blank', '_blank');
-    const iframe = document.createElement('iframe');
-    iframe.src = '/pages/data';
-    iframe.style.width = '100vw';
-    iframe.style.height = '100vh';
-    iframe.style.border = 'none';
-    newTab.document.body.style.margin = '0';
-    newTab.document.body.appendChild(iframe);
+if (localStorage.getItem('Ads') === 'false') {
+    removeAd('ad-left');
+    removeAd('ad-right');
 }
 </script>
-<script src="/storage/js/settings-1.js"></script>
-    <script type="text/javascript" src="/storage/js/cheese-algorithm.js"></script>
 
-<!-- Ultraviolet -->
-    <script src="/static/uv/uv.bundle.js" defer></script>
-    <script src="/static/uv/uv.config.js" defer></script>
-    <script src="/static/register-sw.js" defer></script>
-    <script src="/static/search.js" defer></script>
-    <script src="/static/index.js" defer></script>
+<script>
+function getUrlParameter(name) {
+    return new URLSearchParams(window.location.search).get(name);
+}
 
-    <script>
-    async function regsw(){
-        await navigator.serviceWorker.register("/static/uv-sw.js", {
-            scope: "/static/",
-        });
+function loadGame() {
+    const iframe = document.getElementById('game-frame');
+    const ruffleContainer = document.getElementById('ruffle');
+    const url = getUrlParameter('url') || '/404';
+
+    if (url.startsWith('/pages/games/flash/') || url.toLowerCase().includes('.swf')) {
+        iframe.style.display = 'none';
+        ruffleContainer.style.display = 'block';
+
+        const initRuffle = () => {
+            ruffleContainer.innerHTML = '';
+            const ruffle = window.RufflePlayer.newest();
+            const player = ruffle.createPlayer();
+            player.id = "player";
+            player.style.width = "100%";
+            player.style.height = "100%";
+            ruffleContainer.appendChild(player);
+            player.load(url);
+        };
+
+        if (window.RufflePlayer) {
+            initRuffle();
+        } else {
+            const interval = setInterval(() => {
+                if (window.RufflePlayer) {
+                    clearInterval(interval);
+                    initRuffle();
+                }
+            }, 100);
+        }
+    } else {
+        ruffleContainer.style.display = 'none';
+        iframe.style.display = 'block';
+        iframe.src = url;
     }
+}
 
-    regsw();
-    </script>
-<!-- Ultraviolet -->
+document.addEventListener('DOMContentLoaded', loadGame);
+</script>
 
+<script src="/storage/js/settings-1.js"></script>
+<script src="/explore/us5/us5.bundle.js" defer></script>
+<script src="/explore/us5/us5.config.js" defer></script>
+<script src="/explore/register-sw.js" defer></script>
+<script src="/explore/search.js" defer></script>
+<script src="/explore/index.js" defer></script>
+
+<script>
+async function regsw() {
+    await navigator.serviceWorker.register("/explore/us5-sw.js", { scope: "/explore/" });
+}
+regsw();
+</script>
+
+<script src="/storage/js/background.js"></script>
 </body>
 </html>
