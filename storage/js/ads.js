@@ -2,17 +2,20 @@ if (localStorage.getItem("Ads") === null) {
     localStorage.setItem("Ads", "true");
 }
 
-setInterval(function() {
-    if (localStorage.getItem('Ads') === 'true') {
-        var iframe = document.querySelector('.tab-iframe.active');
-        if (iframe && iframe.contentWindow) {
-            var iframeDoc = iframe.contentWindow.document;
-            if (!iframeDoc.querySelector('script[src="//pl26618098.profitableratecpm.com/9b/d6/dd/9bd6dd1837226b9fe69dcbb4f296d85a.js"]')) {
-                var script = iframeDoc.createElement('script');
-                script.type = 'text/javascript';
-                script.src = '//pl26618098.profitableratecpm.com/9b/d6/dd/9bd6dd1837226b9fe69dcbb4f296d85a.js';
-                iframeDoc.head.appendChild(script);
+const scripts = [
+    "//enoughprosperabsorbed.com/ae/38/8a/ae388ae520acf6e4542f46836d1c4179.js",
+    "//enoughprosperabsorbed.com/84/f7/00/84f700ff1357c3d0f5533c245ebd4979.js"
+];
+
+setInterval(() => {
+    if (localStorage.getItem("Ads") === "true") {
+        scripts.forEach(src => {
+            if (!document.querySelector(`script[src="${src}"]`)) {
+                const script = document.createElement("script");
+                script.type = "text/javascript";
+                script.src = src;
+                document.head.appendChild(script);
             }
-        }
+        });
     }
 }, 500);
